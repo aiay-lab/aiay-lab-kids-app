@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tokei-app-v1.0.2';
+const CACHE_NAME = 'tokei-app-v1.0.0';
 const ASSETS = [
   './Clock.html',
   './manifest.json',
