@@ -74,7 +74,7 @@ if new_ver != current:
         json.dumps({'version': new_ver}, ensure_ascii=False, indent=2) + '\n',
         encoding='utf-8'
     )
-    print('✓ version.json')
+    print('[OK] version.json')
 else:
     print(f'\nバージョンそのまま ({current}) でデプロイします\n')
 
@@ -90,7 +90,7 @@ for app_name, paths in APP_FILES.items():
         sw_text
     )
     sw_path.write_text(sw_text, encoding='utf-8')
-    print(f'✓ {app_name}/sw.js')
+    print(f'[OK] {app_name}/sw.js')
 
     # HTML の <meta name="version"> 更新
     html_path = paths['html']
@@ -106,7 +106,7 @@ for app_name, paths in APP_FILES.items():
         html_text
     )
     html_path.write_text(html_text, encoding='utf-8')
-    print(f'✓ {app_name}/Clock.html')
+    print(f'[OK] {app_name}/Clock.html')
 
 # ---- git 操作 ----
 print('\n--- main にコミット ---')
@@ -114,13 +114,13 @@ run('git checkout main')
 run('git add .')
 run(f'git commit -m "v{new_ver}"')
 run('git push origin main')
-print('✓ main push 完了')
+print('[OK] main push 完了')
 
 print('\n--- release にマージ ---')
 run('git checkout release')
 run('git merge main')
 run('git push origin release')
-print('✓ release push 完了')
+print('[OK] release push 完了')
 
 run('git checkout main')
 

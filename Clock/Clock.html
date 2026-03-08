@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>とけいアプリ</title>
-  <meta name="version" content="1.0.0">
+  <meta name="version" content="1.0.2">
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#E8405A">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -226,15 +226,14 @@
       display: none;
       position: fixed;
       inset: 0;
-      align-items: center;
-      justify-content: center;
       pointer-events: none;
       z-index: 50;
     }
-    #correct-overlay.show { display: flex; }
+    #correct-overlay.show { display: block; }
     #correct-mark {
-      font-size: 38vw;
+      position: absolute;
       line-height: 1;
+      text-align: center;
       color: #e53935;
       opacity: 0;
       transform: scale(0.3);
@@ -301,15 +300,14 @@
       display: none;
       position: fixed;
       inset: 0;
-      align-items: center;
-      justify-content: center;
       pointer-events: none;
       z-index: 50;
     }
-    #wrong-overlay.show { display: flex; }
+    #wrong-overlay.show { display: block; }
     #wrong-mark {
-      font-size: 38vw;
+      position: absolute;
       line-height: 1;
+      text-align: center;
       color: #1565c0;
       opacity: 0;
       transform: scale(0.3);
@@ -644,7 +642,7 @@ function minSuffix(m) {
 function formatTimeDisplay(h, m) {
   if (m === 0)  return `${h}じ`;
   if (m === 30) return `${h}じはん`;
-  return `${h}じ ${String(m).padStart(2,'0')}${minSuffix(m)}`;
+  return `${h}じ ${m}${minSuffix(m)}`;
 }
 
 // ==================== 正解音・〇表示 ====================
@@ -675,9 +673,23 @@ function playCorrectSound() {
   });
 }
 
+function positionMarkOnClock(mark) {
+  const svg  = document.getElementById('quiz-clock');
+  const rect = svg.getBoundingClientRect();
+  const size = rect.width * 0.5;
+  const cx   = rect.left + rect.width  / 2;
+  const cy   = rect.top  + rect.height * (130 / 262);
+  mark.style.fontSize = size + 'px';
+  mark.style.width    = size + 'px';
+  mark.style.height   = size + 'px';
+  mark.style.left     = (cx - size / 2) + 'px';
+  mark.style.top      = (cy - size / 2) + 'px';
+}
+
 function showCorrectMark() {
   const overlay = document.getElementById('correct-overlay');
   const mark    = document.getElementById('correct-mark');
+  positionMarkOnClock(mark);
   mark.style.animation = 'none';
   mark.offsetHeight;
   mark.style.animation = '';
@@ -707,6 +719,7 @@ function playWrongSound() {
 function showWrongMark() {
   const overlay = document.getElementById('wrong-overlay');
   const mark    = document.getElementById('wrong-mark');
+  positionMarkOnClock(mark);
   mark.style.animation = 'none';
   mark.offsetHeight;
   mark.style.animation = '';
@@ -714,12 +727,14 @@ function showWrongMark() {
   setTimeout(() => overlay.classList.remove('show'), 1400);
 }
 
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 function speak(text, onEnd) {
   if (!window.speechSynthesis) { if (onEnd) onEnd(); return; }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'ja-JP';
-  u.rate = 0.85;
+  u.rate = IS_IOS ? 1.1 : 0.85;
   if (onEnd) u.onend = onEnd;
   speechSynthesis.speak(u);
 }
@@ -792,7 +807,7 @@ function toggleQuizHint() {
   hintMode = !hintMode;
   syncHintButtons();
   const show = hintMode && quizDifficulty !== 'easy' && currentQuizAnswer && currentQuizAnswer.m !== 0;
-  const showMin = hintMode && quizDifficulty === 'hard' && currentQuizAnswer?.m !== 0;
+  const showMin = hintMode && quizDifficulty === 'hard' && currentQuizAnswer?.m !== 0 && currentQuizAnswer?.m !== 30;
   updateClockHint(document.getElementById('quiz-clock'), currentQuizAnswer?.h, show, showMin, currentQuizAnswer?.m);
 }
 
@@ -860,7 +875,7 @@ function nextQuestion() {
   setClockHands(svgQuiz, answer.h, answer.m);
   const quizHintAvail = quizDifficulty !== 'easy';
   document.getElementById('quiz-hint-btn').style.visibility = quizHintAvail ? 'visible' : 'hidden';
-  updateClockHint(svgQuiz, answer.h, hintMode && quizHintAvail && answer.m !== 0, hintMode && quizDifficulty === 'hard' && answer.m !== 0, answer.m);
+  updateClockHint(svgQuiz, answer.h, hintMode && quizHintAvail && answer.m !== 0, hintMode && quizDifficulty === 'hard' && answer.m !== 0 && answer.m !== 30, answer.m);
 
   const grid = document.getElementById('quiz-choices');
   grid.innerHTML = '';
@@ -1399,7 +1414,7 @@ if ('serviceWorker' in navigator) {
 
 
 <div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
-  © aiay-lab  v1.0.0
+  © aiay-lab  v1.0.2
 </div>
 
 </body>
