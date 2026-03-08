@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>とけいアプリ</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#E8405A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="とけい">
+  <link rel="apple-touch-icon" href="./icons/icon-180.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", sans-serif;
+      background: linear-gradient(135deg, #fff9c4, #fce4ec);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+      max-width: 460px;
+    }
+    .screen.active { display: flex; }
+
+    h1 { font-size: 2rem; color: #333; text-align: center; }
+
+    /* ===== ボタン共通 ===== */
+    .btn {
+      font-family: inherit;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.15s;
+    }
+    .btn:active:not(:disabled) { transform: scale(0.96); opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+
+    .btn-large {
+      width: 100%;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+      border-radius: 18px;
+    }
+    .btn-icon { font-size: 1.8rem; line-height: 1; }
+    .btn-text { display: flex; flex-direction: column; gap: 3px; }
+    .btn-name { font-size: 1.25rem; }
+    .btn-desc { font-size: 0.8rem; font-weight: normal; opacity: 0.75; }
+
+    #btn-quiz     { background: #fce4ec; color: #c62828; box-shadow: inset 6px 0 0 #E8405A, 0 4px 14px rgba(232,64,90,0.15); }
+    #btn-yomikata { background: #f3e5f5; color: #6a1b9a; box-shadow: inset 6px 0 0 #8e24aa, 0 4px 14px rgba(142,36,170,0.15); }
+    #btn-move     { background: #e3f2fd; color: #1565c0; box-shadow: inset 6px 0 0 #1565c0, 0 4px 14px rgba(21,101,192,0.15); }
+    #btn-current  { background: #e8f5e9; color: #2e7d32; box-shadow: inset 6px 0 0 #43a047, 0 4px 14px rgba(46,125,50,0.15); }
+
+    /* ===== ホーム画面 ===== */
+    .home-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .home-clock-emoji {
+      font-size: 5rem;
+      display: inline-block;
+      animation: tick 1.8s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+    @keyframes tick {
+      0%, 100% { transform: rotate(-12deg); }
+      50%       { transform: rotate(12deg); }
+    }
+    #screen-home h1 {
+      font-size: 2.4rem;
+      background: linear-gradient(120deg, #E8405A 0%, #FF8F00 50%, #1565c0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .home-subtitle {
+      font-size: 1rem;
+      color: #bbb;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary   { background: #E8405A; color: white; padding: 14px 30px; font-size: 1.15rem; }
+    .btn-secondary { background: #e0e0e0; color: #555;  padding: 14px 22px; font-size: 1rem; }
+    .btn-back {
+      background: #fff3e0;
+      color: #e65100;
+      padding: 14px 24px;
+      font-size: 1.2rem;
+      align-self: flex-start;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ===== トグル ===== */
+    .toggle-group {
+      display: flex;
+      background: #f0f0f0;
+      border-radius: 50px;
+      padding: 4px;
+      gap: 4px;
+      width: 100%;
+    }
+    .toggle-btn {
+      flex: 1;
+      padding: 11px 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      background: transparent;
+      color: #999;
+      transition: all 0.2s;
+    }
+    .toggle-btn.selected {
+      background: white;
+      color: #E8405A;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ===== 時計SVGラッパー ===== */
+    .clock-wrap { width: 100%; max-width: 300px; }
+    .clock-wrap svg { width: 100%; height: auto; touch-action: none; }
+
+    /* ===== ヒントボタン ===== */
+    .hint-toggle {
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border-radius: 50px;
+      border: 2px solid #e0e0e0;
+      background: white;
+      color: #aaa;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      align-self: flex-end;
+    }
+    .hint-toggle.active {
+      border-color: #ffd54f;
+      background: #fff9c4;
+      color: #e65100;
+    }
+
+    /* ===== クイズ選択肢 ===== */
+    .choices-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+    }
+    .choice-btn {
+      font-family: inherit;
+      font-size: 1.35rem;
+      font-weight: bold;
+      padding: 18px 10px;
+      border: 4px solid #e0e0e0;
+      border-radius: 20px;
+      background: white;
+      cursor: pointer;
+      transition: transform 0.1s, border-color 0.15s, background 0.15s;
+    }
+    .choice-btn:active { transform: scale(0.96); }
+    .choice-btn.correct { border-color: #4caf50; background: #e8f5e9; }
+    .choice-btn.wrong   { border-color: #f44336; background: #ffebee; animation: shake 0.3s; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-7px); }
+      75%      { transform: translateX(7px); }
+    }
+
+    /* ===== スコア ===== */
+    .score-display { font-size: 1.1rem; color: #666; font-weight: bold; }
+
+    /* ===== デジタル時刻 ===== */
+    .digital-time {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #E8405A;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+
+    .drag-hint { font-size: 0.9rem; color: #aaa; text-align: center; }
+
+    .row-btns { display: flex; gap: 12px; justify-content: center; }
+
+    /* ===== じかんのよみかた ===== */
+    .yomikata-reading {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #6a1b9a;
+      text-align: center;
+      letter-spacing: 0.08em;
+      background: #f3e5f5;
+      border-radius: 16px;
+      padding: 16px 24px;
+      width: 100%;
+    }
+
+    /* ===== 正解〇オーバーレイ ===== */
+    #correct-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 50;
+    }
+    #correct-overlay.show { display: flex; }
+    #correct-mark {
+      font-size: 38vw;
+      line-height: 1;
+      color: #e53935;
+      opacity: 0;
+      transform: scale(0.3);
+      animation: pop-in 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards,
+                 fade-out 0.4s ease 0.9s forwards;
+      filter: drop-shadow(0 0 24px rgba(229,57,53,0.5));
+    }
+    @keyframes pop-in {
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fade-out {
+      to { opacity: 0; transform: scale(1.15); }
+    }
+
+    /* ===== クイズ結果オーバーレイ ===== */
+    #quiz-result {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      align-items: center;
+      justify-content: center;
+      z-index: 80;
+    }
+    #quiz-result.show { display: flex; }
+    #quiz-result-box {
+      background: white;
+      border-radius: 32px;
+      padding: 40px 36px;
+      text-align: center;
+      width: 88%;
+      max-width: 340px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    #quiz-result-title { font-size: 2rem; font-weight: bold; line-height: 1.3; }
+    #quiz-result-score { font-size: 1.4rem; color: #666; }
+    #quiz-result-stars { font-size: 2rem; letter-spacing: 4px; min-height: 2.5rem; }
+
+    /* 花火 */
+    #fw-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 75;
+      overflow: hidden;
+    }
+    .fw-particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: fw-fly 1.1s ease-out forwards;
+    }
+    @keyframes fw-fly {
+      0%   { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+
+    /* ===== 不正解×オーバーレイ ===== */
+    #wrong-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 50;
+    }
+    #wrong-overlay.show { display: flex; }
+    #wrong-mark {
+      font-size: 38vw;
+      line-height: 1;
+      color: #1565c0;
+      opacity: 0;
+      transform: scale(0.3);
+      animation: pop-in 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards,
+                 fade-out 0.4s ease 0.9s forwards;
+      filter: drop-shadow(0 0 24px rgba(21,101,192,0.45));
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== ホーム ===== -->
+<div class="screen active" id="screen-home">
+  <div class="home-hero">
+    <span class="home-clock-emoji">⏰</span>
+    <h1>とけいアプリ</h1>
+    <p class="home-subtitle">たのしくとけいをまなぼう！</p>
+  </div>
+
+  <button class="btn btn-large" id="btn-quiz" onclick="showScreen('quiz'); startQuiz()">
+    <span class="btn-icon">🕐</span>
+    <span class="btn-text">
+      <span class="btn-name">なんじかな？（クイズ）</span>
+      <span class="btn-desc">じかんをこたえよう</span>
+    </span>
+  </button>
+
+  <button class="btn btn-large" id="btn-yomikata" onclick="showScreen('yomikata'); startYomikata()">
+    <span class="btn-icon">📖</span>
+    <span class="btn-text">
+      <span class="btn-name">じかんのよみかた</span>
+      <span class="btn-desc">じかんのよみかたをおぼえよう</span>
+    </span>
+  </button>
+
+  <button class="btn btn-large" id="btn-move" onclick="showScreen('interactive'); startInteractive()">
+    <span class="btn-icon">🖐</span>
+    <span class="btn-text">
+      <span class="btn-name">はりをうごかす</span>
+      <span class="btn-desc">はりをうごかしてじかんをよもう</span>
+    </span>
+  </button>
+
+  <button class="btn btn-large" id="btn-current" onclick="showScreen('current'); startCurrentTime()">
+    <span class="btn-icon">⏰</span>
+    <span class="btn-text">
+      <span class="btn-name">いまなんじ</span>
+      <span class="btn-desc">いまのじかんは？</span>
+    </span>
+  </button>
+</div>
+
+<!-- ===== じかんのよみかた ===== -->
+<div class="screen" id="screen-yomikata">
+  <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+    <div class="score-display"><span id="yomikata-progress">1 / 12</span></div>
+  </div>
+
+  <div class="toggle-group">
+    <button class="toggle-btn selected" id="yk-diff-easy"   onclick="setYomikataDifficulty('easy')">かんたん</button>
+    <button class="toggle-btn"          id="yk-diff-normal" onclick="setYomikataDifficulty('normal')">ふつう</button>
+    <button class="toggle-btn"          id="yk-diff-hard"   onclick="setYomikataDifficulty('hard')">むずかしい</button>
+  </div>
+
+  <button class="hint-toggle" id="yomikata-hint-btn" onclick="toggleYomikataHint()">💡 ヒント</button>
+
+  <div class="clock-wrap">
+    <svg id="yomikata-clock" viewBox="-120 -130 240 262"></svg>
+  </div>
+
+  <div class="digital-time" id="yomikata-time-display">3じ</div>
+  <div class="yomikata-reading" id="yomikata-reading">さんじ</div>
+
+  <div class="row-btns">
+    <button class="btn btn-secondary" onclick="yomikataPrev()">◀ まえ</button>
+    <button class="btn btn-primary"   onclick="speakYomikata()">🔊 よむ</button>
+    <button class="btn btn-primary"   onclick="yomikataNext()">つぎ ▶</button>
+  </div>
+</div>
+
+<!-- ===== クイズ ===== -->
+<div class="screen" id="screen-quiz">
+  <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+    <div class="score-display">
+      <span id="quiz-progress">1 / 10もん</span>　⭕<span id="quiz-correct">0</span>　❌<span id="quiz-wrong">0</span>
+    </div>
+  </div>
+
+  <div class="toggle-group">
+    <button class="toggle-btn selected" id="diff-easy"   onclick="setDifficulty('easy')">かんたん</button>
+    <button class="toggle-btn"          id="diff-normal" onclick="setDifficulty('normal')">ふつう</button>
+    <button class="toggle-btn"          id="diff-hard"   onclick="setDifficulty('hard')">むずかしい</button>
+  </div>
+
+  <button class="hint-toggle" id="quiz-hint-btn" onclick="toggleQuizHint()">💡 ヒント</button>
+
+  <div class="clock-wrap">
+    <svg id="quiz-clock" viewBox="-120 -130 240 262"></svg>
+  </div>
+
+  <div class="choices-grid" id="quiz-choices"></div>
+</div>
+
+<!-- ===== はりをうごかす ===== -->
+<div class="screen" id="screen-interactive">
+  <div style="display:flex; width:100%; align-items:center;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+  </div>
+
+  <button class="hint-toggle" id="interactive-hint-btn" onclick="toggleInteractiveHint()">💡 ヒント</button>
+
+  <div class="clock-wrap">
+    <svg id="interactive-clock" viewBox="-120 -130 240 262"></svg>
+  </div>
+
+  <p class="drag-hint">はりをドラッグしてうごかしてね</p>
+  <div class="digital-time" id="interactive-time">3じ</div>
+
+  <div class="row-btns">
+    <button class="btn btn-primary" onclick="speakInteractiveTime()">🔊 よむ</button>
+    <button class="btn btn-secondary" onclick="resetInteractive()">リセット</button>
+  </div>
+</div>
+
+<!-- ===== いまのじこく ===== -->
+<div class="screen" id="screen-current">
+  <div style="display:flex; width:100%; align-items:center;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+  </div>
+
+  <button class="hint-toggle" id="current-hint-btn" onclick="toggleCurrentHint()">💡 ヒント</button>
+
+  <div class="clock-wrap">
+    <svg id="current-clock" viewBox="-120 -130 240 262"></svg>
+  </div>
+
+  <div class="toggle-group" style="max-width:280px;">
+    <button class="toggle-btn selected" id="fmt-12" onclick="setTimeFormat(12)">12じかん</button>
+    <button class="toggle-btn"          id="fmt-24" onclick="setTimeFormat(24)">24じかん</button>
+  </div>
+
+  <div class="digital-time" id="current-time-display">--:--:--</div>
+
+  <button class="btn btn-primary" style="width:200px;" onclick="speakCurrentTime()">🔊 よむ</button>
+</div>
+
+<script>
+// ==================== 画面切替 ====================
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+}
+
+function goHome() {
+  clearTimeout(quizTimer);
+  stopCurrentTime();
+  stopFireworks();
+  stopCheer();
+  document.getElementById('quiz-result').classList.remove('show');
+  speechSynthesis.cancel();
+  showScreen('home');
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ==================== SVG 時計 ====================
+
+function buildClockSVG(svgEl, opts = {}) {
+  const { showSeconds = false, draggable = false } = opts;
+  const ns = "http://www.w3.org/2000/svg";
+
+  function mk(tag, attrs, parent) {
+    const e = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  svgEl.innerHTML = "";
+
+  const BODY = '#E8405A';
+  const RING = '#F5C010';
+  const BELL = '#F5C010';
+  const KNOB = '#F5C010';
+
+
+  // ---- 本体 ----
+  mk('circle', { cx: '0', cy: '0', r: '104', fill: '#1A1A1A' }, svgEl);
+  mk('circle', { cx: '0', cy: '0', r: '100', fill: BODY }, svgEl);
+
+  // ---- 黄金リング ----
+  mk('circle', { cx: '0', cy: '0', r: '91', fill: '#1A1A1A' }, svgEl);
+  mk('circle', { cx: '0', cy: '0', r: '88', fill: RING }, svgEl);
+
+  // ---- 文字盤 ----
+  mk('circle', { cx: '0', cy: '0', r: '80', fill: '#FFFFFF' }, svgEl);
+
+  // ---- ヒントグループ（文字盤の上・目盛りの下） ----
+  mk('g', { class: 'hint-group' }, svgEl);
+
+  // ---- 目盛り ----
+  for (let i = 0; i < 60; i++) {
+    const a = (i * 6 - 90) * Math.PI / 180;
+    const isH = i % 5 === 0;
+    mk('line', {
+      x1: (isH ? 68 : 74) * Math.cos(a), y1: (isH ? 68 : 74) * Math.sin(a),
+      x2: 79 * Math.cos(a),               y2: 79 * Math.sin(a),
+      stroke: '#1A1A1A', 'stroke-width': isH ? '3' : '1', 'stroke-linecap': 'round',
+    }, svgEl);
+  }
+
+  // ---- 数字 ----
+  for (let h = 1; h <= 12; h++) {
+    const a = (h * 30 - 90) * Math.PI / 180;
+    const t = mk('text', {
+      x: 62 * Math.cos(a), y: 62 * Math.sin(a),
+      'text-anchor': 'middle', 'dominant-baseline': 'central',
+      'font-size': '14', 'font-weight': 'bold', fill: '#1A1A1A',
+    }, svgEl);
+    t.textContent = String(h);
+  }
+
+  // ---- 秒針 ----
+  if (showSeconds) {
+    mk('line', {
+      class: 'hand-second', x1: '0', y1: '10', x2: '0', y2: '-70',
+      stroke: '#D32F2F', 'stroke-width': '1.5', 'stroke-linecap': 'round',
+    }, svgEl);
+  }
+
+  // ---- 分針 ----
+  mk('line', {
+    class: 'hand-minute', x1: '0', y1: '12', x2: '0', y2: '-66',
+    stroke: '#1565c0', 'stroke-width': '4', 'stroke-linecap': 'round',
+  }, svgEl);
+
+  // ---- 時針 ----
+  mk('line', {
+    class: 'hand-hour', x1: '0', y1: '10', x2: '0', y2: '-46',
+    stroke: '#1A1A1A', 'stroke-width': '6', 'stroke-linecap': 'round',
+  }, svgEl);
+
+  // ---- 中心点 ----
+  mk('circle', { cx: '0', cy: '0', r: '7', fill: '#1A1A1A' }, svgEl);
+  mk('circle', { cx: '0', cy: '0', r: '4', fill: 'white'   }, svgEl);
+
+  // ---- 足 ----
+  mk('ellipse', { cx: '-38', cy: '108', rx: '18', ry: '10', transform: 'rotate(-25,-38,108)', fill: '#1A1A1A' }, svgEl);
+  mk('ellipse', { cx: '-38', cy: '108', rx: '15', ry: '8',  transform: 'rotate(-25,-38,108)', fill: BODY }, svgEl);
+  mk('ellipse', { cx: '38',  cy: '108', rx: '18', ry: '10', transform: 'rotate(25,38,108)',   fill: '#1A1A1A' }, svgEl);
+  mk('ellipse', { cx: '38',  cy: '108', rx: '15', ry: '8',  transform: 'rotate(25,38,108)',   fill: BODY }, svgEl);
+}
+
+function setClockHands(svgEl, h, m, s) {
+  const hourDeg = (h % 12) * 30 + m * 0.5 - 90;
+  const minDeg  = m * 6 - 90;
+  const secDeg  = (s !== undefined) ? s * 6 - 90 : null;
+
+  function tip(deg, len)  { const r = deg * Math.PI / 180; return [len * Math.cos(r), len * Math.sin(r)]; }
+  function tail(deg, len) { const r = (deg + 180) * Math.PI / 180; return [len * Math.cos(r), len * Math.sin(r)]; }
+
+  function setLine(cls, deg, tipLen, tailLen) {
+    const el = svgEl.querySelector('.' + cls);
+    if (!el) return;
+    const [tx, ty] = tail(deg, tailLen);
+    const [x,  y]  = tip(deg,  tipLen);
+    el.setAttribute('x1', tx); el.setAttribute('y1', ty);
+    el.setAttribute('x2', x);  el.setAttribute('y2', y);
+  }
+
+  setLine('hand-hour',   hourDeg, 46, 10);
+  setLine('hand-minute', minDeg,  66, 12);
+  if (secDeg !== null) setLine('hand-second', secDeg, 70, 10);
+}
+
+// ==================== スピーチ ====================
+
+const HOUR_READ = {
+  1:'いちじ', 2:'にじ', 3:'さんじ', 4:'よじ', 5:'ごじ', 6:'ろくじ',
+  7:'しちじ', 8:'はちじ', 9:'くじ', 10:'じゅうじ', 11:'じゅういちじ', 12:'じゅうにじ',
+};
+const MIN_READ = {
+  1:'いっぷん',2:'にふん',3:'さんぷん',4:'よんぷん',5:'ごふん',6:'ろっぷん',
+  7:'ななふん',8:'はっぷん',9:'きゅうふん',10:'じゅっぷん',11:'じゅういっぷん',
+  12:'じゅうにふん',13:'じゅうさんぷん',14:'じゅうよんぷん',15:'じゅうごふん',
+  16:'じゅうろっぷん',17:'じゅうななふん',18:'じゅうはっぷん',19:'じゅうきゅうふん',
+  20:'にじゅっぷん',21:'にじゅういっぷん',22:'にじゅうにふん',23:'にじゅうさんぷん',
+  24:'にじゅうよんぷん',25:'にじゅうごふん',26:'にじゅうろっぷん',27:'にじゅうななふん',
+  28:'にじゅうはっぷん',29:'にじゅうきゅうふん',30:'さんじゅっぷん',
+  31:'さんじゅういっぷん',32:'さんじゅうにふん',33:'さんじゅうさんぷん',
+  34:'さんじゅうよんぷん',35:'さんじゅうごふん',36:'さんじゅうろっぷん',
+  37:'さんじゅうななふん',38:'さんじゅうはっぷん',39:'さんじゅうきゅうふん',
+  40:'よんじゅっぷん',41:'よんじゅういっぷん',42:'よんじゅうにふん',
+  43:'よんじゅうさんぷん',44:'よんじゅうよんぷん',45:'よんじゅうごふん',
+  46:'よんじゅうろっぷん',47:'よんじゅうななふん',48:'よんじゅうはっぷん',
+  49:'よんじゅうきゅうふん',50:'ごじゅっぷん',51:'ごじゅういっぷん',
+  52:'ごじゅうにふん',53:'ごじゅうさんぷん',54:'ごじゅうよんぷん',
+  55:'ごじゅうごふん',56:'ごじゅうろっぷん',57:'ごじゅうななふん',
+  58:'ごじゅうはっぷん',59:'ごじゅうきゅうふん',
+};
+
+function timeToSpeech(h, m) {
+  const hStr = HOUR_READ[h % 12 || 12];
+  if (m === 0)  return hStr;
+  if (m === 30) return hStr + 'はん';
+  return hStr + (MIN_READ[m] || m + 'ふん');
+}
+
+// TTS用: 数字+漢字で渡すことで「はちじ→わちじ」などの誤読を防ぐ
+function timeToTTS(h, m) {
+  const h12 = h % 12 || 12;
+  if (m === 0)  return `${h12}時`;
+  if (m === 30) return `${h12}時半`;
+  return `${h12}時${m}分`;
+}
+
+function minSuffix(m) {
+  const r = MIN_READ[m];
+  return (r && r.endsWith('ぷん')) ? 'ぷん' : 'ふん';
+}
+
+function formatTimeDisplay(h, m) {
+  if (m === 0)  return `${h}じ`;
+  if (m === 30) return `${h}じはん`;
+  return `${h}じ ${String(m).padStart(2,'0')}${minSuffix(m)}`;
+}
+
+// ==================== 正解音・〇表示 ====================
+
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx || audioCtx.state === 'closed')
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playCorrectSound() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  // ドレミ風の3音をアルペジオで鳴らす
+  [[523.25, 0], [659.25, 0.12], [783.99, 0.24]].forEach(([freq, delay]) => {
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.4, now + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.5);
+    osc.start(now + delay);
+    osc.stop(now + delay + 0.5);
+  });
+}
+
+function showCorrectMark() {
+  const overlay = document.getElementById('correct-overlay');
+  const mark    = document.getElementById('correct-mark');
+  mark.style.animation = 'none';
+  mark.offsetHeight;
+  mark.style.animation = '';
+  overlay.classList.add('show');
+  setTimeout(() => overlay.classList.remove('show'), 1400);
+}
+
+function playWrongSound() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  // 低い不協和音を2回
+  [[220, 0], [196, 0.18]].forEach(([freq, delay]) => {
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, now + delay);
+    osc.frequency.exponentialRampToValueAtTime(freq * 0.6, now + delay + 0.25);
+    gain.gain.setValueAtTime(0.35, now + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.3);
+    osc.start(now + delay);
+    osc.stop(now + delay + 0.3);
+  });
+}
+
+function showWrongMark() {
+  const overlay = document.getElementById('wrong-overlay');
+  const mark    = document.getElementById('wrong-mark');
+  mark.style.animation = 'none';
+  mark.offsetHeight;
+  mark.style.animation = '';
+  overlay.classList.add('show');
+  setTimeout(() => overlay.classList.remove('show'), 1400);
+}
+
+function speak(text, onEnd) {
+  if (!window.speechSynthesis) { if (onEnd) onEnd(); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP';
+  u.rate = 0.85;
+  if (onEnd) u.onend = onEnd;
+  speechSynthesis.speak(u);
+}
+
+// ==================== ヒント ====================
+
+function updateClockHint(svgEl, h, show, showMinutes = false, currentM = null) {
+  const group = svgEl.querySelector('.hint-group');
+  if (!group) return;
+  group.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  // ---- 分ラベル（外周）----
+  if (showMinutes) {
+    for (let m = 5; m <= 60; m += 5) {
+      const a = (m * 6 - 90) * Math.PI / 180;
+      const r = 112;
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', (r * Math.cos(a)).toFixed(2));
+      t.setAttribute('y', (r * Math.sin(a)).toFixed(2));
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('dominant-baseline', 'central');
+      t.setAttribute('font-size', '13');
+      t.setAttribute('font-weight', m === currentM ? 'bold' : 'normal');
+      t.setAttribute('fill', m === currentM ? '#1565c0' : '#bbb');
+      t.textContent = String(m);
+      group.appendChild(t);
+    }
+  }
+
+  // ---- 扇形 ----
+  if (!show) return;
+  const h12 = h % 12;
+  const startRad = (h12 * 30 - 3 - 90) * Math.PI / 180;
+  const endRad   = ((h12 + 1) * 30 - 4 - 90) * Math.PI / 180;
+  const r = 75;
+  const x1 = (r * Math.cos(startRad)).toFixed(2);
+  const y1 = (r * Math.sin(startRad)).toFixed(2);
+  const x2 = (r * Math.cos(endRad)).toFixed(2);
+  const y2 = (r * Math.sin(endRad)).toFixed(2);
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('d', `M 0 0 L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z`);
+  path.setAttribute('fill', 'rgba(255, 200, 50, 0.3)');
+  group.appendChild(path);
+}
+
+// ==================== クイズ ====================
+
+const QUIZ_TOTAL = 10;
+let quizDifficulty = 'easy';
+let quizLastAnswer = null;
+let quizCorrectCount = 0;
+let quizWrongCount = 0;
+let quizQuestionNum = 0;   // 現在の問題番号（1〜10）
+let quizAnswered = false;
+let quizPrevWrong = false;
+let quizTimer = null;
+let fwInterval = null;
+let hintMode = false;
+
+function syncHintButtons() {
+  ['quiz-hint-btn','yomikata-hint-btn','interactive-hint-btn','current-hint-btn'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', hintMode);
+  });
+}
+let currentQuizAnswer = null;
+
+function toggleQuizHint() {
+  hintMode = !hintMode;
+  syncHintButtons();
+  const show = hintMode && quizDifficulty !== 'easy' && currentQuizAnswer && currentQuizAnswer.m !== 0;
+  const showMin = hintMode && quizDifficulty === 'hard' && currentQuizAnswer?.m !== 0;
+  updateClockHint(document.getElementById('quiz-clock'), currentQuizAnswer?.h, show, showMin, currentQuizAnswer?.m);
+}
+
+function setDifficulty(d) {
+  quizDifficulty = d;
+  ['easy','normal','hard'].forEach(x =>
+    document.getElementById('diff-' + x).classList.toggle('selected', x === d)
+  );
+  // 難易度変更はリセット扱い（問題数カウントを引き継がない）
+  clearTimeout(quizTimer);
+  quizCorrectCount = 0;
+  quizWrongCount = 0;
+  quizQuestionNum = 0;
+  quizLastAnswer = null;
+  quizPrevWrong = false;
+  updateQuizScore();
+  nextQuestion();
+}
+
+function generateTimePool(d) {
+  const pool = [];
+  if (d === 'easy') {
+    for (let h = 1; h <= 12; h++) pool.push({ h, m: 0 });
+  } else if (d === 'normal') {
+    for (let h = 1; h <= 12; h++) { pool.push({ h, m: 0 }); pool.push({ h, m: 30 }); }
+  } else {
+    for (let h = 1; h <= 12; h++)
+      for (let m = 0; m < 60; m += 5) pool.push({ h, m });
+  }
+  return pool;
+}
+
+function startQuiz() {
+  quizCorrectCount = 0;
+  quizWrongCount = 0;
+  quizQuestionNum = 0;
+  quizLastAnswer = null;
+  quizPrevWrong = false;
+  updateQuizScore();
+  buildClockSVG(document.getElementById('quiz-clock'));
+  nextQuestion();
+}
+
+function retryQuiz() {
+  stopFireworks();
+  stopCheer();
+  document.getElementById('quiz-result').classList.remove('show');
+  startQuiz();
+}
+
+function nextQuestion() {
+  quizAnswered = false;
+  document.getElementById('quiz-progress').textContent = `${quizQuestionNum} / ${QUIZ_TOTAL}もん`;
+  const pool = generateTimePool(quizDifficulty);
+  const candidates = pool.length > 1 && quizLastAnswer
+    ? pool.filter(t => !(t.h === quizLastAnswer.h && t.m === quizLastAnswer.m))
+    : pool;
+  const answer = candidates[Math.floor(Math.random() * candidates.length)];
+  quizLastAnswer = answer;
+  currentQuizAnswer = answer;
+  const others = shuffle(pool.filter(t => !(t.h === answer.h && t.m === answer.m)));
+  const choices = shuffle([answer, ...others.slice(0, 3)]);
+
+  const svgQuiz = document.getElementById('quiz-clock');
+  setClockHands(svgQuiz, answer.h, answer.m);
+  const quizHintAvail = quizDifficulty !== 'easy';
+  document.getElementById('quiz-hint-btn').style.visibility = quizHintAvail ? 'visible' : 'hidden';
+  updateClockHint(svgQuiz, answer.h, hintMode && quizHintAvail && answer.m !== 0, hintMode && quizDifficulty === 'hard' && answer.m !== 0, answer.m);
+
+  const grid = document.getElementById('quiz-choices');
+  grid.innerHTML = '';
+  choices.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = formatTimeDisplay(t.h, t.m);
+    if (quizPrevWrong) btn.disabled = true;
+    btn.onclick = () => onQuizAnswer(btn, t, answer);
+    grid.appendChild(btn);
+  });
+
+  setTimeout(() => {
+    if (quizPrevWrong) {
+      const enableChoices = () => grid.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
+      const fallback = setTimeout(enableChoices, 3500);
+      speak('なんじかな？', () => { clearTimeout(fallback); enableChoices(); });
+    } else {
+      speak('なんじかな？');
+    }
+  }, 600);
+}
+
+function onQuizAnswer(btn, selected, answer) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+
+  quizQuestionNum++;
+  document.getElementById('quiz-progress').textContent = `${quizQuestionNum} / ${QUIZ_TOTAL}もん`;
+
+  const isCorrect = selected.h === answer.h && selected.m === answer.m;
+  if (isCorrect) {
+    quizPrevWrong = false;
+    btn.classList.add('correct');
+    quizCorrectCount++;
+    playCorrectSound();
+    showCorrectMark();
+    speak('せいかい！ ' + timeToTTS(answer.h, answer.m));
+  } else {
+    quizPrevWrong = true;
+    btn.classList.add('wrong');
+    quizWrongCount++;
+    playWrongSound();
+    showWrongMark();
+    document.querySelectorAll('#quiz-choices .choice-btn').forEach(b => {
+      if (b.textContent === formatTimeDisplay(answer.h, answer.m)) b.classList.add('correct');
+    });
+    speak('ざんねん。こたえは ' + timeToTTS(answer.h, answer.m));
+  }
+  updateQuizScore();
+  if (quizQuestionNum >= QUIZ_TOTAL) {
+    quizTimer = setTimeout(showQuizResult, 2200);
+  } else {
+    quizTimer = setTimeout(nextQuestion, 2200);
+  }
+}
+
+function showQuizResult() {
+  const box    = document.getElementById('quiz-result-box');
+  const title  = document.getElementById('quiz-result-title');
+  const score  = document.getElementById('quiz-result-score');
+  const stars  = document.getElementById('quiz-result-stars');
+
+  score.textContent = `${quizCorrectCount} / ${QUIZ_TOTAL} せいかい`;
+
+  if (quizCorrectCount === QUIZ_TOTAL) {
+    title.textContent    = 'やったね！おめでとう！';
+    stars.textContent    = '🌟🌟🌟🌟🌟';
+    box.style.background = '#fffde7';
+    startFireworks();
+    playFanfare();
+    startFireworkSounds();
+  } else if (quizCorrectCount >= 7) {
+    title.textContent    = 'よくがんばったね！';
+    stars.textContent    = '⭐⭐⭐';
+    box.style.background = '#e8f5e9';
+    playCheer();
+  } else {
+    title.textContent    = 'またチャレンジしてね！';
+    stars.textContent    = '😊';
+    box.style.background = 'white';
+    playEncourage();
+  }
+
+  document.getElementById('quiz-result').classList.add('show');
+}
+
+// --- 花火 ---
+function startFireworks() {
+  launchFirework();
+  fwInterval = setInterval(launchFirework, 600);
+}
+let fwSoundInterval = null;
+function startFireworkSounds() {
+  playFireworkBang();
+  fwSoundInterval = setInterval(playFireworkBang, 650);
+}
+function stopFireworkSounds() {
+  clearInterval(fwSoundInterval);
+  fwSoundInterval = null;
+}
+function playFireworkBang() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  // ドン（低い爆発音）
+  const buf = ctx.createBuffer(1, ctx.sampleRate * 0.4, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.06));
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 180;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(1.2, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+  src.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+  src.start(now);
+
+  // キラキラ（高音の散り）
+  const freqs = [1200, 1600, 2000, 2400];
+  freqs.forEach((f, i) => {
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = 'sine';
+    o.frequency.value = f + Math.random() * 200;
+    const d = 0.05 + i * 0.04;
+    g.gain.setValueAtTime(0.12, now + d);
+    g.gain.exponentialRampToValueAtTime(0.001, now + d + 0.3);
+    o.start(now + d); o.stop(now + d + 0.35);
+  });
+}
+
+function stopFireworks() {
+  clearInterval(fwInterval);
+  fwInterval = null;
+  stopFireworkSounds();
+  document.getElementById('fw-container').innerHTML = '';
+}
+function launchFirework() {
+  const container = document.getElementById('fw-container');
+  const cx = 15 + Math.random() * 70;
+  const cy = 10 + Math.random() * 55;
+  const colors = ['#f44336','#ff9800','#ffeb3b','#4caf50','#2196f3','#9c27b0','#e91e63'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'fw-particle';
+    const angle = (i / 18) * 2 * Math.PI;
+    const dist  = 60 + Math.random() * 80;
+    p.style.cssText = `
+      left:${cx}vw; top:${cy}vh;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      --dx:${(dist * Math.cos(angle)).toFixed(1)}px;
+      --dy:${(dist * Math.sin(angle)).toFixed(1)}px;
+      animation-duration:${0.9 + Math.random() * 0.4}s;
+    `;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 1400);
+  }
+}
+
+// --- ファンファーレ（全問正解） ---
+function playFanfare() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  [[523,0],[659,0.1],[784,0.2],[1047,0.32],[784,0.5],[1047,0.62]].forEach(([f,d]) => {
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = f;
+    g.gain.setValueAtTime(0.20, now + d);
+    g.gain.exponentialRampToValueAtTime(0.001, now + d + 0.45);
+    osc.start(now + d); osc.stop(now + d + 0.5);
+  });
+}
+
+// --- 励ます音（6問以下）: 短く上昇して期待感を持たせる ---
+function playEncourage() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  [[392, 0], [440, 0.18], [494, 0.36]].forEach(([f, d]) => {
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = f;
+    g.gain.setValueAtTime(0.28, now + d);
+    g.gain.exponentialRampToValueAtTime(0.001, now + d + 0.4);
+    osc.start(now + d); osc.stop(now + d + 0.45);
+  });
+}
+
+// --- 7問以上正解（5秒で自動停止） ---
+let cheerInterval = null;
+let cheerStopTimer = null;
+function playCheer() {
+  playCheerOnce();
+  cheerInterval = setInterval(playCheerOnce, 2400);
+  cheerStopTimer = setTimeout(stopCheer, 5000);
+}
+function stopCheer() {
+  clearInterval(cheerInterval);
+  clearTimeout(cheerStopTimer);
+  cheerInterval = null;
+  cheerStopTimer = null;
+}
+function playCheerOnce() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  // スクエア波で弾むメロディー: ミ・ソ・ド・ミ・ソ・ド（高）・ソ・ド（高）
+  const notes = [
+    [659, 0.00, 0.12],
+    [784, 0.14, 0.12],
+    [523, 0.28, 0.12],
+    [659, 0.42, 0.12],
+    [784, 0.56, 0.12],
+    [1047,0.70, 0.20],
+    [784, 0.92, 0.10],
+    [1047,1.04, 0.45],
+  ];
+  notes.forEach(([f, d, dur]) => {
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    osc.type = 'square';
+    osc.frequency.value = f;
+    g.gain.setValueAtTime(0.08, now + d);
+    g.gain.setValueAtTime(0.08, now + d + dur - 0.04);
+    g.gain.exponentialRampToValueAtTime(0.001, now + d + dur);
+    osc.start(now + d); osc.stop(now + d + dur + 0.05);
+  });
+}
+
+function updateQuizScore() {
+  document.getElementById('quiz-correct').textContent = quizCorrectCount;
+  document.getElementById('quiz-wrong').textContent   = quizWrongCount;
+}
+
+
+// ==================== じかんのよみかた ====================
+
+let yomikataDifficulty = 'easy';
+let yomikataOrder = 'shuffle';
+
+function toggleYomikataHint() {
+  hintMode = !hintMode;
+  syncHintButtons();
+  const { h, m } = yomikataPool[yomikataIndex];
+  const showMinYk = hintMode && yomikataDifficulty === 'hard' && m !== 0;
+  updateClockHint(document.getElementById('yomikata-clock'), h, hintMode && yomikataDifficulty !== 'easy' && m !== 0, showMinYk, m);
+}
+let yomikataPool = [];
+let yomikataIndex = 0;
+let yomikataLastTime = null;
+
+function startYomikata() {
+  buildClockSVG(document.getElementById('yomikata-clock'));
+  initYomikataPool();
+}
+
+function setYomikataDifficulty(d) {
+  yomikataDifficulty = d;
+  ['easy','normal','hard'].forEach(x =>
+    document.getElementById('yk-diff-' + x).classList.toggle('selected', x === d)
+  );
+  initYomikataPool();
+}
+
+function setYomikataOrder(o) {
+  yomikataOrder = o;
+  ['junban','shuffle'].forEach(x =>
+    document.getElementById('yk-order-' + x).classList.toggle('selected', x === o)
+  );
+  initYomikataPool();
+}
+
+function initYomikataPool() {
+  if (yomikataOrder === 'junban') {
+    // じゅんばん: 難易度に関わらず順番通り（ふつうは〇時→〇時半のペア順）
+    yomikataPool = generateTimePool(yomikataDifficulty);
+  } else {
+    // シャッフル
+    if (yomikataDifficulty === 'normal') {
+      // ふつう: 〇時→〇時半のペアを崩さず、ペア単位でシャッフル
+      const hours = shuffle([1,2,3,4,5,6,7,8,9,10,11,12]);
+      yomikataPool = hours.flatMap(h => [{ h, m: 0 }, { h, m: 30 }]);
+    } else if (yomikataDifficulty === 'hard') {
+      // むずかしい: 時間単位グループ（〇時ちょうど + ランダム3分）× 12時間
+      const hours = shuffle([1,2,3,4,5,6,7,8,9,10,11,12]);
+      const allMins = [5,10,15,20,25,30,35,40,45,50,55];
+      yomikataPool = hours.flatMap(h => {
+        const mins = shuffle(allMins).slice(0, 4).sort((a, b) => a - b);
+        return [{ h, m: 0 }, ...mins.map(m => ({ h, m }))];
+      });
+    } else {
+      // かんたん: 完全シャッフル
+      yomikataPool = shuffle(generateTimePool(yomikataDifficulty));
+      // シャッフル後の先頭が直前に表示した時間と同じなら1つ後ろと入れ替える
+      if (yomikataLastTime && yomikataPool.length > 1 &&
+          yomikataPool[0].h === yomikataLastTime.h && yomikataPool[0].m === yomikataLastTime.m) {
+        [yomikataPool[0], yomikataPool[1]] = [yomikataPool[1], yomikataPool[0]];
+      }
+    }
+  }
+  yomikataIndex = 0;
+  showYomikataCard();
+}
+
+function showYomikataCard() {
+  const { h, m } = yomikataPool[yomikataIndex];
+  yomikataLastTime = { h, m };
+  const svgYk = document.getElementById('yomikata-clock');
+  setClockHands(svgYk, h, m);
+  const ykHintAvail = yomikataDifficulty !== 'easy';
+  document.getElementById('yomikata-hint-btn').style.visibility = ykHintAvail ? 'visible' : 'hidden';
+  updateClockHint(svgYk, h, hintMode && ykHintAvail && m !== 0, hintMode && yomikataDifficulty === 'hard' && m !== 0, m);
+  document.getElementById('yomikata-time-display').textContent = formatTimeDisplay(h, m);
+  document.getElementById('yomikata-reading').textContent = formatReading(h, m);
+  document.getElementById('yomikata-progress').textContent =
+    `${yomikataIndex + 1} / ${yomikataPool.length}`;
+  speak(timeToTTS(h, m));
+}
+
+function yomikataNext() {
+  yomikataIndex = (yomikataIndex + 1) % yomikataPool.length;
+  showYomikataCard();
+}
+
+function yomikataPrev() {
+  yomikataIndex = (yomikataIndex - 1 + yomikataPool.length) % yomikataPool.length;
+  showYomikataCard();
+}
+
+function speakYomikata() {
+  const { h, m } = yomikataPool[yomikataIndex];
+  speak(timeToTTS(h, m));
+}
+
+// 読みかた表示用（時と分の間にスペースを入れて読みやすく）
+function formatReading(h, m) {
+  const hStr = HOUR_READ[h % 12 || 12];
+  if (m === 0)  return hStr;
+  if (m === 30) return hStr + ' はん';
+  return hStr + ' ' + (MIN_READ[m] || m + 'ふん');
+}
+
+// ==================== インタラクティブ ====================
+
+let interactiveH = 3;
+let interactiveM = 0;
+let draggingHand = null;
+
+function toggleInteractiveHint() {
+  hintMode = !hintMode;
+  syncHintButtons();
+  const show = hintMode && interactiveM !== 0;
+  updateClockHint(document.getElementById('interactive-clock'), interactiveH, show, show, interactiveM);
+}
+
+function startInteractive() {
+  interactiveH = new Date().getHours() % 12 || 12;
+  interactiveM = 0;
+  const svgEl = document.getElementById('interactive-clock');
+  setClockHands(svgEl, interactiveH, interactiveM);
+  document.getElementById('interactive-time').textContent = formatTimeDisplay(interactiveH, interactiveM);
+  updateClockHint(svgEl, interactiveH, false, false, interactiveM);
+}
+
+function initInteractiveClock() {
+  const svgEl = document.getElementById('interactive-clock');
+  buildClockSVG(svgEl, { draggable: true });
+  setClockHands(svgEl, interactiveH, interactiveM);
+
+  svgEl.addEventListener('pointerdown', e => {
+    const p = screenToSVG(svgEl, e.clientX, e.clientY);
+    const [hx, hy] = handTip(interactiveH, interactiveM, 'hour');
+    const [mx, my] = handTip(interactiveH, interactiveM, 'minute');
+    const dh = Math.hypot(p.x - hx, p.y - hy);
+    const dm = Math.hypot(p.x - mx, p.y - my);
+    if (dh < 28 || dm < 28) {
+      draggingHand = dh <= dm ? 'hour' : 'minute';
+      svgEl.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    }
+  });
+
+  svgEl.addEventListener('pointermove', e => {
+    if (!draggingHand) return;
+    e.preventDefault();
+    const p = screenToSVG(svgEl, e.clientX, e.clientY);
+    const clock = (Math.atan2(p.y, p.x) * 180 / Math.PI + 90 + 360) % 360;
+
+    if (draggingHand === 'minute') {
+      const prevM = interactiveM;
+      interactiveM = Math.round(clock / 6 / 5) * 5 % 60;
+      // 長針が12時方向を通過したら時間を±1
+      if (prevM > 45 && interactiveM < 15) {
+        interactiveH = interactiveH % 12 + 1;          // 時計回り: 12→1, 3→4
+      } else if (prevM < 15 && interactiveM > 45) {
+        interactiveH = (interactiveH - 2 + 12) % 12 + 1; // 反時計回り: 1→12, 3→2
+      }
+    } else {
+      interactiveH = Math.round(clock / 30) % 12 || 12;
+    }
+    setClockHands(svgEl, interactiveH, interactiveM);
+    document.getElementById('interactive-time').textContent = formatTimeDisplay(interactiveH, interactiveM);
+    const iShow = hintMode && interactiveM !== 0;
+    updateClockHint(svgEl, interactiveH, iShow, iShow, interactiveM);
+    speakInteractiveTime();
+  });
+
+  svgEl.addEventListener('pointerup', () => { draggingHand = null; });
+}
+
+function screenToSVG(svgEl, cx, cy) {
+  const pt = svgEl.createSVGPoint();
+  pt.x = cx; pt.y = cy;
+  return pt.matrixTransform(svgEl.getScreenCTM().inverse());
+}
+
+function handTip(h, m, type) {
+  const deg = type === 'hour'
+    ? (h % 12) * 30 + m * 0.5 - 90
+    : m * 6 - 90;
+  const len = type === 'hour' ? 46 : 66;
+  const r = deg * Math.PI / 180;
+  return [len * Math.cos(r), len * Math.sin(r)];
+}
+
+function speakInteractiveTime() {
+  speak(timeToTTS(interactiveH, interactiveM));
+}
+
+function resetInteractive() {
+  startInteractive();
+}
+
+// ==================== 現在時刻 ====================
+
+let currentTimer = null;
+let currentFormat = 12;
+
+function toggleCurrentHint() {
+  hintMode = !hintMode;
+  syncHintButtons();
+  updateCurrentTime();
+}
+
+function startCurrentTime() {
+  buildClockSVG(document.getElementById('current-clock'), { showSeconds: true });
+  updateCurrentTime();
+  currentTimer = setInterval(updateCurrentTime, 1000);
+  speakCurrentTime();
+}
+
+function stopCurrentTime() {
+  clearInterval(currentTimer);
+  currentTimer = null;
+}
+
+function updateCurrentTime() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  const svgCur = document.getElementById('current-clock');
+  setClockHands(svgCur, h, m, s);
+  const cShow = hintMode && m !== 0;
+  updateClockHint(svgCur, h, cShow, cShow, m);
+
+  const pad = n => String(n).padStart(2, '0');
+  let display;
+  if (currentFormat === 12) {
+    const h12 = h % 12 || 12;
+    display = `${h < 12 ? 'ごぜん' : 'ごご'} ${pad(h12)}:${pad(m)}:${pad(s)}`;
+  } else {
+    display = `${pad(h)}:${pad(m)}:${pad(s)}`;
+  }
+  document.getElementById('current-time-display').textContent = display;
+}
+
+function setTimeFormat(fmt) {
+  currentFormat = fmt;
+  document.getElementById('fmt-12').classList.toggle('selected', fmt === 12);
+  document.getElementById('fmt-24').classList.toggle('selected', fmt === 24);
+  updateCurrentTime();
+}
+
+function speakCurrentTime() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const h12 = h % 12 || 12;
+  const ampm = h < 12 ? 'ごぜん' : 'ごご';
+  speak(ampm + ' ' + timeToTTS(h12, m));
+}
+
+// ==================== 初期化 ====================
+document.addEventListener('DOMContentLoaded', () => {
+  initInteractiveClock();
+});
+
+// ==================== Service Worker 登録 ====================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => {
+      console.warn('SW registration failed:', err);
+    });
+  });
+}
+</script>
+<!-- 花火コンテナ -->
+<div id="fw-container"></div>
+
+<!-- クイズ結果オーバーレイ -->
+<div id="quiz-result">
+  <div id="quiz-result-box">
+    <div id="quiz-result-stars"></div>
+    <div id="quiz-result-title"></div>
+    <div id="quiz-result-score"></div>
+    <button class="btn btn-primary" onclick="retryQuiz()" style="width:100%;">もういっかい</button>
+    <button class="btn btn-secondary" onclick="goHome()" style="width:100%;">ホームへ</button>
+  </div>
+</div>
+
+<!-- 正解〇オーバーレイ -->
+<div id="correct-overlay">
+  <span id="correct-mark">〇</span>
+</div>
+
+<!-- 不正解×オーバーレイ -->
+<div id="wrong-overlay">
+  <span id="wrong-mark">✕</span>
+</div>
+
+
+<div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
+  © Ayai_lab
+</div>
+
+</body>
+</html>
