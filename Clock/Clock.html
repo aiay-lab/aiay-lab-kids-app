@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>とけいアプリ</title>
-  <meta name="version" content="1.0.9">
+  <meta name="version" content="1.0.10">
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#E8405A">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -216,6 +216,7 @@
 
     /* ===== じかんのよみかた ===== */
     #screen-yomikata { gap: clamp(3px, 1vmin, 10px); }
+    #screen-yomikata .clock-wrap { max-width: min(220px, 28vmin); }
     .yomikata-reading {
       font-size: clamp(1rem, 3.5vmin, 2.2rem);
       font-weight: bold;
@@ -1484,7 +1485,7 @@ if ('serviceWorker' in navigator) {
 
 
 <div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
-  © aiay-lab  v1.0.9
+  © aiay-lab  v1.0.10
 </div>
 
 </body>
