@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>とけいアプリ</title>
-  <meta name="version" content="1.0.0">
+  <meta name="version" content="1.0.1">
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#E8405A">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,21 +17,27 @@
     body {
       font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", sans-serif;
       background: linear-gradient(135deg, #fff9c4, #fce4ec);
-      min-height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: clamp(8px, 2vmin, 20px);
     }
 
     .screen {
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
+      gap: clamp(6px, 1.8vh, 18px);
       width: 100%;
       max-width: 460px;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
     }
+    .screen::-webkit-scrollbar { display: none; }
     .screen.active { display: flex; }
 
     h1 { font-size: 2rem; color: #333; text-align: center; }
@@ -50,17 +56,17 @@
 
     .btn-large {
       width: 100%;
-      padding: 18px 22px;
+      padding: clamp(10px, 2vh, 18px) 22px;
       display: flex;
       align-items: center;
       gap: 14px;
       text-align: left;
       border-radius: 18px;
     }
-    .btn-icon { font-size: 1.8rem; line-height: 1; }
+    .btn-icon { font-size: clamp(1.4rem, 4vmin, 1.8rem); line-height: 1; }
     .btn-text { display: flex; flex-direction: column; gap: 3px; }
-    .btn-name { font-size: 1.25rem; }
-    .btn-desc { font-size: 0.8rem; font-weight: normal; opacity: 0.75; }
+    .btn-name { font-size: clamp(1rem, 2.5vh, 1.25rem); }
+    .btn-desc { font-size: clamp(0.7rem, 1.8vmin, 0.8rem); font-weight: normal; opacity: 0.75; }
 
     #btn-quiz     { background: #fce4ec; color: #c62828; box-shadow: inset 6px 0 0 #E8405A, 0 4px 14px rgba(232,64,90,0.15); }
     #btn-yomikata { background: #f3e5f5; color: #6a1b9a; box-shadow: inset 6px 0 0 #8e24aa, 0 4px 14px rgba(142,36,170,0.15); }
@@ -72,11 +78,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 4px;
+      gap: clamp(2px, 1vmin, 6px);
+      margin-bottom: 0;
     }
     .home-clock-emoji {
-      font-size: 5rem;
+      font-size: clamp(2.5rem, 8vmin, 5rem);
       display: inline-block;
       animation: tick 1.8s ease-in-out infinite;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
@@ -86,25 +92,25 @@
       50%       { transform: rotate(12deg); }
     }
     #screen-home h1 {
-      font-size: 2.4rem;
+      font-size: clamp(1.5rem, 5vmin, 2.4rem);
       background: linear-gradient(120deg, #E8405A 0%, #FF8F00 50%, #1565c0 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     .home-subtitle {
-      font-size: 1rem;
+      font-size: clamp(0.75rem, 2.5vmin, 1rem);
       color: #bbb;
       letter-spacing: 0.05em;
     }
 
-    .btn-primary   { background: #E8405A; color: white; padding: 14px 30px; font-size: 1.15rem; }
-    .btn-secondary { background: #e0e0e0; color: #555;  padding: 14px 22px; font-size: 1rem; }
+    .btn-primary   { background: #E8405A; color: white; padding: clamp(10px, 1.8vh, 14px) 30px; font-size: clamp(0.9rem, 2.5vh, 1.15rem); }
+    .btn-secondary { background: #e0e0e0; color: #555;  padding: clamp(10px, 1.8vh, 14px) 22px; font-size: clamp(0.85rem, 2vh, 1rem); }
     .btn-back {
       background: #fff3e0;
       color: #e65100;
-      padding: 14px 24px;
-      font-size: 1.2rem;
+      padding: clamp(9px, 1.5vh, 14px) 20px;
+      font-size: clamp(1rem, 2.5vmin, 1.2rem);
       align-self: flex-start;
       border-radius: 50px;
       display: flex;
@@ -123,8 +129,8 @@
     }
     .toggle-btn {
       flex: 1;
-      padding: 11px 8px;
-      font-size: 1rem;
+      padding: clamp(7px, 1.5vh, 11px) 8px;
+      font-size: clamp(0.85rem, 2vh, 1rem);
       font-weight: bold;
       border: none;
       border-radius: 50px;
@@ -141,13 +147,13 @@
     }
 
     /* ===== 時計SVGラッパー ===== */
-    .clock-wrap { width: 100%; max-width: 300px; }
+    .clock-wrap { width: 100%; max-width: min(300px, 40vmin); flex-shrink: 0; }
     .clock-wrap svg { width: 100%; height: auto; touch-action: none; }
 
     /* ===== ヒントボタン ===== */
     .hint-toggle {
-      padding: 8px 18px;
-      font-size: 0.9rem;
+      padding: clamp(5px, 1.2vh, 8px) 18px;
+      font-size: clamp(0.8rem, 2vmin, 0.9rem);
       font-weight: bold;
       border-radius: 50px;
       border: 2px solid #e0e0e0;
@@ -168,14 +174,14 @@
     .choices-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: clamp(6px, 1.5vh, 12px);
       width: 100%;
     }
     .choice-btn {
       font-family: inherit;
-      font-size: 1.35rem;
+      font-size: clamp(1.1rem, 3vh, 1.35rem);
       font-weight: bold;
-      padding: 18px 10px;
+      padding: clamp(10px, 2vh, 18px) 10px;
       border: 4px solid #e0e0e0;
       border-radius: 20px;
       background: white;
@@ -193,31 +199,31 @@
     }
 
     /* ===== スコア ===== */
-    .score-display { font-size: 1.1rem; color: #666; font-weight: bold; }
+    .score-display { font-size: clamp(0.85rem, 2.5vmin, 1.1rem); color: #666; font-weight: bold; }
 
     /* ===== デジタル時刻 ===== */
     .digital-time {
-      font-size: 2rem;
+      font-size: clamp(1.4rem, 4vh, 2rem);
       font-weight: bold;
       color: #E8405A;
       letter-spacing: 0.05em;
       text-align: center;
     }
 
-    .drag-hint { font-size: 0.9rem; color: #aaa; text-align: center; }
+    .drag-hint { font-size: clamp(0.75rem, 2vmin, 0.9rem); color: #aaa; text-align: center; }
 
     .row-btns { display: flex; gap: 12px; justify-content: center; }
 
     /* ===== じかんのよみかた ===== */
     .yomikata-reading {
-      font-size: 2.2rem;
+      font-size: clamp(1.5rem, 4vh, 2.2rem);
       font-weight: bold;
       color: #6a1b9a;
       text-align: center;
       letter-spacing: 0.08em;
       background: #f3e5f5;
       border-radius: 16px;
-      padding: 16px 24px;
+      padding: clamp(8px, 1.5vh, 16px) 20px;
       width: 100%;
     }
 
@@ -234,12 +240,12 @@
       position: absolute;
       line-height: 1;
       text-align: center;
-      color: #e53935;
+      color: #4caf50;
       opacity: 0;
       transform: scale(0.3);
       animation: pop-in 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards,
                  fade-out 0.4s ease 0.9s forwards;
-      filter: drop-shadow(0 0 24px rgba(229,57,53,0.5));
+      filter: drop-shadow(0 0 24px rgba(76,175,80,0.5));
     }
     @keyframes pop-in {
       to { opacity: 1; transform: scale(1); }
@@ -308,12 +314,12 @@
       position: absolute;
       line-height: 1;
       text-align: center;
-      color: #1565c0;
+      color: #e53935;
       opacity: 0;
       transform: scale(0.3);
       animation: pop-in 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards,
                  fade-out 0.4s ease 0.9s forwards;
-      filter: drop-shadow(0 0 24px rgba(21,101,192,0.45));
+      filter: drop-shadow(0 0 24px rgba(229,57,53,0.45));
     }
   </style>
 </head>
@@ -404,7 +410,7 @@
     <button class="toggle-btn"          id="diff-hard"   onclick="setDifficulty('hard')">むずかしい</button>
   </div>
 
-  <button class="hint-toggle" id="quiz-hint-btn" onclick="toggleQuizHint()">💡 ヒント</button>
+  <button class="hint-toggle" id="quiz-hint-btn">💡 ヒント</button>
 
   <div class="clock-wrap">
     <svg id="quiz-clock" viewBox="-120 -130 240 262"></svg>
@@ -732,11 +738,14 @@ const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 function speak(text, onEnd) {
   if (!window.speechSynthesis) { if (onEnd) onEnd(); return; }
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'ja-JP';
-  u.rate = IS_IOS ? 1.32 : 0.85;
-  if (onEnd) u.onend = onEnd;
-  speechSynthesis.speak(u);
+  // iOS は cancel() 直後に speak() すると先頭音節が欠けるため遅延を入れる
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ja-JP';
+    u.rate = IS_IOS ? 1.32 : 0.85;
+    if (onEnd) u.onend = onEnd;
+    speechSynthesis.speak(u);
+  }, IS_IOS ? 120 : 0);
 }
 
 // ==================== ヒント ====================
@@ -760,9 +769,25 @@ function updateClockHint(svgEl, h, show, showMinutes = false, currentM = null) {
       t.setAttribute('font-size', '13');
       t.setAttribute('font-weight', m === currentM ? 'bold' : 'normal');
       t.setAttribute('fill', m === currentM ? '#1565c0' : '#bbb');
-      t.textContent = String(m);
+      t.textContent = m === 30 ? 'はん' : String(m);
       group.appendChild(t);
     }
+  }
+
+  // ---- 〇時半の「はん」ラベル（分ラベルなしのとき）----
+  if (show && currentM === 30 && !showMinutes) {
+    const a = (30 * 6 - 90) * Math.PI / 180; // 6時方向（真下）
+    const r = 112;
+    const t = document.createElementNS(ns, 'text');
+    t.setAttribute('x', (r * Math.cos(a)).toFixed(2));
+    t.setAttribute('y', (r * Math.sin(a)).toFixed(2));
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'central');
+    t.setAttribute('font-size', '13');
+    t.setAttribute('font-weight', 'bold');
+    t.setAttribute('fill', '#1565c0');
+    t.textContent = 'はん';
+    group.appendChild(t);
   }
 
   // ---- 扇形 ----
@@ -796,19 +821,54 @@ let fwInterval = null;
 let hintMode = false;
 
 function syncHintButtons() {
-  ['quiz-hint-btn','yomikata-hint-btn','interactive-hint-btn','current-hint-btn'].forEach(id => {
+  ['yomikata-hint-btn','interactive-hint-btn','current-hint-btn'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('active', hintMode);
   });
 }
 let currentQuizAnswer = null;
+let quizHintActive = false;
+let quizHintReleaseTimer = null;
 
-function toggleQuizHint() {
-  hintMode = !hintMode;
-  syncHintButtons();
-  const show = hintMode && quizDifficulty !== 'easy' && currentQuizAnswer && currentQuizAnswer.m !== 0;
-  const showMin = hintMode && quizDifficulty === 'hard' && currentQuizAnswer?.m !== 0 && currentQuizAnswer?.m !== 30;
-  updateClockHint(document.getElementById('quiz-clock'), currentQuizAnswer?.h, show, showMin, currentQuizAnswer?.m);
+function applyQuizHint() {
+  if (!currentQuizAnswer) return;
+  const { h, m } = currentQuizAnswer;
+  const avail = quizDifficulty !== 'easy';
+  const show    = quizHintActive && avail && m !== 0;
+  const showMin = quizHintActive && quizDifficulty === 'hard' && m !== 0;
+  updateClockHint(document.getElementById('quiz-clock'), h, show, showMin, m);
+}
+
+function resetQuizHint() {
+  clearTimeout(quizHintReleaseTimer);
+  quizHintReleaseTimer = null;
+  quizHintActive = false;
+  const btn = document.getElementById('quiz-hint-btn');
+  if (btn) btn.classList.remove('active');
+}
+
+function initQuizHintButton() {
+  const btn = document.getElementById('quiz-hint-btn');
+  btn.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    clearTimeout(quizHintReleaseTimer);
+    quizHintReleaseTimer = null;
+    quizHintActive = true;
+    btn.classList.add('active');
+    applyQuizHint();
+  });
+  const onRelease = () => {
+    if (!quizHintActive) return;
+    clearTimeout(quizHintReleaseTimer);
+    quizHintReleaseTimer = setTimeout(() => {
+      quizHintActive = false;
+      btn.classList.remove('active');
+      applyQuizHint();
+      quizHintReleaseTimer = null;
+    }, 5000);
+  };
+  btn.addEventListener('pointerup', onRelease);
+  btn.addEventListener('pointercancel', onRelease);
 }
 
 function setDifficulty(d) {
@@ -859,6 +919,7 @@ function retryQuiz() {
 }
 
 function nextQuestion() {
+  resetQuizHint();
   quizAnswered = false;
   document.getElementById('quiz-progress').textContent = `${quizQuestionNum} / ${QUIZ_TOTAL}もん`;
   const pool = generateTimePool(quizDifficulty);
@@ -873,9 +934,9 @@ function nextQuestion() {
 
   const svgQuiz = document.getElementById('quiz-clock');
   setClockHands(svgQuiz, answer.h, answer.m);
-  const quizHintAvail = quizDifficulty !== 'easy';
+  const quizHintAvail = quizDifficulty !== 'easy' && answer.m !== 0;
   document.getElementById('quiz-hint-btn').style.visibility = quizHintAvail ? 'visible' : 'hidden';
-  updateClockHint(svgQuiz, answer.h, hintMode && quizHintAvail && answer.m !== 0, hintMode && quizDifficulty === 'hard' && answer.m !== 0 && answer.m !== 30, answer.m);
+  updateClockHint(svgQuiz, answer.h, false, false, answer.m);
 
   const grid = document.getElementById('quiz-choices');
   grid.innerHTML = '';
@@ -913,7 +974,7 @@ function onQuizAnswer(btn, selected, answer) {
     quizCorrectCount++;
     playCorrectSound();
     showCorrectMark();
-    speak('せいかい！ ' + timeToTTS(answer.h, answer.m));
+    speak('せいかい。' + timeToTTS(answer.h, answer.m));
   } else {
     quizPrevWrong = true;
     btn.classList.add('wrong');
@@ -1377,6 +1438,7 @@ function speakCurrentTime() {
 // ==================== 初期化 ====================
 document.addEventListener('DOMContentLoaded', () => {
   initInteractiveClock();
+  initQuizHintButton();
 });
 
 // ==================== Service Worker 登録 ====================
@@ -1414,7 +1476,7 @@ if ('serviceWorker' in navigator) {
 
 
 <div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
-  © aiay-lab  v1.0.0
+  © aiay-lab  v1.0.1
 </div>
 
 </body>
