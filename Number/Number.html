@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>すうじアプリ</title>
+  <meta name="version" content="1.0.15">
+  <meta name="theme-color" content="#1565c0">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="すうじアプリ">
+  <link rel="apple-touch-icon" href="./icons/icon-180.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #e8eaf6);
+      height: 100dvh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(8px, 2vmin, 20px);
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(6px, 1.8vh, 18px);
+      width: 100%;
+      max-width: 460px;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
+    .screen::-webkit-scrollbar { display: none; }
+    .screen.active { display: flex; }
+
+    /* ===== ボタン共通 ===== */
+    .btn {
+      font-family: inherit;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.15s;
+    }
+    .btn:active:not(:disabled) { transform: scale(0.96); opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+
+    .btn-large {
+      width: 100%;
+      padding: clamp(10px, 2vh, 18px) 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+      border-radius: 18px;
+    }
+    .btn-icon { font-size: clamp(1.4rem, 4vmin, 1.8rem); line-height: 1; }
+    .btn-text { display: flex; flex-direction: column; gap: 3px; }
+    .btn-name { font-size: clamp(1rem, 2.5vh, 1.25rem); }
+    .btn-desc { font-size: clamp(0.7rem, 1.8vmin, 0.8rem); font-weight: normal; opacity: 0.75; }
+
+    #btn-yomikata  { background: #e3f2fd; color: #1565c0; box-shadow: inset 6px 0 0 #1565c0, 0 4px 14px rgba(21,101,192,0.15); }
+    #btn-listening { background: #fff3e0; color: #e65100; box-shadow: inset 6px 0 0 #ef6c00, 0 4px 14px rgba(239,108,0,0.15); }
+    #btn-subitize  { background: #e8f5e9; color: #2e7d32; box-shadow: inset 6px 0 0 #43a047, 0 4px 14px rgba(46,125,50,0.15); }
+    #btn-compare   { background: #f3e5f5; color: #6a1b9a; box-shadow: inset 6px 0 0 #8e24aa, 0 4px 14px rgba(142,36,170,0.15); }
+
+    /* ===== ホーム ===== */
+    .home-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(2px, 1vmin, 6px);
+    }
+    .home-emoji { font-size: clamp(2.5rem, 8vmin, 5rem); }
+    #screen-home h1 {
+      font-size: clamp(1.5rem, 5vmin, 2.4rem);
+      background: linear-gradient(120deg, #1565c0 0%, #43a047 50%, #8e24aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .home-subtitle {
+      font-size: clamp(0.75rem, 2.5vmin, 1rem);
+      color: #bbb;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary   { background: #1565c0; color: white; padding: clamp(10px, 1.8vh, 14px) 30px; font-size: clamp(0.9rem, 2.5vh, 1.15rem); }
+    .btn-secondary { background: #e0e0e0; color: #555;  padding: clamp(10px, 1.8vh, 14px) 22px; font-size: clamp(0.85rem, 2vh, 1rem); }
+    .btn-back {
+      background: #fff3e0;
+      color: #e65100;
+      padding: clamp(9px, 1.5vh, 14px) 20px;
+      font-size: clamp(1rem, 2.5vmin, 1.2rem);
+      align-self: flex-start;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ===== トグル ===== */
+    .toggle-group {
+      display: flex;
+      background: #f0f0f0;
+      border-radius: 50px;
+      padding: 4px;
+      gap: 4px;
+      width: 100%;
+    }
+    .toggle-btn {
+      flex: 1;
+      padding: clamp(7px, 1.5vh, 11px) 8px;
+      font-size: clamp(0.85rem, 2vh, 1rem);
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: inherit;
+      background: transparent;
+      color: #999;
+      transition: all 0.2s;
+    }
+    .toggle-btn.selected {
+      background: white;
+      color: #1565c0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ===== スコア・プログレス ===== */
+    .score-display  { font-size: clamp(0.85rem, 2.5vmin, 1.1rem); color: #666; font-weight: bold; }
+    .progress-text  { font-size: clamp(0.85rem, 2.5vmin, 1.1rem); color: #666; font-weight: bold; }
+
+    /* ===== 4択グリッド ===== */
+    .choices-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(6px, 1.5vh, 12px);
+      width: 100%;
+    }
+    .choice-btn {
+      font-family: inherit;
+      font-size: clamp(1.4rem, 4vh, 2rem);
+      font-weight: bold;
+      padding: clamp(12px, 2.5vh, 22px) 10px;
+      border: 4px solid #e0e0e0;
+      border-radius: 20px;
+      background: white;
+      cursor: pointer;
+      transition: transform 0.1s, border-color 0.15s, background 0.15s;
+    }
+    .choice-btn:active { transform: scale(0.96); }
+    .choice-btn.correct { border-color: #4caf50; background: #e8f5e9; }
+    .choice-btn.wrong   { border-color: #f44336; background: #ffebee; animation: shake 0.3s; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-7px); }
+      75%      { transform: translateX(7px); }
+    }
+
+    /* ===== よみかた画面 ===== */
+    .row-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    /* カードグリッド（かんたん 1-10） */
+    .number-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: clamp(4px, 1.2vmin, 8px);
+      width: 100%;
+    }
+    .number-card {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(4px, 1.2vmin, 8px) 2px;
+      cursor: pointer;
+      gap: 1px;
+      transition: transform 0.1s, background 0.2s, border-color 0.2s;
+      user-select: none; -webkit-user-select: none;
+    }
+    .number-card:active { transform: scale(0.93); }
+    .number-card.yk-active { background: #e3f2fd; border-color: #1565c0; }
+    .nc-num  { font-size: clamp(1.3rem, 5vmin, 2.4rem); font-weight: bold; color: #1565c0; line-height: 1; }
+    .nc-emoji { font-size: clamp(0.9rem, 3.5vmin, 1.6rem); line-height: 1.2; }
+    .nc-read { font-size: clamp(0.5rem, 1.5vmin, 0.72rem); color: #555; }
+
+    /* 数字グリッド（ふつう・むずかしい） */
+    .number-grid {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(3px, 0.8vmin, 6px);
+      width: 100%;
+    }
+    .number-grid-row {
+      display: flex;
+      background: #fffde7;
+      border-radius: 8px;
+      padding: clamp(2px, 0.5vmin, 4px);
+    }
+    .number-grid-row:nth-child(even) { background: #e8f5e9; }
+    .ngb {
+      flex: 1;
+      font-family: inherit;
+      font-weight: bold;
+      font-size: clamp(0.8rem, 2.8vmin, 1.25rem);
+      padding: clamp(5px, 1.5vh, 10px) 1px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      user-select: none; -webkit-user-select: none;
+    }
+    .ngb.odd  { color: #e53935; }
+    .ngb.even { color: #1565c0; }
+    .ngb.yk-active { background: rgba(255,235,59,0.65); transform: scale(1.18); }
+    .ngb:active { transform: scale(0.88); }
+
+    /* ===== きこえたかずクイズ ===== */
+    .listen-btn {
+      background: #fff3e0;
+      color: #e65100;
+      border: 3px solid #ef6c00;
+      border-radius: 50px;
+      padding: clamp(12px, 2vh, 18px) 32px;
+      font-size: clamp(1.1rem, 3vmin, 1.5rem);
+      font-weight: bold;
+      font-family: inherit;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.15s;
+    }
+    .listen-btn:active { transform: scale(0.96); opacity: 0.85; }
+    .listen-prompt {
+      font-size: clamp(0.95rem, 2.5vmin, 1.2rem);
+      color: #555;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* ===== ドットカード比較（むずかしい）===== */
+    .sb-compare-wrap {
+      display: flex;
+      gap: clamp(10px, 3vw, 24px);
+      justify-content: center;
+      width: 100%;
+    }
+    .sb-compare-wrap .dot-card {
+      cursor: pointer;
+      max-width: min(120px, 28vmin);
+      transition: transform 0.1s, border-color 0.15s, background 0.15s;
+    }
+    .sb-compare-wrap .dot-card:active { transform: scale(0.94); }
+    .dot-card.correct { border-color: #4caf50; background: #e8f5e9; }
+    .dot-card.wrong   { border-color: #f44336; background: #ffebee; animation: shake 0.3s; }
+    .sb-question-text {
+      font-size: clamp(1.1rem, 3.5vmin, 1.6rem);
+      font-weight: bold;
+      color: #2e7d32;
+      text-align: center;
+    }
+
+    /* ===== ドットカード ===== */
+    .dot-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+      border: 4px solid #43a047;
+      width: 100%;
+      max-width: min(260px, 45vmin);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .dot-card svg { width: 100%; height: 100%; }
+
+    /* ===== 比較モード ===== */
+    .compare-question {
+      font-size: clamp(1.1rem, 3.5vmin, 1.6rem);
+      font-weight: bold;
+      color: #6a1b9a;
+      text-align: center;
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(10px, 2vh, 20px);
+      width: 100%;
+    }
+    .compare-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+    .compare-grid:not(.three) #cp-btn-c { display: none; }
+    .compare-btn {
+      font-family: inherit;
+      font-size: clamp(2.5rem, 10vmin, 5rem);
+      font-weight: bold;
+      padding: clamp(16px, 3vh, 28px) 10px;
+      border: 4px solid #e0e0e0;
+      border-radius: 20px;
+      background: white;
+      cursor: pointer;
+      transition: transform 0.1s, border-color 0.15s, background 0.15s;
+      color: #6a1b9a;
+    }
+    .compare-btn:active:not(:disabled) { transform: scale(0.96); }
+    .compare-btn:disabled { color: #ccc; cursor: default; }
+    .compare-btn.correct { border-color: #4caf50; background: #e8f5e9; }
+    .compare-btn.wrong   { border-color: #f44336; background: #ffebee; animation: shake 0.3s; }
+
+    /* ===== 正解〇オーバーレイ ===== */
+    #correct-overlay { display: none; position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+    #correct-overlay.show { display: block; }
+    #correct-mark {
+      position: absolute;
+      line-height: 1; text-align: center;
+      color: #4caf50; opacity: 0; transform: scale(0.3);
+      animation: pop-in 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards,
+                 fade-out 0.4s ease 0.9s forwards;
+      filter: drop-shadow(0 0 24px rgba(76,175,80,0.5));
+    }
+    @keyframes pop-in { to { opacity: 1; transform: scale(1); } }
+    @keyframes fade-out { to { opacity: 0; transform: scale(1.15); } }
+
+    /* ===== 不正解×オーバーレイ ===== */
+    #wrong-overlay { display: none; position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+    #wrong-overlay.show { display: block; }
+    #wrong-mark {
+      position: absolute;
+      line-height: 1; text-align: center;
+      color: #e53935; opacity: 0; transform: scale(0.3);
+      animation: pop-in 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards,
+                 fade-out 0.4s ease 0.9s forwards;
+      filter: drop-shadow(0 0 24px rgba(229,57,53,0.45));
+    }
+
+    /* ===== クイズ結果 ===== */
+    #quiz-result {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      align-items: center; justify-content: center; z-index: 80;
+    }
+    #quiz-result.show { display: flex; }
+    #quiz-result-box {
+      background: white; border-radius: 32px;
+      padding: 40px 36px; text-align: center;
+      width: 88%; max-width: 340px;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+    #quiz-result-title { font-size: 2rem; font-weight: bold; line-height: 1.3; }
+    #quiz-result-score { font-size: 1.4rem; color: #666; }
+    #quiz-result-stars { font-size: 2rem; letter-spacing: 4px; min-height: 2.5rem; }
+
+    /* ===== 花火 ===== */
+    #fw-container { position: fixed; inset: 0; pointer-events: none; z-index: 75; overflow: hidden; }
+    .fw-particle {
+      position: absolute; width: 10px; height: 10px; border-radius: 50%;
+      animation: fw-fly 1.1s ease-out forwards;
+    }
+    @keyframes fw-fly {
+      0%   { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== ホーム ===== -->
+<div class="screen active" id="screen-home">
+  <div class="home-hero">
+    <span class="home-emoji">🔢</span>
+    <h1>すうじアプリ</h1>
+    <p class="home-subtitle">たのしくすうじをまなぼう！</p>
+  </div>
+
+  <button class="btn btn-large" id="btn-yomikata" onclick="showScreen('yomikata'); startYomikata()">
+    <span class="btn-icon">📖</span>
+    <span class="btn-text">
+      <span class="btn-name">すうじのよみかた</span>
+      <span class="btn-desc">すうじのよみかたをおぼえよう</span>
+    </span>
+  </button>
+
+  <button class="btn btn-large" id="btn-listening" onclick="showScreen('listening'); startListening()">
+    <span class="btn-icon">👂</span>
+    <span class="btn-text">
+      <span class="btn-name">きこえたかずクイズ</span>
+      <span class="btn-desc">きこえたかずをえらぼう</span>
+    </span>
+  </button>
+
+  <button class="btn btn-large" id="btn-subitize" onclick="showScreen('subitize'); startSubitize()">
+    <span class="btn-icon">🎲</span>
+    <span class="btn-text">
+      <span class="btn-name">いくつあるかな？</span>
+      <span class="btn-desc">みてすぐかずがわかるかな</span>
+    </span>
+  </button>
+
+  <button class="btn btn-large" id="btn-compare" onclick="showScreen('compare'); startCompare()">
+    <span class="btn-icon">⚖️</span>
+    <span class="btn-text">
+      <span class="btn-name">おおきい・ちいさい</span>
+      <span class="btn-desc">かずのおおきさをくらべよう</span>
+    </span>
+  </button>
+
+</div>
+
+<!-- ===== すうじのよみかた ===== -->
+<div class="screen" id="screen-yomikata">
+  <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+  </div>
+
+  <div class="toggle-group">
+    <button class="toggle-btn selected" id="yk-easy"   onclick="setYomikataLevel('easy')">１〜10</button>
+    <button class="toggle-btn"          id="yk-normal" onclick="setYomikataLevel('normal')">１〜30</button>
+    <button class="toggle-btn"          id="yk-hard"   onclick="setYomikataLevel('hard')">１〜100</button>
+  </div>
+
+  <div id="yk-reading-label" style="min-height:1.8em; font-size:clamp(1.1rem,3.5vmin,1.8rem); font-weight:bold; color:#1565c0; text-align:center; letter-spacing:0.12em;"></div>
+
+  <div id="yk-content" style="width:100%;"></div>
+
+  <div class="row-btns">
+    <button class="btn btn-primary"   id="yk-read-all-btn" onclick="ykReadAll()">▶ じゅんによむ</button>
+    <button class="btn btn-secondary" id="yk-stop-btn"     onclick="ykStop()" style="display:none;">⏹ とめる</button>
+  </div>
+</div>
+
+<!-- ===== きこえたかずクイズ ===== -->
+<div class="screen" id="screen-listening">
+  <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+    <div class="score-display">
+      <span id="ls-progress">0 / 10もん</span>　⭕<span id="ls-correct">0</span>　❌<span id="ls-wrong">0</span>
+    </div>
+  </div>
+
+  <div class="toggle-group">
+    <button class="toggle-btn selected" id="ls-easy"   onclick="setListeningLevel('easy')">かんたん</button>
+    <button class="toggle-btn"          id="ls-normal" onclick="setListeningLevel('normal')">ふつう</button>
+    <button class="toggle-btn"          id="ls-hard"   onclick="setListeningLevel('hard')">むずかしい</button>
+  </div>
+
+  <p class="listen-prompt">きこえたかずをえらんでね</p>
+  <button class="listen-btn" onclick="replayListening()">🔊 もういちどきく</button>
+  <div class="choices-grid" id="ls-choices"></div>
+</div>
+
+<!-- ===== いくつあるかな？ ===== -->
+<div class="screen" id="screen-subitize">
+  <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+    <div class="score-display">
+      <span id="sb-progress">0 / 10もん</span>　⭕<span id="sb-correct">0</span>　❌<span id="sb-wrong">0</span>
+    </div>
+  </div>
+
+  <div class="toggle-group">
+    <button class="toggle-btn selected" id="sb-easy"   onclick="setSubitizeLevel('easy')">かんたん</button>
+    <button class="toggle-btn"          id="sb-normal" onclick="setSubitizeLevel('normal')">ふつう</button>
+    <button class="toggle-btn"          id="sb-hard"   onclick="setSubitizeLevel('hard')">むずかしい</button>
+  </div>
+
+  <p class="sb-question-text" id="sb-question" style="display:none;"></p>
+
+  <div class="dot-card" id="sb-single">
+    <svg id="sb-dots" viewBox="0 0 100 100"></svg>
+  </div>
+
+  <div class="sb-compare-wrap" id="sb-two-cards" style="display:none;">
+    <div class="dot-card" id="sb-card-a" onclick="onSubitizeHardAnswer(0)">
+      <svg id="sb-dots-a" viewBox="0 0 100 100"></svg>
+    </div>
+    <div class="dot-card" id="sb-card-b" onclick="onSubitizeHardAnswer(1)">
+      <svg id="sb-dots-b" viewBox="0 0 100 100"></svg>
+    </div>
+    <div class="dot-card" id="sb-card-c" onclick="onSubitizeHardAnswer(2)">
+      <svg id="sb-dots-c" viewBox="0 0 100 100"></svg>
+    </div>
+  </div>
+
+  <div class="choices-grid" id="sb-choices"></div>
+</div>
+
+<!-- ===== おおきいのはどっち？ ===== -->
+<div class="screen" id="screen-compare">
+  <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
+    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
+    <div class="score-display">
+      <span id="cp-progress">0 / 10もん</span>　⭕<span id="cp-correct">0</span>　❌<span id="cp-wrong">0</span>
+    </div>
+  </div>
+
+  <div class="toggle-group">
+    <button class="toggle-btn selected" id="cp-easy"   onclick="setCompareLevel('easy')">かんたん</button>
+    <button class="toggle-btn"          id="cp-normal" onclick="setCompareLevel('normal')">ふつう</button>
+    <button class="toggle-btn"          id="cp-hard"   onclick="setCompareLevel('hard')">むずかしい</button>
+  </div>
+
+  <p class="compare-question" id="cp-question">おおきいのはどっち？</p>
+
+  <div class="compare-grid" id="cp-grid">
+    <button class="compare-btn" id="cp-btn-a" onclick="onCompareAnswer(0)"></button>
+    <button class="compare-btn" id="cp-btn-b" onclick="onCompareAnswer(1)"></button>
+    <button class="compare-btn" id="cp-btn-c" onclick="onCompareAnswer(2)"></button>
+  </div>
+</div>
+
+<!-- 花火コンテナ -->
+<div id="fw-container"></div>
+
+<!-- クイズ結果オーバーレイ -->
+<div id="quiz-result">
+  <div id="quiz-result-box">
+    <div id="quiz-result-stars"></div>
+    <div id="quiz-result-title"></div>
+    <div id="quiz-result-score"></div>
+    <button class="btn btn-primary" id="quiz-retry-btn" style="width:100%;">もういっかい</button>
+    <button class="btn btn-secondary" onclick="goHome()" style="width:100%;">ホームへ</button>
+  </div>
+</div>
+
+<!-- 正解〇オーバーレイ -->
+<div id="correct-overlay"><span id="correct-mark">〇</span></div>
+<!-- 不正解×オーバーレイ -->
+<div id="wrong-overlay"><span id="wrong-mark">✕</span></div>
+
+<div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
+  © aiay-lab  v1.0.15
+</div>
+
+<script>
+// ==================== 共通 ====================
+
+const QUIZ_TOTAL = 10;
+let quizTimer = null;
+let fwInterval = null;
+let fwSoundInterval = null;
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+}
+
+function goHome() {
+  clearTimeout(quizTimer);
+  stopFireworks();
+  ykStop();
+  document.getElementById('quiz-result').classList.remove('show');
+  showScreen('home');
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ==================== 数字ユーティリティ ====================
+
+const ONES = ['', 'いち', 'に', 'さん', 'よん', 'ご', 'ろく', 'なな', 'はち', 'きゅう'];
+const TENS = ['', 'じゅう', 'にじゅう', 'さんじゅう', 'よんじゅう', 'ごじゅう',
+              'ろくじゅう', 'ななじゅう', 'はちじゅう', 'きゅうじゅう'];
+
+function numToReading(n) {
+  if (n === 100) return 'ひゃく';
+  const t = Math.floor(n / 10), o = n % 10;
+  if (n < 10)  return ONES[n];
+  if (o === 0) return TENS[t];
+  return TENS[t] + ONES[o];
+}
+
+function getRange(level) {
+  if (level === 'easy')   return { min: 1, max: 10 };
+  if (level === 'normal') return { min: 1, max: 30 };
+  return { min: 1, max: 100 };
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateChoices(answer, min, max, count = 4) {
+  const available = max - min + 1;
+  count = Math.min(count, available);
+  const choices = new Set([answer]);
+  let attempts = 0;
+  while (choices.size < count && attempts < 200) {
+    attempts++;
+    let candidate;
+    if (available <= 10) {
+      candidate = randomInt(min, max);
+    } else {
+      const spread = Math.min(15, Math.floor((max - min) / 3));
+      const offset = randomInt(1, spread);
+      candidate = Math.random() < 0.5 ? answer + offset : answer - offset;
+      candidate = Math.max(min, Math.min(max, candidate));
+    }
+    choices.add(candidate);
+  }
+  return shuffle([...choices]);
+}
+
+// ==================== 音声 ====================
+
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+function speak(text, onEnd) {
+  if (!window.speechSynthesis) { if (onEnd) onEnd(); return; }
+  speechSynthesis.cancel();
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ja-JP';
+    u.rate = IS_IOS ? 1.0 : 0.85;
+    if (onEnd) u.onend = onEnd;
+    speechSynthesis.speak(u);
+  }, IS_IOS ? 120 : 0);
+}
+
+function iosWarmup() {
+  if (IS_IOS && window.speechSynthesis) {
+    const w = new SpeechSynthesisUtterance('');
+    w.volume = 0;
+    speechSynthesis.speak(w);
+  }
+}
+
+// ==================== 効果音 ====================
+
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx || audioCtx.state === 'closed')
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playCorrectSound() {
+  const ctx = getAudioCtx(), now = ctx.currentTime;
+  [[523.25, 0], [659.25, 0.12], [783.99, 0.24]].forEach(([freq, delay]) => {
+    const osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.4, now + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.5);
+    osc.start(now + delay); osc.stop(now + delay + 0.5);
+  });
+}
+
+function playWrongSound() {
+  const ctx = getAudioCtx(), now = ctx.currentTime;
+  [[220, 0], [196, 0.18]].forEach(([freq, delay]) => {
+    const osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, now + delay);
+    osc.frequency.exponentialRampToValueAtTime(freq * 0.6, now + delay + 0.25);
+    gain.gain.setValueAtTime(0.35, now + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.3);
+    osc.start(now + delay); osc.stop(now + delay + 0.3);
+  });
+}
+
+// ==================== マーク ====================
+
+function showMark(overlayId, markId) {
+  const overlay = document.getElementById(overlayId);
+  const mark    = document.getElementById(markId);
+  const size = '40vmin';
+  mark.style.fontSize = size; mark.style.width = size; mark.style.height = size;
+  mark.style.left = 'calc(50vw - 20vmin)'; mark.style.top = 'calc(50vh - 20vmin)';
+  mark.style.animation = 'none'; mark.offsetHeight; mark.style.animation = '';
+  overlay.classList.add('show');
+  setTimeout(() => overlay.classList.remove('show'), 1400);
+}
+const showCorrectMark = () => showMark('correct-overlay', 'correct-mark');
+const showWrongMark   = () => showMark('wrong-overlay',   'wrong-mark');
+
+// ==================== 花火・結果 ====================
+
+function startFireworks() {
+  launchFirework();
+  fwInterval = setInterval(launchFirework, 600);
+  playFireworkBang();
+  fwSoundInterval = setInterval(playFireworkBang, 650);
+}
+
+function stopFireworks() {
+  clearInterval(fwInterval); fwInterval = null;
+  clearInterval(fwSoundInterval); fwSoundInterval = null;
+  document.getElementById('fw-container').innerHTML = '';
+}
+
+function launchFirework() {
+  const container = document.getElementById('fw-container');
+  const cx = 15 + Math.random() * 70, cy = 10 + Math.random() * 55;
+  const colors = ['#f44336','#ff9800','#ffeb3b','#4caf50','#2196f3','#9c27b0','#e91e63'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'fw-particle';
+    const angle = (i / 18) * 2 * Math.PI, dist = 60 + Math.random() * 80;
+    p.style.cssText = `left:${cx}vw;top:${cy}vh;background:${colors[Math.floor(Math.random()*colors.length)]};--dx:${(dist*Math.cos(angle)).toFixed(1)}px;--dy:${(dist*Math.sin(angle)).toFixed(1)}px;animation-duration:${0.9+Math.random()*0.4}s;`;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 1400);
+  }
+}
+
+function playFireworkBang() {
+  const ctx = getAudioCtx(), now = ctx.currentTime;
+  const buf = ctx.createBuffer(1, ctx.sampleRate * 0.4, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = (Math.random()*2-1)*Math.exp(-i/(ctx.sampleRate*0.06));
+  const src = ctx.createBufferSource(); src.buffer = buf;
+  const filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 180;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(1.2, now); gain.gain.exponentialRampToValueAtTime(0.001, now+0.4);
+  src.connect(filter); filter.connect(gain); gain.connect(ctx.destination); src.start(now);
+}
+
+function playFanfare() {
+  const ctx = getAudioCtx(), now = ctx.currentTime;
+  [[523,0],[659,0.1],[784,0.2],[1047,0.32],[784,0.5],[1047,0.62]].forEach(([f,d]) => {
+    const osc = ctx.createOscillator(), g = ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination); osc.type = 'sine'; osc.frequency.value = f;
+    g.gain.setValueAtTime(0.20, now+d); g.gain.exponentialRampToValueAtTime(0.001, now+d+0.45);
+    osc.start(now+d); osc.stop(now+d+0.5);
+  });
+}
+
+function playGoodSound() {
+  const ctx = getAudioCtx(), now = ctx.currentTime;
+  [[523.25, 0], [659.25, 0.13], [783.99, 0.26]].forEach(([freq, delay]) => {
+    const osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.32, now + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.55);
+    osc.start(now + delay); osc.stop(now + delay + 0.6);
+  });
+}
+
+function playEncourageSound() {
+  const ctx = getAudioCtx(), now = ctx.currentTime;
+  [[392, 0], [440, 0.2]].forEach(([freq, delay]) => {
+    const osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.28, now + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.6);
+    osc.start(now + delay); osc.stop(now + delay + 0.65);
+  });
+}
+
+function showQuizResult(correctCount, retryFn) {
+  const box = document.getElementById('quiz-result-box');
+  document.getElementById('quiz-result-score').textContent = `${correctCount} / ${QUIZ_TOTAL} せいかい`;
+  if (correctCount === QUIZ_TOTAL) {
+    document.getElementById('quiz-result-title').textContent = 'やったね！おめでとう！';
+    document.getElementById('quiz-result-stars').textContent = '🌟🌟🌟🌟🌟';
+    box.style.background = '#fffde7'; startFireworks(); playFanfare();
+  } else if (correctCount >= 7) {
+    document.getElementById('quiz-result-title').textContent = 'よくがんばったね！';
+    document.getElementById('quiz-result-stars').textContent = '⭐⭐⭐';
+    box.style.background = '#e8f5e9'; playGoodSound();
+  } else {
+    document.getElementById('quiz-result-title').textContent = 'またチャレンジしてね！';
+    document.getElementById('quiz-result-stars').textContent = '😊';
+    box.style.background = 'white'; playEncourageSound();
+  }
+  document.getElementById('quiz-retry-btn').onclick = retryFn;
+  document.getElementById('quiz-result').classList.add('show');
+}
+
+// ==================== ドットパターン ====================
+
+// かんたん用（1パターン）
+const DOT_PATTERNS = {
+  1:  [[50,50]],
+  2:  [[28,50],[72,50]],
+  3:  [[28,28],[72,28],[50,72]],
+  4:  [[28,28],[72,28],[28,72],[72,72]],
+  5:  [[28,28],[72,28],[50,50],[28,72],[72,72]],
+  6:  [[28,20],[72,20],[28,50],[72,50],[28,80],[72,80]],
+  7:  [[50,12],[28,37],[72,37],[28,62],[72,62],[28,87],[72,87]],
+  8:  [[28,12],[72,12],[28,37],[72,37],[28,62],[72,62],[28,87],[72,87]],
+  9:  [[20,20],[50,20],[80,20],[20,50],[50,50],[80,50],[20,80],[50,80],[80,80]],
+  10: [[35,10],[65,10],[20,35],[50,35],[80,35],[20,62],[50,62],[80,62],[35,87],[65,87]],
+};
+
+// ふつう用（各数字3パターン）
+const DOT_PATTERNS_NORMAL = {
+  1:  [ [[50,50]], [[35,38]], [[65,62]] ],
+  2:  [ [[28,50],[72,50]], [[50,25],[50,75]], [[28,28],[72,72]] ],
+  3:  [ [[28,28],[72,28],[50,72]], [[50,25],[25,75],[75,75]], [[20,50],[50,20],[80,50]] ],
+  4:  [ [[28,28],[72,28],[28,72],[72,72]], [[50,18],[18,58],[82,58],[50,88]], [[22,35],[78,35],[22,65],[78,65]] ],
+  5:  [ [[28,28],[72,28],[50,50],[28,72],[72,72]], [[50,12],[82,40],[68,82],[32,82],[18,40]], [[20,25],[80,25],[50,52],[20,78],[80,78]] ],
+  6:  [ [[28,20],[72,20],[28,50],[72,50],[28,80],[72,80]], [[20,28],[50,28],[80,28],[20,72],[50,72],[80,72]], [[18,25],[50,12],[82,25],[18,75],[50,88],[82,75]] ],
+  7:  [ [[50,12],[28,37],[72,37],[28,62],[72,62],[28,87],[72,87]], [[15,18],[50,18],[85,18],[15,55],[85,55],[30,88],[70,88]], [[20,15],[65,15],[20,45],[65,45],[20,75],[45,90],[78,75]] ],
+  8:  [ [[28,12],[72,12],[28,37],[72,37],[28,62],[72,62],[28,87],[72,87]], [[20,18],[50,18],[80,18],[20,50],[80,50],[20,82],[50,82],[80,82]], [[15,15],[85,15],[15,50],[85,50],[15,85],[85,85],[50,10],[50,90]] ],
+  9:  [ [[20,20],[50,20],[80,20],[20,50],[50,50],[80,50],[20,80],[50,80],[80,80]], [[50,10],[18,28],[82,28],[10,55],[90,55],[18,75],[82,75],[35,92],[65,92]], [[22,18],[50,12],[78,18],[14,50],[86,50],[22,78],[50,88],[78,78],[50,50]] ],
+  10: [ [[35,10],[65,10],[20,35],[50,35],[80,35],[20,62],[50,62],[80,62],[35,87],[65,87]], [[12,33],[29,33],[46,33],[63,33],[80,33],[12,67],[29,67],[46,67],[63,67],[80,67]], [[20,15],[50,15],[80,15],[12,45],[50,45],[88,45],[20,78],[50,78],[80,78],[50,93]] ],
+};
+
+// むずかしい用：5個ずつのグループで行配置
+function generate5GroupPattern(n) {
+  const xs = [12, 29, 46, 63, 80];
+  const yMap = { 1:[50], 2:[30,70], 3:[20,50,80], 4:[12,37,62,87] };
+  const rows = Math.ceil(n / 5);
+  const ys = yMap[rows];
+  return Array.from({ length: n }, (_, i) => [xs[i % 5], ys[Math.floor(i / 5)]]);
+}
+
+function drawDots(svgEl, pattern, r, colorFn) {
+  const ns = 'http://www.w3.org/2000/svg';
+  svgEl.innerHTML = '';
+  pattern.forEach(([cx, cy], i) => {
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('cx', cx); circle.setAttribute('cy', cy);
+    circle.setAttribute('r', r);
+    circle.setAttribute('fill', colorFn ? colorFn(i) : '#43a047');
+    svgEl.appendChild(circle);
+  });
+}
+
+function renderSubitizeDots(svgEl, n) {
+  if (sbLevel === 'easy') {
+    drawDots(svgEl, DOT_PATTERNS[n] || [], n <= 5 ? 11 : n <= 8 ? 9 : 8, null);
+  } else if (sbLevel === 'normal') {
+    const variants = DOT_PATTERNS_NORMAL[n] || [DOT_PATTERNS[n]];
+    const pattern = variants[Math.floor(Math.random() * variants.length)];
+    drawDots(svgEl, pattern, n <= 5 ? 11 : n <= 8 ? 9 : 8, null);
+  } else {
+    // むずかしい: 5個ずつ2色グループ
+    const pattern = generate5GroupPattern(n);
+    const r = n <= 5 ? 10 : n <= 10 ? 8 : n <= 15 ? 7 : 6;
+    const groupColors = ['#43a047', '#0288d1'];
+    drawDots(svgEl, pattern, r, i => groupColors[Math.floor(i / 5) % 2]);
+  }
+}
+
+// ==================== すうじのよみかた ====================
+
+const YK_EMOJI = ['🍓','🥕','🐟','🍀','☕','🐥','🚗','❤️','🍪','🔵'];
+
+let ykLevel = 'easy';
+let ykReadAllActive  = false;
+let ykReadAllTimer   = null;
+let ykReadAllCurrent = 0;
+
+function startYomikata() {
+  iosWarmup();
+  buildYkContent();
+}
+
+function setYomikataLevel(level) {
+  ykLevel = level;
+  ['easy','normal','hard'].forEach(x =>
+    document.getElementById('yk-' + x).classList.toggle('selected', x === level));
+  ykStop();
+  buildYkContent();
+}
+
+function buildYkContent() {
+  const { max } = getRange(ykLevel);
+  const container = document.getElementById('yk-content');
+  container.innerHTML = '';
+
+  const onNumberTap = n => {
+    iosWarmup();
+    if (ykReadAllActive) {
+      // じゅんによみ中（または一時停止中）→ その数字から読み続ける
+      speechSynthesis.cancel();
+      clearTimeout(ykReadAllTimer);
+      ykPaused = false;
+      ykReadAllActive = true;
+      ykReadAllCurrent = n;
+      updateYkButtons();
+      ykReadNext();
+    } else {
+      // 通常タップ → 1回だけ読む
+      ykHighlight(n);
+      speak(String(n));
+    }
+  };
+
+  if (ykLevel === 'easy') {
+    const grid = document.createElement('div');
+    grid.className = 'number-cards-grid';
+    for (let n = 1; n <= max; n++) {
+      const card = document.createElement('div');
+      card.className = 'number-card';
+      card.id = 'yk-num-' + n;
+      card.innerHTML =
+        `<span class="nc-num">${n}</span>` +
+        `<span class="nc-emoji">${YK_EMOJI[n - 1]}</span>` +
+        `<span class="nc-read">${numToReading(n)}</span>`;
+      card.addEventListener('click', () => onNumberTap(n));
+      grid.appendChild(card);
+    }
+    container.appendChild(grid);
+  } else {
+    const grid = document.createElement('div');
+    grid.className = 'number-grid';
+    for (let rowStart = 1; rowStart <= max; rowStart += 10) {
+      const row = document.createElement('div');
+      row.className = 'number-grid-row';
+      for (let n = rowStart; n <= Math.min(rowStart + 9, max); n++) {
+        const btn = document.createElement('button');
+        btn.className = 'ngb ' + (n % 2 === 1 ? 'odd' : 'even');
+        btn.id = 'yk-num-' + n;
+        btn.textContent = n;
+        btn.addEventListener('click', () => onNumberTap(n));
+        row.appendChild(btn);
+      }
+      grid.appendChild(row);
+    }
+    container.appendChild(grid);
+  }
+}
+
+function ykHighlight(n) {
+  document.querySelectorAll('.yk-active').forEach(el => el.classList.remove('yk-active'));
+  const el = document.getElementById('yk-num-' + n);
+  if (el) { el.classList.add('yk-active'); el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  const label = document.getElementById('yk-reading-label');
+  if (label) label.textContent = numToReading(n);
+}
+
+function updateYkButtons() {
+  const readBtn = document.getElementById('yk-read-all-btn');
+  const stopBtn = document.getElementById('yk-stop-btn');
+  if (!readBtn || !stopBtn) return;
+  readBtn.style.display = ykReadAllActive ? 'none' : '';
+  stopBtn.style.display = ykReadAllActive ? '' : 'none';
+}
+
+function ykReadAll() {
+  iosWarmup();
+  speechSynthesis.cancel();
+  clearTimeout(ykReadAllTimer);
+  ykReadAllActive = true;
+  ykReadAllCurrent = 1;
+  updateYkButtons();
+  ykReadNext();
+}
+
+function ykReadNext() {
+  if (!ykReadAllActive) return;
+  const { max } = getRange(ykLevel);
+  if (ykReadAllCurrent > max) { ykStop(); return; }
+  const n = ykReadAllCurrent;
+  ykHighlight(n);
+  speak(String(n), () => {
+    if (!ykReadAllActive) return;
+    ykReadAllTimer = setTimeout(() => { ykReadAllCurrent++; ykReadNext(); }, 280);
+  });
+}
+
+function ykStop() {
+  speechSynthesis.cancel();
+  clearTimeout(ykReadAllTimer);
+  ykReadAllActive = false;
+  document.querySelectorAll('.yk-active').forEach(el => el.classList.remove('yk-active'));
+  const label = document.getElementById('yk-reading-label');
+  if (label) label.textContent = '';
+  updateYkButtons();
+}
+
+// ==================== きこえたかずクイズ ====================
+
+let lsLevel = 'easy', lsAnswer = null;
+let lsCorrectCount = 0, lsWrongCount = 0, lsQuestionNum = 0;
+let lsAnswered = false, lsPrevWrong = false, lsLastAnswer = null;
+
+function startListening() {
+  iosWarmup();
+  lsCorrectCount = 0; lsWrongCount = 0; lsQuestionNum = 0;
+  lsLastAnswer = null; lsPrevWrong = false;
+  updateLsScore();
+  speak('きこえたかずをえらんでね', nextListeningQuestion);
+}
+
+function setListeningLevel(level) {
+  lsLevel = level;
+  ['easy','normal','hard'].forEach(x =>
+    document.getElementById('ls-' + x).classList.toggle('selected', x === level));
+  lsCorrectCount = 0; lsWrongCount = 0; lsQuestionNum = 0;
+  lsLastAnswer = null; lsPrevWrong = false;
+  updateLsScore(); nextListeningQuestion();
+}
+
+function nextListeningQuestion() {
+  lsAnswered = false;
+  document.getElementById('ls-progress').textContent = `${lsQuestionNum} / ${QUIZ_TOTAL}もん`;
+  const { min, max } = getRange(lsLevel);
+  let ans;
+  do { ans = randomInt(min, max); } while (ans === lsLastAnswer && max > min);
+  lsLastAnswer = lsAnswer = ans;
+
+  const choices = generateChoices(ans, min, max, 4);
+  const grid = document.getElementById('ls-choices');
+  grid.innerHTML = '';
+  choices.forEach(n => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn'; btn.textContent = n;
+    btn.disabled = true;
+    btn.onclick = () => onListeningAnswer(btn, n, ans);
+    grid.appendChild(btn);
+  });
+
+  const enable = () => grid.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
+  setTimeout(() => {
+    const fallback = setTimeout(enable, 4000);
+    speak(String(ans), () => { clearTimeout(fallback); enable(); });
+  }, 600);
+}
+
+function replayListening() {
+  if (lsAnswer !== null) speak(String(lsAnswer));
+}
+
+function onListeningAnswer(btn, selected, answer) {
+  if (lsAnswered) return;
+  lsAnswered = true; lsQuestionNum++;
+  document.getElementById('ls-progress').textContent = `${lsQuestionNum} / ${QUIZ_TOTAL}もん`;
+  if (selected === answer) {
+    lsPrevWrong = false; btn.classList.add('correct'); lsCorrectCount++;
+    playCorrectSound(); showCorrectMark(); speak('せいかい');
+  } else {
+    lsPrevWrong = true; btn.classList.add('wrong'); lsWrongCount++;
+    playWrongSound(); showWrongMark();
+    document.querySelectorAll('#ls-choices .choice-btn').forEach(b => {
+      if (Number(b.textContent) === answer) b.classList.add('correct');
+    });
+    speak('ざんねん');
+  }
+  updateLsScore();
+  quizTimer = setTimeout(lsQuestionNum >= QUIZ_TOTAL
+    ? () => showQuizResult(lsCorrectCount, () => { stopFireworks(); document.getElementById('quiz-result').classList.remove('show'); startListening(); })
+    : nextListeningQuestion, 2200);
+}
+
+function updateLsScore() {
+  document.getElementById('ls-correct').textContent = lsCorrectCount;
+  document.getElementById('ls-wrong').textContent   = lsWrongCount;
+}
+
+// ==================== いくつあるかな？ ====================
+
+let sbLevel = 'easy', sbAnswer = null;
+let sbCorrectCount = 0, sbWrongCount = 0, sbQuestionNum = 0;
+let sbAnswered = false, sbPrevWrong = false, sbLastAnswer = null;
+let sbHardValues = [0, 0], sbHardQuestion = 'big', sbHardAnswer = 0;
+
+function startSubitize() {
+  iosWarmup();
+  sbCorrectCount = 0; sbWrongCount = 0; sbQuestionNum = 0;
+  sbLastAnswer = null; sbPrevWrong = false;
+  updateSbScore(); nextSubitizeQuestion();
+}
+
+function setSubitizeLevel(level) {
+  sbLevel = level;
+  ['easy','normal','hard'].forEach(x =>
+    document.getElementById('sb-' + x).classList.toggle('selected', x === level));
+  sbCorrectCount = 0; sbWrongCount = 0; sbQuestionNum = 0;
+  sbLastAnswer = null; sbPrevWrong = false;
+  updateSbScore(); nextSubitizeQuestion();
+}
+
+function nextSubitizeQuestion() {
+  sbAnswered = false;
+  document.getElementById('sb-progress').textContent = `${sbQuestionNum} / ${QUIZ_TOTAL}もん`;
+  if (sbLevel === 'hard') {
+    nextSubitizeHard();
+  } else {
+    nextSubitizeEasyNormal();
+  }
+}
+
+function nextSubitizeEasyNormal() {
+  document.getElementById('sb-single').style.display = '';
+  document.getElementById('sb-two-cards').style.display = 'none';
+  document.getElementById('sb-question').style.display = 'none';
+  document.getElementById('sb-choices').style.display = '';
+
+  const max = 10;
+  let ans;
+  do { ans = randomInt(1, max); } while (ans === sbLastAnswer && max > 1);
+  sbLastAnswer = sbAnswer = ans;
+  renderSubitizeDots(document.getElementById('sb-dots'), ans);
+
+  const choices = generateChoices(ans, 1, max, 4);
+  const grid = document.getElementById('sb-choices');
+  grid.innerHTML = '';
+  choices.forEach(n => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn'; btn.textContent = n;
+    btn.disabled = true;
+    btn.onclick = () => onSubitizeAnswer(btn, n, ans);
+    grid.appendChild(btn);
+  });
+
+  const enable = () => grid.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
+  setTimeout(() => {
+    const fallback = setTimeout(enable, 3000);
+    speak('いくつあるかな？', () => { clearTimeout(fallback); enable(); });
+  }, 400);
+}
+
+function nextSubitizeHard() {
+  document.getElementById('sb-single').style.display = 'none';
+  document.getElementById('sb-two-cards').style.display = '';
+  document.getElementById('sb-question').style.display = '';
+  document.getElementById('sb-choices').style.display = 'none';
+
+  const valSet = new Set();
+  while (valSet.size < 3) valSet.add(randomInt(1, 10));
+  sbHardValues = shuffle([...valSet]);
+  sbHardQuestion = Math.random() < 0.5 ? 'big' : 'small';
+  const qText = sbHardQuestion === 'big' ? 'いちばんおおきいのはどれ？' : 'いちばんちいさいのはどれ？';
+  const correctVal = sbHardQuestion === 'big' ? Math.max(...sbHardValues) : Math.min(...sbHardValues);
+  sbHardAnswer = sbHardValues.indexOf(correctVal);
+
+  document.getElementById('sb-question').textContent = qText;
+
+  const r = n => n <= 5 ? 11 : n <= 8 ? 9 : 8;
+  ['a', 'b', 'c'].forEach((id, i) => {
+    const n = sbHardValues[i];
+    drawDots(document.getElementById('sb-dots-' + id), DOT_PATTERNS[n] || [], r(n), null);
+    const card = document.getElementById('sb-card-' + id);
+    card.className = 'dot-card';
+    card.style.pointerEvents = 'none';
+  });
+
+  setTimeout(() => {
+    const enable = () => ['a', 'b', 'c'].forEach(id => {
+      document.getElementById('sb-card-' + id).style.pointerEvents = '';
+    });
+    const fallback = setTimeout(enable, 4000);
+    speak(qText, () => { clearTimeout(fallback); enable(); });
+  }, 400);
+}
+
+function onSubitizeHardAnswer(index) {
+  if (sbAnswered) return;
+  sbAnswered = true; sbQuestionNum++;
+  document.getElementById('sb-progress').textContent = `${sbQuestionNum} / ${QUIZ_TOTAL}もん`;
+  ['a', 'b', 'c'].forEach(id => { document.getElementById('sb-card-' + id).style.pointerEvents = 'none'; });
+
+  const ids = ['a', 'b', 'c'];
+  const isCorrect = index === sbHardAnswer;
+  document.getElementById('sb-card-' + ids[index]).classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) document.getElementById('sb-card-' + ids[sbHardAnswer]).classList.add('correct');
+
+  if (isCorrect) {
+    sbPrevWrong = false; sbCorrectCount++;
+    playCorrectSound(); showCorrectMark(); speak('せいかい');
+  } else {
+    sbPrevWrong = true; sbWrongCount++;
+    playWrongSound(); showWrongMark(); speak('ざんねん');
+  }
+  updateSbScore();
+  quizTimer = setTimeout(sbQuestionNum >= QUIZ_TOTAL
+    ? () => showQuizResult(sbCorrectCount, () => { stopFireworks(); document.getElementById('quiz-result').classList.remove('show'); startSubitize(); })
+    : nextSubitizeQuestion, 2200);
+}
+
+function onSubitizeAnswer(btn, selected, answer) {
+  if (sbAnswered) return;
+  sbAnswered = true; sbQuestionNum++;
+  document.getElementById('sb-progress').textContent = `${sbQuestionNum} / ${QUIZ_TOTAL}もん`;
+  if (selected === answer) {
+    sbPrevWrong = false; btn.classList.add('correct'); sbCorrectCount++;
+    playCorrectSound(); showCorrectMark(); speak('せいかい。' + answer);
+  } else {
+    sbPrevWrong = true; btn.classList.add('wrong'); sbWrongCount++;
+    playWrongSound(); showWrongMark();
+    document.querySelectorAll('#sb-choices .choice-btn').forEach(b => {
+      if (Number(b.textContent) === answer) b.classList.add('correct');
+    });
+    speak('ざんねん。こたえは ' + answer);
+  }
+  updateSbScore();
+  quizTimer = setTimeout(sbQuestionNum >= QUIZ_TOTAL
+    ? () => showQuizResult(sbCorrectCount, () => { stopFireworks(); document.getElementById('quiz-result').classList.remove('show'); startSubitize(); })
+    : nextSubitizeQuestion, 2200);
+}
+
+function updateSbScore() {
+  document.getElementById('sb-correct').textContent = sbCorrectCount;
+  document.getElementById('sb-wrong').textContent   = sbWrongCount;
+}
+
+// ==================== おおきいのはどっち？ ====================
+
+let cpLevel = 'easy';
+let cpValues = [], cpAnswer = 0, cpQuestion = 'big';
+let cpCorrectCount = 0, cpWrongCount = 0, cpQuestionNum = 0;
+let cpAnswered = false, cpPrevWrong = false;
+
+function startCompare() {
+  iosWarmup();
+  cpCorrectCount = 0; cpWrongCount = 0; cpQuestionNum = 0; cpPrevWrong = false;
+  updateCpScore(); nextCompareQuestion();
+}
+
+function setCompareLevel(level) {
+  cpLevel = level;
+  ['easy','normal','hard'].forEach(x =>
+    document.getElementById('cp-' + x).classList.toggle('selected', x === level));
+  cpCorrectCount = 0; cpWrongCount = 0; cpQuestionNum = 0; cpPrevWrong = false;
+  updateCpScore(); nextCompareQuestion();
+}
+
+function nextCompareQuestion() {
+  cpAnswered = false;
+  document.getElementById('cp-progress').textContent = `${cpQuestionNum} / ${QUIZ_TOTAL}もん`;
+
+  // レベル別の設定
+  const isHard  = cpLevel === 'hard';
+  const max     = cpLevel === 'easy' ? 10 : 20;
+  const choices = isHard ? 3 : 2;
+  cpQuestion = Math.random() < 0.5 ? 'big' : 'small';
+  const qText = isHard
+    ? (cpQuestion === 'big' ? 'いちばんおおきいのはどれ？' : 'いちばんちいさいのはどれ？')
+    : (cpQuestion === 'big' ? 'おおきいのはどっち？'       : 'ちいさいのはどっち？');
+
+  const valSet = new Set();
+  while (valSet.size < choices) valSet.add(randomInt(1, max));
+  cpValues = shuffle([...valSet]);
+
+  document.getElementById('cp-question').textContent = qText;
+  const correctVal = cpQuestion === 'big' ? Math.max(...cpValues) : Math.min(...cpValues);
+  cpAnswer = cpValues.indexOf(correctVal);
+
+  const grid = document.getElementById('cp-grid');
+  grid.classList.toggle('three', choices === 3);
+
+  const ids = ['a', 'b', 'c'];
+  ids.forEach((id, i) => {
+    const btn = document.getElementById('cp-btn-' + id);
+    btn.className = 'compare-btn';
+    btn.disabled = true;
+    if (i < choices) btn.textContent = cpValues[i];
+  });
+
+  const enableCp = () => ids.slice(0, choices).forEach(id => { document.getElementById('cp-btn-' + id).disabled = false; });
+  setTimeout(() => {
+    const fallback = setTimeout(enableCp, 4000);
+    speak(qText, () => { clearTimeout(fallback); enableCp(); });
+  }, 400);
+}
+
+function onCompareAnswer(index) {
+  if (cpAnswered) return;
+  cpAnswered = true; cpQuestionNum++;
+  document.getElementById('cp-progress').textContent = `${cpQuestionNum} / ${QUIZ_TOTAL}もん`;
+  const ids = ['a', 'b', 'c'];
+  const isCorrect = index === cpAnswer;
+  document.getElementById('cp-btn-' + ids[index]).classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) document.getElementById('cp-btn-' + ids[cpAnswer]).classList.add('correct');
+  if (isCorrect) {
+    cpPrevWrong = false; cpCorrectCount++;
+    playCorrectSound(); showCorrectMark(); speak('せいかい');
+  } else {
+    cpPrevWrong = true; cpWrongCount++;
+    playWrongSound(); showWrongMark(); speak('ざんねん');
+  }
+  updateCpScore();
+  quizTimer = setTimeout(cpQuestionNum >= QUIZ_TOTAL
+    ? () => showQuizResult(cpCorrectCount, () => { stopFireworks(); document.getElementById('quiz-result').classList.remove('show'); startCompare(); })
+    : nextCompareQuestion, 2200);
+}
+
+function updateCpScore() {
+  document.getElementById('cp-correct').textContent = cpCorrectCount;
+  document.getElementById('cp-wrong').textContent   = cpWrongCount;
+}
+
+  // ==================== Service Worker ====================
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
+  }
+</script>
+</body>
+</html>

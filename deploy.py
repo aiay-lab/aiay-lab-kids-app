@@ -21,9 +21,16 @@ GITHUB_PAGES_URL = 'https://aiay-lab.github.io/aiay-lab-kids-app/Clock/Clock.htm
 # アプリを追加したらここに追加する
 APP_FILES = {
     'Clock': {
-        'sw':   ROOT / 'Clock' / 'sw.js',
-        'html': ROOT / 'Clock' / 'Clock.html',
+        'sw':       ROOT / 'Clock' / 'sw.js',
+        'html':     ROOT / 'Clock' / 'Clock.html',
+        'html_key': 'Clock.html',
         'cache_name_prefix': 'tokei-app',
+    },
+    'Number': {
+        'sw':       ROOT / 'Number' / 'sw.js',
+        'html':     ROOT / 'Number' / 'Number.html',
+        'html_key': 'Number.html',
+        'cache_name_prefix': 'suuji-app',
     },
 }
 
@@ -94,6 +101,7 @@ for app_name, paths in APP_FILES.items():
 
     # HTML の <meta name="version"> 更新
     html_path = paths['html']
+    html_key  = paths.get('html_key', html_path.name)
     html_text = html_path.read_text(encoding='utf-8')
     html_text = re.sub(
         r'<meta name="version" content="[\d.]+">',
@@ -106,7 +114,7 @@ for app_name, paths in APP_FILES.items():
         html_text
     )
     html_path.write_text(html_text, encoding='utf-8')
-    print(f'[OK] {app_name}/Clock.html')
+    print(f'[OK] {app_name}/{html_key}')
 
 # ---- git 操作 ----
 print('\n--- main にコミット ---')
