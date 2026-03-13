@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* 鳥が左→右へ横断（7秒ループ） */
+      .bird-grp {
+        animation: fly-across 7s ease-in-out infinite;
+      }
+      @keyframes fly-across {
+        0%       { transform: translate(-270px, 18px); opacity: 0; }
+        9%       { opacity: 1; }
+        72%      { transform: translate(330px, -12px); opacity: 1; }
+        82%,100% { transform: translate(-270px, 18px); opacity: 0; }
+      }
+
+      /* 上翼の羽ばたき */
+      .wing-upper {
+        transform-box: fill-box;
+        transform-origin: 88% 100%;   /* 翼根（右下付近） */
+        animation: flap-up 0.40s ease-in-out infinite alternate;
+      }
+      @keyframes flap-up {
+        from { transform: rotate(-34deg); }   /* 上げる */
+        to   { transform: rotate(16deg); }    /* 下げる */
+      }
+
+      /* 下翼（体の下から少し見える） */
+      .wing-lower {
+        transform-box: fill-box;
+        transform-origin: 100% 0%;    /* 翼根（右上） */
+        animation: flap-down 0.40s ease-in-out infinite alternate;
+      }
+      @keyframes flap-down {
+        from { transform: rotate(30deg); }
+        to   { transform: rotate(-10deg); }
+      }
+
+      /* 体のわずかな上下 */
+      .bird-body {
+        animation: bob 0.40s ease-in-out infinite alternate;
+      }
+      @keyframes bob {
+        from { transform: translateY(-3px); }
+        to   { transform: translateY(3px); }
+      }
+
+      /* 雲が流れる */
+      .cloud {
+        animation: cloud-drift 22s linear infinite;
+      }
+      @keyframes cloud-drift {
+        from { transform: translateX(0); }
+        to   { transform: translateX(340px); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 空（グラデーション風） -->
+  <rect width="300" height="300" fill="#81D4FA"/>
+  <rect width="300" height="90"  fill="#0277BD" opacity="0.12"/>
+  <rect y="210" width="300" height="90" fill="#E1F5FE" opacity="0.28"/>
+
+  <!-- 太陽 -->
+  <circle cx="52"  cy="56" r="34" fill="#FFF176" opacity="0.82"/>
+  <circle cx="52"  cy="56" r="25" fill="#FFEE58"/>
+  <!-- 光線 -->
+  <line x1="52"  y1="16"  x2="52"  y2="8"   stroke="#FDD835" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="76"  y1="22"  x2="82"  y2="16"  stroke="#FDD835" stroke-width="3"   stroke-linecap="round"/>
+  <line x1="88"  y1="46"  x2="96"  y2="45"  stroke="#FDD835" stroke-width="3"   stroke-linecap="round"/>
+  <line x1="76"  y1="70"  x2="82"  y2="76"  stroke="#FDD835" stroke-width="3"   stroke-linecap="round"/>
+  <line x1="52"  y1="84"  x2="52"  y2="92"  stroke="#FDD835" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="28"  y1="70"  x2="22"  y2="76"  stroke="#FDD835" stroke-width="3"   stroke-linecap="round"/>
+  <line x1="16"  y1="46"  x2="8"   y2="45"  stroke="#FDD835" stroke-width="3"   stroke-linecap="round"/>
+  <line x1="28"  y1="22"  x2="22"  y2="16"  stroke="#FDD835" stroke-width="3"   stroke-linecap="round"/>
+
+  <!-- 遠くの小鳥シルエット（M字） -->
+  <path d="M 200,72  C 205,66 210,66 215,72"  stroke="#0277BD" stroke-width="2"   fill="none" opacity="0.40" stroke-linecap="round"/>
+  <path d="M 222,68  C 227,62 232,62 237,68"  stroke="#0277BD" stroke-width="1.8" fill="none" opacity="0.35" stroke-linecap="round"/>
+  <path d="M 248,82  C 252,77 256,77 260,82"  stroke="#0277BD" stroke-width="1.5" fill="none" opacity="0.30" stroke-linecap="round"/>
+
+  <!-- 地面（緑） -->
+  <rect y="248" width="300" height="52" fill="#66BB6A"/>
+  <path d="M 0,248 C 50,234 110,246 180,232 C 226,222 265,238 300,226 L 300,248 Z"
+        fill="#81C784"/>
+  <!-- 畑の区切り -->
+  <line x1="70"  y1="248" x2="68"  y2="300" stroke="#4CAF50" stroke-width="1" opacity="0.45"/>
+  <line x1="150" y1="248" x2="148" y2="300" stroke="#4CAF50" stroke-width="1" opacity="0.45"/>
+  <line x1="230" y1="248" x2="228" y2="300" stroke="#4CAF50" stroke-width="1" opacity="0.45"/>
+  <line x1="0"   y1="270" x2="300" y2="268" stroke="#4CAF50" stroke-width="1" opacity="0.35"/>
+
+  <!-- 雲1 -->
+  <g class="cloud" style="animation-delay:-3s">
+    <ellipse cx="-52" cy="70"  rx="44" ry="17" fill="white" opacity="0.92"/>
+    <ellipse cx="-74" cy="79"  rx="25" ry="14" fill="white" opacity="0.92"/>
+    <ellipse cx="-30" cy="79"  rx="28" ry="13" fill="white" opacity="0.92"/>
+  </g>
+  <!-- 雲2 -->
+  <g class="cloud" style="animation-delay:-12s">
+    <ellipse cx="100" cy="52"  rx="38" ry="15" fill="white" opacity="0.82"/>
+    <ellipse cx="78"  cy="60"  rx="22" ry="12" fill="white" opacity="0.82"/>
+    <ellipse cx="124" cy="60"  rx="25" ry="11" fill="white" opacity="0.82"/>
+  </g>
+  <!-- 雲3 -->
+  <g class="cloud" style="animation-delay:-7s">
+    <ellipse cx="-18" cy="108" rx="48" ry="19" fill="white" opacity="0.88"/>
+    <ellipse cx="-44" cy="118" rx="28" ry="15" fill="white" opacity="0.88"/>
+    <ellipse cx="10"  cy="118" rx="32" ry="14" fill="white" opacity="0.88"/>
+  </g>
+  <!-- 雲4（小・遠景） -->
+  <g class="cloud" style="animation-delay:-18s">
+    <ellipse cx="190" cy="88"  rx="30" ry="12" fill="white" opacity="0.65"/>
+    <ellipse cx="170" cy="95"  rx="18" ry="9"  fill="white" opacity="0.65"/>
+    <ellipse cx="212" cy="95"  rx="20" ry="9"  fill="white" opacity="0.65"/>
+  </g>
+
+  <!-- ===== メインの鳥グループ（左→右へ飛ぶ） ===== -->
+  <g class="bird-grp">
+    <g class="bird-body">
+
+      <!-- 下翼（体の下から少し覗く） -->
+      <g class="wing-lower">
+        <path d="M 112,172
+                 C 96,183 74,186 52,180
+                 C 74,175 96,170 110,164 Z"
+              fill="#0277BD" opacity="0.72"/>
+      </g>
+
+      <!-- しっぽ（左側） -->
+      <path d="M 112,164 C 98,155 84,157 80,166 C 88,159 100,162 112,167 Z"
+            fill="#0277BD"/>
+      <path d="M 112,166 C 95,166 80,177 78,186 C 87,174 100,170 112,170 Z"
+            fill="#0288D1"/>
+
+      <!-- 体 -->
+      <ellipse cx="150" cy="166" rx="42" ry="24" fill="#29B6F6"/>
+      <!-- 腹（薄い） -->
+      <ellipse cx="155" cy="172" rx="30" ry="16" fill="#B3E5FC"/>
+
+      <!-- 頭 -->
+      <circle cx="185" cy="154" r="21" fill="#29B6F6"/>
+      <!-- 頭のつや -->
+      <ellipse cx="180" cy="149" rx="11" ry="9" fill="#81D4FA" opacity="0.40"/>
+
+      <!-- くちばし -->
+      <path d="M 203,150 L 222,154 L 203,158 Z" fill="#FF8F00"/>
+      <line x1="203" y1="154" x2="222" y2="154" stroke="#E65100" stroke-width="0.8" opacity="0.55"/>
+
+      <!-- 目 -->
+      <circle cx="194" cy="150" r="7"   fill="white"/>
+      <circle cx="195" cy="150" r="5"   fill="#0D47A1"/>
+      <circle cx="193" cy="148" r="2.2" fill="white"/>
+
+      <!-- 上翼（羽ばたく） -->
+      <g class="wing-upper">
+        <!-- 翼本体 -->
+        <path d="M 112,150
+                 C 104,132 95,112 72,100
+                 C 88,110 108,126 118,142
+                 C 120,130 126,116 122,104
+                 C 132,118 136,134 140,150
+                 C 132,150 122,150 112,150 Z"
+              fill="#0288D1"/>
+        <!-- 羽の筋線 -->
+        <line x1="112" y1="150" x2="80"  y2="106" stroke="#01579B" stroke-width="1"   opacity="0.45" stroke-linecap="round"/>
+        <line x1="112" y1="150" x2="98"  y2="102" stroke="#01579B" stroke-width="1"   opacity="0.45" stroke-linecap="round"/>
+        <line x1="112" y1="150" x2="116" y2="102" stroke="#01579B" stroke-width="1"   opacity="0.45" stroke-linecap="round"/>
+        <!-- 翼のハイライト -->
+        <path d="M 112,150 C 104,134 96,118 78,108 C 92,116 110,130 116,144 Z"
+              fill="#29B6F6" opacity="0.42"/>
+      </g>
+
+    </g><!-- /bird-body -->
+  </g><!-- /bird-grp -->
+
+  </g>
+</svg>

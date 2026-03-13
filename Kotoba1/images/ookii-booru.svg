@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <clipPath id="bc">
+      <circle cx="0" cy="0" r="95"/>
+    </clipPath>
+    <style>
+      /* ======= バウンド（Y移動） ======= */
+      .ball-y {
+        animation: bounce-y 1.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+      }
+      @keyframes bounce-y {
+        0%   { transform: translateY(0); }
+        100% { transform: translateY(-90px); }
+      }
+
+      /* ======= つぶれ / のび ======= */
+      .ball-squash {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: squash-anim 1.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+      }
+      @keyframes squash-anim {
+        0%   { transform: scaleX(1.22) scaleY(0.78); }
+        14%  { transform: scaleX(0.93) scaleY(1.08); }
+        100% { transform: scaleX(1) scaleY(1); }
+      }
+
+      /* ======= 影 ======= */
+      .shadow {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: shadow-anim 1.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+      }
+      @keyframes shadow-anim {
+        0%   { transform: scaleX(1);    opacity: 0.22; }
+        100% { transform: scaleX(0.3); opacity: 0.05; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景 -->
+  <rect width="300" height="300" fill="#e3f5ff" rx="20"/>
+  <!-- 床 -->
+  <rect y="248" width="300" height="52" fill="#8d6e63"/>
+  <rect y="248" width="300" height="7" fill="#a1887f"/>
+
+  <!-- 影 -->
+  <ellipse class="shadow" cx="150" cy="248" rx="90" ry="9" fill="#000" opacity="0.22"/>
+
+  <!-- ボール（中心を (150, 153) に固定 = 床y248 − 半径95） -->
+  <g transform="translate(150, 153)">
+    <g class="ball-y">
+      <g class="ball-squash">
+        <!-- ベース -->
+        <circle cx="0" cy="0" r="95" fill="#e53935"/>
+        <!-- カラーストライプ（クリップ） -->
+        <g clip-path="url(#bc)">
+          <rect x="-95"   y="-95" width="47.5" height="190" fill="#e53935"/>
+          <rect x="-47.5" y="-95" width="47.5" height="190" fill="#fdd835"/>
+          <rect x="0"     y="-95" width="47.5" height="190" fill="#43a047"/>
+          <rect x="47.5"  y="-95" width="47.5" height="190" fill="#1e88e5"/>
+        </g>
+        <!-- 境界線 -->
+        <circle cx="0" cy="0" r="95" fill="none" stroke="#fff" stroke-width="3" opacity="0.35"/>
+        <!-- つやハイライト -->
+        <ellipse cx="-28" cy="-32" rx="22" ry="14" fill="#fff" opacity="0.28"/>
+      </g>
+    </g>
+  </g>
+</g>
+</svg>

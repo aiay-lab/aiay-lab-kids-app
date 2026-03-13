@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame">
+      <rect width="300" height="300" rx="20"/>
+    </clipPath>
+    <clipPath id="sky-clip">
+      <rect x="56" y="38" width="188" height="164"/>
+    </clipPath>
+    <style>
+      .panel-l {
+        transform-box: fill-box;
+        transform-origin: 0% 50%;
+        animation: close-panel 7s ease-in-out infinite;
+      }
+      .panel-r {
+        transform-box: fill-box;
+        transform-origin: 100% 50%;
+        animation: close-panel 7s ease-in-out infinite;
+      }
+      @keyframes close-panel {
+        0%,  8%  { transform: scaleX(0.05); }
+        40%, 100% { transform: scaleX(1);    }
+      }
+      .mullion {
+        animation: mullion-show 7s ease-in-out infinite;
+        opacity: 0;
+      }
+      @keyframes mullion-show {
+        0%, 35% { opacity: 0; }
+        55%,100% { opacity: 1; }
+      }
+      .star {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: twinkle 2.4s ease-in-out infinite alternate;
+      }
+      .st2 { animation-delay: 0.6s; }
+      .st3 { animation-delay: 1.2s; }
+      .st4 { animation-delay: 1.8s; }
+      @keyframes twinkle {
+        from { opacity: 0.3; transform: scale(0.7); }
+        to   { opacity: 1;   transform: scale(1.3); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- 1. Wall background (warm indoor lamp light) -->
+    <rect width="300" height="300" fill="#FFF0E0"/>
+
+    <!-- Ceiling lamp (above curtain rail, drawn early so curtain rail covers wire bottom) -->
+    <!-- soft ambient glow -->
+    <circle cx="150" cy="14" r="40" fill="#FFF9C4" opacity="0.15"/>
+    <!-- lamp glow ellipse -->
+    <ellipse cx="150" cy="24" rx="28" ry="8" fill="#FFF9C4" opacity="0.55"/>
+    <!-- wire -->
+    <line x1="150" y1="0" x2="150" y2="10" stroke="#999999" stroke-width="2"/>
+    <!-- lamp shade -->
+    <path d="M 132,10 L 138,24 L 162,24 L 168,10 Z" fill="#FFE082"/>
+    <path d="M 130,10 L 170,10" stroke="#FFD54F" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- 2. Left curtain -->
+    <g>
+      <path d="M 0,22 C 10,30 14,60 12,90 C 10,120 6,150 8,180 C 10,210 14,225 10,230 L 0,230 Z" fill="#FFECB3"/>
+      <path d="M 18,22 C 26,30 30,60 28,90 C 26,120 22,150 24,180 C 26,210 30,225 26,230 L 18,230 Z" fill="#FFECB3"/>
+      <path d="M 36,22 C 44,30 48,60 46,90 C 44,120 40,150 42,180 C 44,210 48,225 44,230 L 36,230 Z" fill="#FFECB3"/>
+      <path d="M 0,22 L 50,22 L 50,230 L 0,230 Z" fill="#FFECB3" opacity="0.7"/>
+      <!-- fold lines -->
+      <path d="M 9,22 C 12,60 10,120 11,180 C 11,200 10,215 9,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 27,22 C 30,60 28,120 29,180 C 29,200 28,215 27,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 45,22 C 48,60 46,120 47,180 C 47,200 46,215 45,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <!-- curtain tie -->
+      <ellipse cx="46" cy="118" rx="9" ry="14" fill="#FFD54F" stroke="#FFC107" stroke-width="1.5"/>
+      <ellipse cx="46" cy="118" rx="5" ry="6" fill="#FFC107"/>
+    </g>
+
+    <!-- 2. Right curtain -->
+    <g>
+      <path d="M 300,22 C 290,30 286,60 288,90 C 290,120 294,150 292,180 C 290,210 286,225 290,230 L 300,230 Z" fill="#FFECB3"/>
+      <path d="M 282,22 C 274,30 270,60 272,90 C 274,120 278,150 276,180 C 274,210 270,225 274,230 L 282,230 Z" fill="#FFECB3"/>
+      <path d="M 264,22 C 256,30 252,60 254,90 C 256,120 260,150 258,180 C 256,210 252,225 256,230 L 264,230 Z" fill="#FFECB3"/>
+      <path d="M 250,22 L 300,22 L 300,230 L 250,230 Z" fill="#FFECB3" opacity="0.7"/>
+      <!-- fold lines -->
+      <path d="M 291,22 C 288,60 290,120 289,180 C 289,200 290,215 291,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 273,22 C 270,60 272,120 271,180 C 271,200 272,215 273,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 255,22 C 252,60 254,120 253,180 C 253,200 254,215 255,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <!-- curtain tie -->
+      <ellipse cx="254" cy="118" rx="9" ry="14" fill="#FFD54F" stroke="#FFC107" stroke-width="1.5"/>
+      <ellipse cx="254" cy="118" rx="5" ry="6" fill="#FFC107"/>
+    </g>
+
+    <!-- 3. Curtain rail -->
+    <rect x="0" y="18" width="300" height="7" rx="3" fill="#9E8068"/>
+
+    <!-- 5. Floor + baseboard + grain lines (night, slightly darker) -->
+    <rect x="0" y="244" width="300" height="56" fill="#9E7868"/>
+    <rect x="0" y="240" width="300" height="7" fill="#8D6E63"/>
+    <!-- horizontal grain lines -->
+    <line x1="0" y1="258" x2="300" y2="258" stroke="#8A6658" stroke-width="1" opacity="0.5"/>
+    <line x1="0" y1="273" x2="300" y2="273" stroke="#8A6658" stroke-width="1" opacity="0.5"/>
+    <line x1="0" y1="289" x2="300" y2="289" stroke="#8A6658" stroke-width="1" opacity="0.5"/>
+    <!-- vertical plank lines -->
+    <line x1="62" y1="247" x2="62" y2="300" stroke="#8A6658" stroke-width="1" opacity="0.5"/>
+    <line x1="140" y1="247" x2="140" y2="300" stroke="#8A6658" stroke-width="1" opacity="0.5"/>
+    <line x1="218" y1="247" x2="218" y2="300" stroke="#8A6658" stroke-width="1" opacity="0.5"/>
+
+    <!-- 7. Window sill -->
+    <rect x="38" y="202" width="224" height="20" rx="4" fill="#D7CCC8"/>
+    <rect x="38" y="202" width="224" height="7" rx="4" fill="#BCAAA4"/>
+    <rect x="40" y="221" width="220" height="3" rx="1" fill="#A1887F" opacity="0.4"/>
+
+    <!-- Flower pot on sill -->
+    <path d="M 196,208 L 200,190 L 218,190 L 222,208 Z" fill="#8D6E63"/>
+    <rect x="194" y="205" width="28" height="5" rx="2" fill="#795548"/>
+    <path d="M 209,190 C 209,182 206,174 208,168" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <ellipse cx="205" cy="178" rx="7" ry="4" fill="#81C784" transform="rotate(-30,205,178)"/>
+    <ellipse cx="213" cy="174" rx="7" ry="4" fill="#66BB6A" transform="rotate(30,213,174)"/>
+    <circle cx="208" cy="165" r="5" fill="#EF5350"/>
+    <circle cx="208" cy="165" r="2.5" fill="#FFEE58"/>
+
+    <!-- 8. Window outer frame -->
+    <rect x="46" y="26" width="208" height="180" rx="6" fill="#6D4C41"/>
+    <rect x="54" y="34" width="192" height="170" rx="3" fill="#4E342E"/>
+
+    <!-- 4. Night sky group (clipped) — drawn after frame so it's visible -->
+    <g clip-path="url(#sky-clip)">
+      <!-- night sky base -->
+      <rect x="56" y="38" width="188" height="164" fill="#0D1B48"/>
+
+      <!-- 星のグロー（大きな星の後ろに柔らかい光） -->
+      <circle cx="132" cy="58" r="10" fill="white" opacity="0.12"/>
+      <circle cx="162" cy="42" r="9"  fill="white" opacity="0.10"/>
+      <circle cx="193" cy="50" r="11" fill="white" opacity="0.12"/>
+      <circle cx="104" cy="46" r="9"  fill="white" opacity="0.10"/>
+
+      <!-- Stars (16 stars in 4 twinkle groups) -->
+      <!-- group 1: st1 (default delay 0) -->
+      <circle class="star" cx="82"  cy="54"  r="3"   fill="white"/>
+      <circle class="star" cx="148" cy="76"  r="2.5" fill="white"/>
+      <circle class="star" cx="198" cy="78"  r="3"   fill="white"/>
+      <circle class="star" cx="88"  cy="112" r="2"   fill="white"/>
+      <!-- group 2: st2 (delay 0.6s) -->
+      <circle class="star st2" cx="104" cy="46"  r="4"   fill="white"/>
+      <circle class="star st2" cx="168" cy="92"  r="2.5" fill="white"/>
+      <circle class="star st2" cx="106" cy="128" r="3"   fill="white"/>
+      <circle class="star st2" cx="220" cy="105" r="2.5" fill="white"/>
+      <!-- group 3: st3 (delay 1.2s) -->
+      <circle class="star st3" cx="132" cy="58"  r="4.5" fill="white"/>
+      <circle class="star st3" cx="70"  cy="82"  r="2.5" fill="white"/>
+      <circle class="star st3" cx="142" cy="118" r="2"   fill="white"/>
+      <circle class="star st3" cx="172" cy="136" r="3"   fill="white"/>
+      <!-- group 4: st4 (delay 1.8s) -->
+      <circle class="star st4" cx="162" cy="42"  r="4"   fill="white"/>
+      <circle class="star st4" cx="178" cy="68"  r="2"   fill="white"/>
+      <circle class="star st4" cx="116" cy="88"  r="3"   fill="white"/>
+      <circle class="star st4" cx="193" cy="50"  r="4.5" fill="white"/>
+
+      <!-- Crescent moon -->
+      <!-- 月のグロー -->
+      <circle cx="215" cy="68" r="34" fill="#FFFDE7" opacity="0.12"/>
+      <!-- large bright circle -->
+      <circle cx="215" cy="68" r="26" fill="#FFFDE7"/>
+      <!-- overlapping dark circle to create crescent -->
+      <circle cx="227" cy="61" r="21" fill="#0D1B48"/>
+    </g>
+
+    <!-- 9. Left panel group -->
+    <g class="panel-l">
+      <rect x="56" y="38" width="92" height="164" fill="#F8F8F0" opacity="0.92"/>
+      <rect x="56" y="38" width="92" height="164" fill="none" stroke="#6D4C41" stroke-width="4.5"/>
+      <rect x="56" y="118" width="92" height="4" fill="#6D4C41"/>
+      <rect x="100" y="38" width="4" height="164" fill="#6D4C41"/>
+      <!-- handle -->
+      <rect x="141" y="108" width="7" height="18" rx="3" fill="#8D6E63"/>
+      <rect x="143" y="113" width="6" height="8" rx="2" fill="#6D4C41"/>
+    </g>
+
+    <!-- 10. Right panel group -->
+    <g class="panel-r">
+      <rect x="152" y="38" width="92" height="164" fill="#F8F8F0" opacity="0.92"/>
+      <rect x="152" y="38" width="92" height="164" fill="none" stroke="#6D4C41" stroke-width="4.5"/>
+      <rect x="152" y="118" width="92" height="4" fill="#6D4C41"/>
+      <rect x="196" y="38" width="4" height="164" fill="#6D4C41"/>
+      <!-- handle -->
+      <rect x="152" y="108" width="7" height="18" rx="3" fill="#8D6E63"/>
+      <rect x="151" y="113" width="6" height="8" rx="2" fill="#6D4C41"/>
+    </g>
+
+    <!-- 11. Center mullion -->
+    <rect class="mullion" x="148" y="36" width="4" height="170" fill="#4E342E"/>
+
+  </g>
+</svg>

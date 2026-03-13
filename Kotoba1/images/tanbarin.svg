@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame">
+      <rect width="300" height="300" rx="20"/>
+    </clipPath>
+    <style>
+      /* タンバリンが左右に揺れる */
+      .tamb-grp {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: tamb-shake 0.38s ease-in-out infinite alternate;
+      }
+      @keyframes tamb-shake {
+        from { transform: rotate(-20deg) translate(-5px, 2px);  }
+        to   { transform: rotate(20deg)  translate(5px,  -8px); }
+      }
+
+      /* ジングルが順番に光る */
+      .jingle { animation: jingle-glow 0.76s ease-in-out infinite alternate; }
+      .j2 { animation-delay: 0.127s; }
+      .j3 { animation-delay: 0.254s; }
+      .j4 { animation-delay: 0.380s; }
+      .j5 { animation-delay: 0.507s; }
+      .j6 { animation-delay: 0.633s; }
+      @keyframes jingle-glow {
+        from { fill: #CFD8DC; opacity: 0.55; }
+        to   { fill: #FFF8E1; opacity: 1.00; }
+      }
+
+      /* きらめき（音が出るイメージ） */
+      .spark {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: spark-pop 0.76s ease-in-out infinite alternate;
+      }
+      .sk2 { animation-delay: 0.38s; }
+      @keyframes spark-pop {
+        from { opacity: 0; transform: scale(0.4); }
+        to   { opacity: 1; transform: scale(1);   }
+      }
+
+      /* 音符が浮かぶ */
+      .note { animation: float-note 2s ease-in infinite; opacity: 0; }
+      .n2   { animation-delay: 0.67s; }
+      .n3   { animation-delay: 1.33s; }
+      @keyframes float-note {
+        0%   { transform: translate(0, 0);       opacity: 0; }
+        12%  { opacity: 1; }
+        85%  { opacity: 0.8; }
+        100% { transform: translate(5px, -65px); opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- 背景 -->
+    <rect width="300" height="300" fill="#FFFDE7"/>
+    <ellipse cx="150" cy="150" rx="170" ry="170" fill="#FFF9C4" opacity="0.5"/>
+
+    <!-- 音符 -->
+    <text class="note"    x="32"  y="88"  font-size="32" fill="#FF8A65" font-family="Arial, sans-serif">♪</text>
+    <text class="note n2" x="228" y="72"  font-size="26" fill="#42A5F5" font-family="Arial, sans-serif">♫</text>
+    <text class="note n3" x="252" y="160" font-size="22" fill="#AB47BC" font-family="Arial, sans-serif">♩</text>
+
+    <!-- きらめき（左右に出る） -->
+    <path class="spark"     d="M 50,178 l3,-8 l3,8 l8,3 l-8,3 l-3,8 l-3,-8 l-8,-3 Z" fill="#FFD700"/>
+    <path class="spark sk2" d="M 245,190 l2.5,-7 l2.5,7 l7,2.5 l-7,2.5 l-2.5,7 l-2.5,-7 l-7,-2.5 Z" fill="#FFD700"/>
+
+    <!-- ===== タンバリン ===== -->
+    <g transform="translate(150, 152)">
+    <g class="tamb-grp">
+
+      <!-- フレーム（木製リング）: outer r=88, inner r=66 -->
+      <circle cx="0" cy="0" r="88" fill="#795548"/>
+      <!-- 木目ライン -->
+      <circle cx="0" cy="0" r="88" fill="none" stroke="#6D4C41" stroke-width="4" opacity="0.5"/>
+      <circle cx="0" cy="0" r="84" fill="none" stroke="#A1887F" stroke-width="2" opacity="0.5"/>
+      <circle cx="0" cy="0" r="80" fill="none" stroke="#6D4C41" stroke-width="1.5" opacity="0.3"/>
+
+      <!-- 太鼓面 -->
+      <circle cx="0" cy="0" r="66" fill="#FFCCBC"/>
+      <!-- 太鼓面の模様（同心円） -->
+      <circle cx="0" cy="0" r="52" fill="none" stroke="#FFAB91" stroke-width="6" opacity="0.6"/>
+      <circle cx="0" cy="0" r="36" fill="none" stroke="#FF8A65" stroke-width="5" opacity="0.5"/>
+      <circle cx="0" cy="0" r="20" fill="#FF8A65" opacity="0.35"/>
+      <!-- 太鼓面の縁 -->
+      <circle cx="0" cy="0" r="66" fill="none" stroke="#4E342E" stroke-width="2.5" opacity="0.4"/>
+
+      <!-- ===== ジングル 6か所（r=77 の位置、フレーム中央）===== -->
+
+      <!-- ジングル1: 0° → translate(77,0) rotate(90)で接線方向 -->
+      <g transform="translate(77,0) rotate(90)">
+        <rect x="-10" y="-6" width="20" height="12" rx="3" fill="#4E342E"/>
+        <ellipse class="jingle"    cx="-3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+        <ellipse class="jingle j4" cx=" 3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+      </g>
+
+      <!-- ジングル2: 60° → translate(38.5, 66.7) rotate(150) -->
+      <g transform="translate(38.5,66.7) rotate(150)">
+        <rect x="-10" y="-6" width="20" height="12" rx="3" fill="#4E342E"/>
+        <ellipse class="jingle j2" cx="-3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+        <ellipse class="jingle j5" cx=" 3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+      </g>
+
+      <!-- ジングル3: 120° → translate(-38.5, 66.7) rotate(210) -->
+      <g transform="translate(-38.5,66.7) rotate(210)">
+        <rect x="-10" y="-6" width="20" height="12" rx="3" fill="#4E342E"/>
+        <ellipse class="jingle j3" cx="-3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+        <ellipse class="jingle j6" cx=" 3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+      </g>
+
+      <!-- ジングル4: 180° → translate(-77,0) rotate(270) -->
+      <g transform="translate(-77,0) rotate(270)">
+        <rect x="-10" y="-6" width="20" height="12" rx="3" fill="#4E342E"/>
+        <ellipse class="jingle j4" cx="-3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+        <ellipse class="jingle"    cx=" 3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+      </g>
+
+      <!-- ジングル5: 240° → translate(-38.5,-66.7) rotate(330) -->
+      <g transform="translate(-38.5,-66.7) rotate(330)">
+        <rect x="-10" y="-6" width="20" height="12" rx="3" fill="#4E342E"/>
+        <ellipse class="jingle j5" cx="-3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+        <ellipse class="jingle j2" cx=" 3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+      </g>
+
+      <!-- ジングル6: 300° → translate(38.5,-66.7) rotate(30) -->
+      <g transform="translate(38.5,-66.7) rotate(30)">
+        <rect x="-10" y="-6" width="20" height="12" rx="3" fill="#4E342E"/>
+        <ellipse class="jingle j6" cx="-3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+        <ellipse class="jingle j3" cx=" 3.5" cy="0" rx="5.5" ry="4.5" fill="#CFD8DC"/>
+      </g>
+
+      <!-- 太鼓面の光沢 -->
+      <ellipse cx="-18" cy="-22" rx="20" ry="10" fill="white" opacity="0.28" transform="rotate(-35,-18,-22)"/>
+
+    </g>
+    </g>
+
+  </g>
+</svg>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 雨 ======= */
+      .r { animation: rain-fall var(--d) linear var(--t) infinite; }
+      @keyframes rain-fall {
+        from { transform: translateY(-10px); opacity: 0.65; }
+        to   { transform: translateY(340px); opacity: 0.4; }
+      }
+
+      /* ======= 稲妻 ======= */
+      .bolt {
+        animation: bolt-anim 6s infinite;
+        opacity: 0;
+      }
+      @keyframes bolt-anim {
+        0%,17%   { opacity: 0; }
+        18%      { opacity: 1; }
+        20%      { opacity: 0; }
+        22%      { opacity: 0.6; }
+        24%,58%  { opacity: 0; }
+        59%      { opacity: 1; }
+        61%      { opacity: 0; }
+        100%     { opacity: 0; }
+      }
+
+      /* ======= 稲妻のグロー ======= */
+      .bolt-glow {
+        animation: bolt-anim 6s infinite;
+        opacity: 0;
+      }
+
+      /* ======= 雲の裏側が光る ======= */
+      .cloud-lit {
+        animation: cloud-lit-anim 6s infinite;
+        opacity: 0;
+      }
+      @keyframes cloud-lit-anim {
+        0%,16%   { opacity: 0; }
+        17.5%    { opacity: 0.9; }
+        20%      { opacity: 0; }
+        57.5%    { opacity: 0; }
+        58.5%    { opacity: 0.9; }
+        61%      { opacity: 0; }
+        100%     { opacity: 0; }
+      }
+
+      /* ======= 全体フラッシュ ======= */
+      .sky-flash {
+        animation: flash-anim 6s infinite;
+        opacity: 0;
+      }
+      @keyframes flash-anim {
+        0%,17.5% { opacity: 0; }
+        18.5%    { opacity: 0.55; }
+        21%      { opacity: 0; }
+        22.5%    { opacity: 0.2; }
+        24.5%,58%{ opacity: 0; }
+        58.8%    { opacity: 0.55; }
+        60.5%    { opacity: 0; }
+        100%     { opacity: 0; }
+      }
+
+      /* ======= 地面の水たまり反射 ======= */
+      .puddle-flash {
+        animation: puddle-anim 6s infinite;
+        opacity: 0.35;
+      }
+      @keyframes puddle-anim {
+        0%,17%   { opacity: 0.35; }
+        18.5%    { opacity: 0.9; }
+        22%      { opacity: 0.35; }
+        58%      { opacity: 0.35; }
+        59.5%    { opacity: 0.9; }
+        62%      { opacity: 0.35; }
+        100%     { opacity: 0.35; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 暗い嵐の空 -->
+  <rect width="300" height="300" fill="#1c2830" rx="20"/>
+
+  <!-- 地面（濡れたアスファルト） -->
+  <rect y="258" width="300" height="42" fill="#212e36"/>
+  <rect y="258" width="300" height="6"  fill="#2a3c48"/>
+
+  <!-- 水たまり（稲妻が映る） -->
+  <ellipse class="puddle-flash" cx="95"  cy="272" rx="48" ry="7" fill="#4a90a4" opacity="0.35"/>
+  <ellipse class="puddle-flash" cx="218" cy="276" rx="36" ry="6" fill="#4a90a4" opacity="0.3"/>
+
+  <!-- ===== 雲の裏が光るエフェクト ===== -->
+  <ellipse class="cloud-lit" cx="155" cy="85"  rx="105" ry="65" fill="#fff9c4"/>
+
+  <!-- ===== 雨（12本） ===== -->
+  <line class="r" style="--d:0.70s;--t:0.00s" x1="28"  y1="0" x2="25"  y2="28" stroke="#7ec8dc" stroke-width="1.8" opacity="0.6"/>
+  <line class="r" style="--d:0.85s;--t:0.20s" x1="58"  y1="0" x2="55"  y2="32" stroke="#7ec8dc" stroke-width="1.5" opacity="0.5"/>
+  <line class="r" style="--d:0.75s;--t:0.55s" x1="88"  y1="0" x2="85"  y2="29" stroke="#7ec8dc" stroke-width="2"   opacity="0.6"/>
+  <line class="r" style="--d:0.90s;--t:0.10s" x1="118" y1="0" x2="115" y2="33" stroke="#7ec8dc" stroke-width="1.5" opacity="0.55"/>
+  <line class="r" style="--d:0.78s;--t:0.40s" x1="148" y1="0" x2="145" y2="30" stroke="#7ec8dc" stroke-width="2"   opacity="0.6"/>
+  <line class="r" style="--d:0.88s;--t:0.65s" x1="175" y1="0" x2="172" y2="32" stroke="#7ec8dc" stroke-width="1.5" opacity="0.5"/>
+  <line class="r" style="--d:0.72s;--t:0.30s" x1="203" y1="0" x2="200" y2="28" stroke="#7ec8dc" stroke-width="2"   opacity="0.6"/>
+  <line class="r" style="--d:0.95s;--t:0.50s" x1="230" y1="0" x2="227" y2="34" stroke="#7ec8dc" stroke-width="1.5" opacity="0.5"/>
+  <line class="r" style="--d:0.80s;--t:0.75s" x1="258" y1="0" x2="255" y2="30" stroke="#7ec8dc" stroke-width="2"   opacity="0.55"/>
+  <line class="r" style="--d:0.68s;--t:0.15s" x1="43"  y1="0" x2="40"  y2="27" stroke="#7ec8dc" stroke-width="1.5" opacity="0.5"/>
+  <line class="r" style="--d:0.82s;--t:0.45s" x1="162" y1="0" x2="159" y2="31" stroke="#7ec8dc" stroke-width="1.8" opacity="0.55"/>
+  <line class="r" style="--d:0.77s;--t:0.80s" x1="276" y1="0" x2="273" y2="29" stroke="#7ec8dc" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- ===== 暗い嵐の雲 ===== -->
+  <ellipse cx="48"  cy="62"  rx="72"  ry="50" fill="#253545"/>
+  <ellipse cx="155" cy="48"  rx="92"  ry="56" fill="#1e2e3c"/>
+  <ellipse cx="268" cy="66"  rx="60"  ry="44" fill="#253545"/>
+  <ellipse cx="105" cy="80"  rx="68"  ry="44" fill="#192838"/>
+  <ellipse cx="210" cy="76"  rx="75"  ry="48" fill="#1e2e3c"/>
+  <ellipse cx="152" cy="94"  rx="52"  ry="36" fill="#162030"/>
+
+  <!-- ===== 稲妻（グロー・太い光） ===== -->
+  <path class="bolt-glow"
+        d="M 160,92 L 141,143 L 157,141 L 133,204 L 151,202 L 118,268"
+        fill="none" stroke="#fff9c4" stroke-width="14" stroke-linejoin="round" opacity="0.25"/>
+  <!-- 稲妻メイン -->
+  <path class="bolt"
+        d="M 160,92 L 141,143 L 157,141 L 133,204 L 151,202 L 118,268"
+        fill="#fff9c4" stroke="#ffd600" stroke-width="2" stroke-linejoin="round"/>
+  <!-- 稲妻の中心（白く輝く） -->
+  <path class="bolt"
+        d="M 160,92 L 141,143 L 157,141 L 133,204 L 151,202 L 118,268"
+        fill="none" stroke="#ffffff" stroke-width="1" stroke-linejoin="round" opacity="0.9"/>
+
+  <!-- ===== 全体フラッシュ ===== -->
+  <rect class="sky-flash" width="300" height="300" fill="#fffde7" rx="20"/>
+</g>
+</svg>

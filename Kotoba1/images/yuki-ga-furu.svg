@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 雪が落ちる ======= */
+      .flake-outer {
+        animation: flake-fall var(--d) linear var(--t) infinite;
+      }
+      @keyframes flake-fall {
+        from { transform: translate(var(--x), -30px); }
+        to   { transform: translate(var(--x), 335px); }
+      }
+
+      /* ======= 雪がゆっくり回る ======= */
+      .flake-spin {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: do-spin var(--s, 4s) linear infinite;
+      }
+      @keyframes do-spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 冬の空（淡いグラデーション風） -->
+  <rect width="300" height="300" fill="#dce9f5" rx="20"/>
+  <rect width="300" height="180" fill="#e8f2fb" rx="20"/>
+
+  <!-- 遠くの丘（雪景色） -->
+  <ellipse cx="75"  cy="248" rx="120" ry="52" fill="#eaf2fb"/>
+  <ellipse cx="235" cy="252" rx="110" ry="48" fill="#ddeaf6"/>
+
+  <!-- 松の木（左） -->
+  <!-- 幹 -->
+  <rect x="56" y="212" width="10" height="48" fill="#5d4037"/>
+  <!-- 枝（下） -->
+  <polygon points="61,212 28,252 94,252" fill="#2e6b30"/>
+  <!-- 枝（中） -->
+  <polygon points="61,190 34,228 88,228" fill="#388e3c"/>
+  <!-- 枝（上） -->
+  <polygon points="61,170 40,205 82,205" fill="#43a047"/>
+  <!-- 雪 -->
+  <polygon points="61,212 38,242 84,242" fill="white" opacity="0.75"/>
+  <polygon points="61,193 42,220 80,220" fill="white" opacity="0.65"/>
+  <polygon points="61,175 46,200 76,200" fill="white" opacity="0.55"/>
+
+  <!-- 松の木（右） -->
+  <rect x="234" y="218" width="10" height="42" fill="#5d4037"/>
+  <polygon points="239,218 210,254 268,254" fill="#2e6b30"/>
+  <polygon points="239,198 216,230 262,230" fill="#388e3c"/>
+  <polygon points="239,180 220,210 258,210" fill="#43a047"/>
+  <polygon points="239,218 214,246 264,246" fill="white" opacity="0.75"/>
+  <polygon points="239,201 222,226 256,226" fill="white" opacity="0.65"/>
+  <polygon points="239,184 224,208 254,208" fill="white" opacity="0.55"/>
+
+  <!-- 積雪（地面） -->
+  <rect y="258" width="300" height="42" fill="white"/>
+  <!-- 積雪のなだらか -->
+  <ellipse cx="150" cy="258" rx="180" ry="14" fill="white"/>
+  <ellipse cx="60"  cy="260" rx="80"  ry="10" fill="#f0f7ff" opacity="0.6"/>
+  <ellipse cx="240" cy="261" rx="75"  ry="10" fill="#f0f7ff" opacity="0.6"/>
+
+  <!-- 地面の青い影 -->
+  <ellipse cx="150" cy="268" rx="150" ry="8" fill="#c8dff0" opacity="0.4"/>
+
+  <!-- ===== 雪の結晶（12個） ===== -->
+
+  <!-- 大きめの結晶 -->
+  <g class="flake-outer" style="--d:3.8s;--t:0.0s;--x:42px">
+    <g class="flake-spin" style="--s:5s">
+      <line x1="-11" y1="0"   x2="11"  y2="0"   stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-5.5" y1="-9.5" x2="5.5" y2="9.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="5.5"  y1="-9.5" x2="-5.5" y2="9.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-11" y1="-4" x2="-7"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-11" y1="4"  x2="-7"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="11"  y1="-4" x2="7"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="11"  y1="4"  x2="7"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:4.5s;--t:0.5s;--x:100px">
+    <g class="flake-spin" style="--s:6s">
+      <line x1="-13" y1="0"    x2="13"  y2="0"    stroke="white" stroke-width="3"   stroke-linecap="round"/>
+      <line x1="-6.5" y1="-11" x2="6.5" y2="11"   stroke="white" stroke-width="3"   stroke-linecap="round"/>
+      <line x1="6.5"  y1="-11" x2="-6.5" y2="11"  stroke="white" stroke-width="3"   stroke-linecap="round"/>
+      <line x1="-13" y1="-4.5" x2="-8"  y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-13" y1="4.5"  x2="-8"  y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="13"  y1="-4.5" x2="8"   y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="13"  y1="4.5"  x2="8"   y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:3.2s;--t:1.2s;--x:163px">
+    <g class="flake-spin" style="--s:4s">
+      <line x1="-9"  y1="0"    x2="9"   y2="0"    stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-4.5" y1="-7.8" x2="4.5" y2="7.8" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="4.5"  y1="-7.8" x2="-4.5" y2="7.8" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-9"  y1="-3"  x2="-6"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-9"  y1="3"   x2="-6"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9"   y1="-3"  x2="6"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9"   y1="3"   x2="6"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:5.0s;--t:0.2s;--x:228px">
+    <g class="flake-spin" style="--s:7s">
+      <line x1="-13" y1="0"    x2="13"  y2="0"    stroke="white" stroke-width="3"   stroke-linecap="round"/>
+      <line x1="-6.5" y1="-11" x2="6.5" y2="11"   stroke="white" stroke-width="3"   stroke-linecap="round"/>
+      <line x1="6.5"  y1="-11" x2="-6.5" y2="11"  stroke="white" stroke-width="3"   stroke-linecap="round"/>
+      <line x1="-13" y1="-4.5" x2="-8"  y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-13" y1="4.5"  x2="-8"  y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="13"  y1="-4.5" x2="8"   y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="13"  y1="4.5"  x2="8"   y2="0"   stroke="white" stroke-width="2"   stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- 中サイズの結晶 -->
+  <g class="flake-outer" style="--d:4.2s;--t:1.8s;--x:72px">
+    <g class="flake-spin" style="--s:5.5s">
+      <line x1="-9"  y1="0"    x2="9"   y2="0"    stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-4.5" y1="-7.8" x2="4.5" y2="7.8" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="4.5"  y1="-7.8" x2="-4.5" y2="7.8" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-9"  y1="-3"  x2="-6"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-9"  y1="3"   x2="-6"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9"   y1="-3"  x2="6"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9"   y1="3"   x2="6"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:3.6s;--t:0.8s;--x:136px">
+    <g class="flake-spin" style="--s:4.5s">
+      <line x1="-11" y1="0"   x2="11"  y2="0"   stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-5.5" y1="-9.5" x2="5.5" y2="9.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="5.5"  y1="-9.5" x2="-5.5" y2="9.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-11" y1="-4" x2="-7"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-11" y1="4"  x2="-7"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="11"  y1="-4" x2="7"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="11"  y1="4"  x2="7"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:4.8s;--t:2.5s;--x:196px">
+    <g class="flake-spin" style="--s:6.5s">
+      <line x1="-9"  y1="0"    x2="9"   y2="0"    stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-4.5" y1="-7.8" x2="4.5" y2="7.8" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="4.5"  y1="-7.8" x2="-4.5" y2="7.8" stroke="white" stroke-width="2"   stroke-linecap="round"/>
+      <line x1="-9"  y1="-3"  x2="-6"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-9"  y1="3"   x2="-6"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9"   y1="-3"  x2="6"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9"   y1="3"   x2="6"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:3.4s;--t:1.5s;--x:264px">
+    <g class="flake-spin" style="--s:4.8s">
+      <line x1="-11" y1="0"   x2="11"  y2="0"   stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-5.5" y1="-9.5" x2="5.5" y2="9.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="5.5"  y1="-9.5" x2="-5.5" y2="9.5" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="-11" y1="-4" x2="-7"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-11" y1="4"  x2="-7"  y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="11"  y1="-4" x2="7"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="11"  y1="4"  x2="7"   y2="0"  stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- 小さい結晶 -->
+  <g class="flake-outer" style="--d:5.5s;--t:3.0s;--x:22px">
+    <g class="flake-spin" style="--s:3.5s">
+      <line x1="-6" y1="0"   x2="6"  y2="0"   stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="-3" y1="-5.2" x2="3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="3"  y1="-5.2" x2="-3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:4.0s;--t:2.2s;--x:118px">
+    <g class="flake-spin" style="--s:5.2s">
+      <line x1="-6" y1="0"   x2="6"  y2="0"   stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="-3" y1="-5.2" x2="3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="3"  y1="-5.2" x2="-3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:3.0s;--t:0.6s;--x:180px">
+    <g class="flake-spin" style="--s:3.8s">
+      <line x1="-6" y1="0"   x2="6"  y2="0"   stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="-3" y1="-5.2" x2="3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="3"  y1="-5.2" x2="-3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g class="flake-outer" style="--d:4.6s;--t:1.0s;--x:248px">
+    <g class="flake-spin" style="--s:6.0s">
+      <line x1="-6" y1="0"   x2="6"  y2="0"   stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="-3" y1="-5.2" x2="3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="3"  y1="-5.2" x2="-3" y2="5.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+    </g>
+  </g>
+</g>
+</svg>

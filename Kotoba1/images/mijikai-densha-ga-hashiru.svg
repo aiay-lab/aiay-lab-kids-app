@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <linearGradient id="sky-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#42a5f5"/>
+      <stop offset="100%" stop-color="#bbdefb"/>
+    </linearGradient>
+    <style>
+      /* 電車が左から右へ走る（2両なので短い） */
+      .train {
+        animation: train-run 3.5s linear infinite;
+      }
+      @keyframes train-run {
+        from { transform: translateX(-165px); }
+        to   { transform: translateX(305px);  }
+      }
+
+      /* 車輪が回転 */
+      .wheel {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: wheel-spin 0.4s linear infinite;
+      }
+      @keyframes wheel-spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* 遠くの木がゆっくり流れる（視差効果） */
+      .bg-trees {
+        animation: bg-scroll 12s linear infinite;
+      }
+      @keyframes bg-scroll {
+        from { transform: translateX(0);      }
+        to   { transform: translateX(-300px); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 空 -->
+  <rect width="300" height="300" fill="url(#sky-grad)" rx="20"/>
+
+  <!-- 山 -->
+  <polygon points="-10,230 60,155 135,230"  fill="#a5d6a7"/>
+  <polygon points="70,230  165,120 260,230" fill="#81c784"/>
+  <polygon points="175,230 250,155 320,230" fill="#a5d6a7"/>
+  <polygon points="148,140 165,120 182,140 174,148 156,148" fill="#ffffff" opacity="0.8"/>
+
+  <!-- 遠くの木（視差スクロール） -->
+  <g class="bg-trees">
+    <rect x="20"  y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="23"  cy="207" rx="12" ry="12" fill="#388e3c"/>
+    <rect x="55"  y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="57"  cy="213" rx="9"  ry="10" fill="#2e7d32"/>
+    <rect x="88"  y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="91"  cy="206" rx="11" ry="12" fill="#388e3c"/>
+    <rect x="130" y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="132" cy="212" rx="9"  ry="10" fill="#2e7d32"/>
+    <rect x="165" y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="168" cy="206" rx="11" ry="12" fill="#388e3c"/>
+    <rect x="205" y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="207" cy="212" rx="9"  ry="10" fill="#2e7d32"/>
+    <rect x="245" y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="248" cy="206" rx="11" ry="12" fill="#388e3c"/>
+    <rect x="280" y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="282" cy="212" rx="9"  ry="10" fill="#2e7d32"/>
+    <!-- セット2 -->
+    <rect x="320" y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="323" cy="207" rx="12" ry="12" fill="#388e3c"/>
+    <rect x="355" y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="357" cy="213" rx="9"  ry="10" fill="#2e7d32"/>
+    <rect x="388" y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="391" cy="206" rx="11" ry="12" fill="#388e3c"/>
+    <rect x="430" y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="432" cy="212" rx="9"  ry="10" fill="#2e7d32"/>
+    <rect x="465" y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="468" cy="206" rx="11" ry="12" fill="#388e3c"/>
+    <rect x="505" y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="507" cy="212" rx="9"  ry="10" fill="#2e7d32"/>
+    <rect x="545" y="213" width="6"  height="20" fill="#4e342e"/>
+    <ellipse cx="548" cy="206" rx="11" ry="12" fill="#388e3c"/>
+    <rect x="580" y="218" width="5"  height="15" fill="#4e342e"/>
+    <ellipse cx="582" cy="212" rx="9"  ry="10" fill="#2e7d32"/>
+  </g>
+
+  <!-- 地面 -->
+  <rect y="230" width="300" height="70" fill="#5d4037"/>
+  <rect y="230" width="300" height="12" fill="#6d4c41"/>
+
+  <!-- 架線（静的） -->
+  <line x1="0" y1="192" x2="300" y2="192" stroke="#9e9e9e" stroke-width="1.2"/>
+
+  <!-- 線路：まくら木 -->
+  <g fill="#4e342e">
+    <rect x="0"   y="239" width="9" height="7" rx="1"/>
+    <rect x="15"  y="239" width="9" height="7" rx="1"/>
+    <rect x="30"  y="239" width="9" height="7" rx="1"/>
+    <rect x="45"  y="239" width="9" height="7" rx="1"/>
+    <rect x="60"  y="239" width="9" height="7" rx="1"/>
+    <rect x="75"  y="239" width="9" height="7" rx="1"/>
+    <rect x="90"  y="239" width="9" height="7" rx="1"/>
+    <rect x="105" y="239" width="9" height="7" rx="1"/>
+    <rect x="120" y="239" width="9" height="7" rx="1"/>
+    <rect x="135" y="239" width="9" height="7" rx="1"/>
+    <rect x="150" y="239" width="9" height="7" rx="1"/>
+    <rect x="165" y="239" width="9" height="7" rx="1"/>
+    <rect x="180" y="239" width="9" height="7" rx="1"/>
+    <rect x="195" y="239" width="9" height="7" rx="1"/>
+    <rect x="210" y="239" width="9" height="7" rx="1"/>
+    <rect x="225" y="239" width="9" height="7" rx="1"/>
+    <rect x="240" y="239" width="9" height="7" rx="1"/>
+    <rect x="255" y="239" width="9" height="7" rx="1"/>
+    <rect x="270" y="239" width="9" height="7" rx="1"/>
+    <rect x="285" y="239" width="9" height="7" rx="1"/>
+  </g>
+  <!-- レール2本 -->
+  <rect x="0" y="239" width="300" height="3" fill="#bdbdbd" rx="1"/>
+  <rect x="0" y="244" width="300" height="3" fill="#bdbdbd" rx="1"/>
+
+  <!-- ===== 電車グループ（2両編成） ===== -->
+  <g class="train">
+
+    <!-- パンタグラフ（1両目上） -->
+    <line x1="43" y1="205" x2="37" y2="194" stroke="#616161" stroke-width="1.8"/>
+    <line x1="43" y1="205" x2="49" y2="194" stroke="#616161" stroke-width="1.8"/>
+    <line x1="37" y1="194" x2="49" y2="194" stroke="#616161" stroke-width="2"/>
+
+    <!-- ▶ 1両目（先頭） x=0〜76 -->
+    <rect x="12" y="205" width="64" height="34" fill="#eceff1" rx="3"/>
+    <rect x="12" y="215" width="64" height="7"  fill="#2e7d32"/>
+    <!-- 鼻部分 -->
+    <rect x="0"  y="205" width="18" height="34" fill="#2e7d32" rx="5"/>
+    <!-- 前面ガラス -->
+    <rect x="3"  y="209" width="12" height="16" fill="#b3e5fc" rx="2"/>
+    <!-- ヘッドライト -->
+    <circle cx="8" cy="232" r="3" fill="#fff9c4"/>
+    <!-- 窓 -->
+    <rect x="30" y="218" width="14" height="10" fill="#b3e5fc" rx="1"/>
+    <rect x="49" y="218" width="14" height="10" fill="#b3e5fc" rx="1"/>
+    <!-- 車輪 -->
+    <circle class="wheel" cx="18"  cy="247" r="9" fill="#37474f"/>
+    <line x1="18" y1="238" x2="18" y2="256" stroke="#78909c" stroke-width="1.5"/>
+    <line x1="9"  y1="247" x2="27" y2="247" stroke="#78909c" stroke-width="1.5"/>
+    <circle cx="18" cy="247" r="3.5" fill="#90a4ae"/>
+    <circle class="wheel" cx="66"  cy="247" r="9" fill="#37474f"/>
+    <line x1="66" y1="238" x2="66" y2="256" stroke="#78909c" stroke-width="1.5"/>
+    <line x1="57" y1="247" x2="75" y2="247" stroke="#78909c" stroke-width="1.5"/>
+    <circle cx="66" cy="247" r="3.5" fill="#90a4ae"/>
+
+    <!-- 連結器 -->
+    <rect x="74" y="224" width="7" height="6" fill="#90a4ae" rx="1"/>
+
+    <!-- ▶ 2両目（最後尾） x=80〜156 -->
+    <rect x="80" y="205" width="64" height="34" fill="#eceff1" rx="3"/>
+    <rect x="80" y="215" width="64" height="7"  fill="#2e7d32"/>
+    <!-- 後ろ鼻 -->
+    <rect x="128" y="205" width="18" height="34" fill="#2e7d32" rx="5"/>
+    <!-- 後面ガラス -->
+    <rect x="131" y="209" width="12" height="16" fill="#b3e5fc" rx="2"/>
+    <!-- テールライト -->
+    <circle cx="141" cy="232" r="3" fill="#ef9a9a"/>
+    <!-- 窓 -->
+    <rect x="88"  y="218" width="14" height="10" fill="#b3e5fc" rx="1"/>
+    <rect x="107" y="218" width="14" height="10" fill="#b3e5fc" rx="1"/>
+    <!-- 車輪 -->
+    <circle class="wheel" cx="95"  cy="247" r="9" fill="#37474f"/>
+    <line x1="95"  y1="238" x2="95"  y2="256" stroke="#78909c" stroke-width="1.5"/>
+    <line x1="86"  y1="247" x2="104" y2="247" stroke="#78909c" stroke-width="1.5"/>
+    <circle cx="95"  cy="247" r="3.5" fill="#90a4ae"/>
+    <circle class="wheel" cx="133" cy="247" r="9" fill="#37474f"/>
+    <line x1="133" y1="238" x2="133" y2="256" stroke="#78909c" stroke-width="1.5"/>
+    <line x1="124" y1="247" x2="142" y2="247" stroke="#78909c" stroke-width="1.5"/>
+    <circle cx="133" cy="247" r="3.5" fill="#90a4ae"/>
+  </g>
+</g>
+</svg>

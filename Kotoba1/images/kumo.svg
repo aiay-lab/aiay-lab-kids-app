@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+
+    <linearGradient id="sky-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#42a5f5"/>
+      <stop offset="100%" stop-color="#b3e5fc"/>
+    </linearGradient>
+
+    <!-- 雲のグラデーション（userSpaceOnUse で雲全体を一つの光源にする） -->
+    <radialGradient id="cloud-g" cx="145" cy="118" r="90"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="60%"  stop-color="#f5f5f5"/>
+      <stop offset="100%" stop-color="#dde8f5"/>
+    </radialGradient>
+
+    <linearGradient id="grass-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#66bb6a"/>
+      <stop offset="100%" stop-color="#388e3c"/>
+    </linearGradient>
+
+    <style>
+      /* ======= メイン雲：ふわふわ浮く ======= */
+      .cloud-main {
+        animation: cloud-bob 5s ease-in-out infinite;
+      }
+      @keyframes cloud-bob {
+        0%, 100% { transform: translateY(0px); }
+        50%      { transform: translateY(-14px); }
+      }
+
+      /* ======= 雲コア：やさしく膨らむ ======= */
+      .cloud-body {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: cloud-puff 5s ease-in-out infinite;
+        animation-delay: 2.5s;
+      }
+      @keyframes cloud-puff {
+        0%, 100% { transform: scale(1.00); }
+        50%      { transform: scale(1.03); }
+      }
+
+      /* ======= 背景小雲：流れる ======= */
+      .bg-cloud-a { animation: drift-r 22s linear infinite; }
+      @keyframes drift-r {
+        0%   { transform: translateX(-180px); }
+        100% { transform: translateX(380px); }
+      }
+      .bg-cloud-b { animation: drift-l 30s linear infinite; animation-delay: -11s; }
+      @keyframes drift-l {
+        0%   { transform: translateX(380px); }
+        100% { transform: translateX(-180px); }
+      }
+      .bg-cloud-c { animation: drift-r 38s linear infinite; animation-delay: -20s; }
+
+      /* ======= 鳥が飛ぶ ======= */
+      .bird-a { animation: bird-fly-a 13s linear infinite; animation-delay: 1.5s; }
+      @keyframes bird-fly-a {
+        0%   { transform: translate(-55px, 68px); }
+        100% { transform: translate(365px, 52px); }
+      }
+      .bird-b { animation: bird-fly-b 19s linear infinite; animation-delay: -7s; }
+      @keyframes bird-fly-b {
+        0%   { transform: translate(-55px, 205px); }
+        100% { transform: translate(365px, 188px); }
+      }
+
+      /* ======= キラキラ ======= */
+      .sp {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: sp-pop 2.8s ease-in-out infinite;
+        opacity: 0;
+      }
+      .sp1 { animation-delay: 0.0s; }
+      .sp2 { animation-delay: 0.7s; }
+      .sp3 { animation-delay: 1.4s; }
+      .sp4 { animation-delay: 2.1s; }
+      .sp5 { animation-delay: 0.35s; }
+      @keyframes sp-pop {
+        0%,8%    { opacity: 0; transform: scale(0.25); }
+        30%,65%  { opacity: 1; transform: scale(1.0);  }
+        88%,100% { opacity: 0; transform: scale(0.25); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- ===== 空 ===== -->
+    <rect width="300" height="300" fill="url(#sky-g)"/>
+
+    <!-- ===== 背景の小雲 ===== -->
+    <g class="bg-cloud-a">
+      <g transform="translate(30, 52)">
+        <ellipse cx="0"  cy="0"  rx="18" ry="13" fill="#fff" opacity="0.82"/>
+        <ellipse cx="24" cy="-7" rx="26" ry="18" fill="#fff" opacity="0.82"/>
+        <ellipse cx="50" cy="0"  rx="18" ry="12" fill="#fff" opacity="0.82"/>
+        <ellipse cx="24" cy="9"  rx="23" ry="9"  fill="#fff" opacity="0.82"/>
+      </g>
+    </g>
+
+    <g class="bg-cloud-b">
+      <g transform="translate(195, 190)">
+        <ellipse cx="0"  cy="0"  rx="13" ry="9"  fill="#fff" opacity="0.72"/>
+        <ellipse cx="18" cy="-5" rx="19" ry="13" fill="#fff" opacity="0.72"/>
+        <ellipse cx="36" cy="0"  rx="13" ry="9"  fill="#fff" opacity="0.72"/>
+        <ellipse cx="18" cy="6"  rx="16" ry="7"  fill="#fff" opacity="0.72"/>
+      </g>
+    </g>
+
+    <g class="bg-cloud-c">
+      <g transform="translate(215, 74)">
+        <ellipse cx="0"  cy="0"  rx="11" ry="8"  fill="#fff" opacity="0.65"/>
+        <ellipse cx="15" cy="-5" rx="15" ry="10" fill="#fff" opacity="0.65"/>
+        <ellipse cx="30" cy="0"  rx="11" ry="7"  fill="#fff" opacity="0.65"/>
+        <ellipse cx="15" cy="5"  rx="13" ry="6"  fill="#fff" opacity="0.65"/>
+      </g>
+    </g>
+
+    <!-- ===== メインの雲（主役）===== -->
+    <g class="cloud-main">
+
+      <!-- 雲の本体（複数楕円で積乱雲風のモコモコ） -->
+      <g class="cloud-body">
+        <!-- 左の膨らみ -->
+        <ellipse cx="86"  cy="152" rx="36" ry="28" fill="url(#cloud-g)"/>
+        <!-- 中央左の大きな膨らみ -->
+        <ellipse cx="128" cy="120" rx="46" ry="38" fill="url(#cloud-g)"/>
+        <!-- 中央の最大膨らみ（一番高い） -->
+        <ellipse cx="170" cy="112" rx="48" ry="42" fill="url(#cloud-g)"/>
+        <!-- 右の膨らみ -->
+        <ellipse cx="214" cy="133" rx="37" ry="29" fill="url(#cloud-g)"/>
+        <!-- 底面をつなぐ -->
+        <ellipse cx="155" cy="165" rx="80" ry="26" fill="url(#cloud-g)"/>
+      </g>
+
+      <!-- ハイライト（艶） -->
+      <ellipse cx="138" cy="117" rx="22" ry="13" fill="#ffffff" opacity="0.55"/>
+      <ellipse cx="174" cy="107" rx="24" ry="14" fill="#ffffff" opacity="0.50"/>
+
+      <!-- ===== 雲の顔 ===== -->
+      <!-- 頬（淡い水色） -->
+      <ellipse cx="122" cy="162" rx="12" ry="7.5" fill="#90caf9" opacity="0.55"/>
+      <ellipse cx="190" cy="162" rx="12" ry="7.5" fill="#90caf9" opacity="0.55"/>
+      <!-- 目（左） -->
+      <circle cx="136" cy="150" r="6"   fill="#5c6bc0"/>
+      <circle cx="137" cy="149" r="3.4" fill="#1a237e"/>
+      <circle cx="138" cy="148" r="1.3" fill="#fff"/>
+      <!-- 目（右） -->
+      <circle cx="176" cy="150" r="6"   fill="#5c6bc0"/>
+      <circle cx="177" cy="149" r="3.4" fill="#1a237e"/>
+      <circle cx="178" cy="148" r="1.3" fill="#fff"/>
+      <!-- 口（にっこり） -->
+      <path d="M 128,166 Q 156,186 184,166"
+            stroke="#5c6bc0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+    </g>
+
+    <!-- ===== 鳥（小さなシルエット） ===== -->
+    <g class="bird-a">
+      <path d="M -10,0 Q -5,-7 0,-3.5 Q 5,-7 10,0"
+            fill="none" stroke="#1565c0" stroke-width="2.2" stroke-linecap="round" opacity="0.76"/>
+    </g>
+    <g class="bird-b">
+      <path d="M -7,0 Q -3.5,-5 0,-2.5 Q 3.5,-5 7,0"
+            fill="none" stroke="#1565c0" stroke-width="1.7" stroke-linecap="round" opacity="0.60"/>
+    </g>
+
+    <!-- ===== 地面・草・花 ===== -->
+    <path d="M 0,260 Q 75,248 150,256 Q 225,264 300,250 L 300,300 L 0,300 Z"
+          fill="url(#grass-g)"/>
+    <path d="M 0,260 Q 75,248 150,256 Q 225,264 300,250"
+          fill="none" stroke="#81c784" stroke-width="2.5" opacity="0.7"/>
+    <!-- 草の葉 -->
+    <path d="M 30,260 L 34,244 L 38,260"  fill="#81c784" opacity="0.72"/>
+    <path d="M 72,264 L 76,250 L 80,264"  fill="#a5d6a7" opacity="0.72"/>
+    <path d="M 122,258 L 126,242 L 130,258" fill="#81c784" opacity="0.72"/>
+    <path d="M 178,262 L 182,246 L 186,262" fill="#a5d6a7" opacity="0.72"/>
+    <path d="M 228,256 L 232,240 L 236,256" fill="#81c784" opacity="0.72"/>
+    <path d="M 268,260 L 272,246 L 276,260" fill="#a5d6a7" opacity="0.72"/>
+    <!-- 花（中央・黄） -->
+    <circle cx="55"  cy="262" r="4.5" fill="#fff176"/>
+    <circle cx="55"  cy="262" r="2"   fill="#ffd600"/>
+    <!-- 花（赤） -->
+    <circle cx="152" cy="258" r="4.5" fill="#ef9a9a"/>
+    <circle cx="152" cy="258" r="2"   fill="#e53935"/>
+    <!-- 花（黄2） -->
+    <circle cx="252" cy="252" r="4.5" fill="#fff176"/>
+    <circle cx="252" cy="252" r="2"   fill="#ffd600"/>
+    <!-- 花（水色） -->
+    <circle cx="200" cy="264" r="4"   fill="#80deea"/>
+    <circle cx="200" cy="264" r="1.8" fill="#00838f"/>
+    <!-- 花（ピンク） -->
+    <circle cx="100" cy="260" r="4"   fill="#f48fb1"/>
+    <circle cx="100" cy="260" r="1.8" fill="#e91e63"/>
+
+    <!-- ===== キラキラ（雲の周囲） ===== -->
+    <text class="sp sp1" x="58"  y="92"  font-size="18" fill="#e3f2fd" text-anchor="middle">✦</text>
+    <text class="sp sp2" x="250" y="85"  font-size="15" fill="#e3f2fd" text-anchor="middle">✦</text>
+    <text class="sp sp3" x="42"  y="180" font-size="14" fill="#bbdefb" text-anchor="middle">✦</text>
+    <text class="sp sp4" x="264" y="174" font-size="16" fill="#e3f2fd" text-anchor="middle">✦</text>
+    <text class="sp sp5" x="154" y="48"  font-size="20" fill="#e3f2fd" text-anchor="middle">✦</text>
+
+  </g>
+</svg>

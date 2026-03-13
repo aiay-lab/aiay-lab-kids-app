@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 花がぽんぽん咲く ======= */
+      .bloom {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: bloom-open 8s ease-in-out infinite;
+      }
+      .b1  { animation-delay: 0.00s; }
+      .b2  { animation-delay: 0.25s; }
+      .b3  { animation-delay: 0.50s; }
+      .b4  { animation-delay: 0.75s; }
+      .b5  { animation-delay: 1.00s; }
+      .b6  { animation-delay: 1.25s; }
+      .b7  { animation-delay: 1.50s; }
+      .b8  { animation-delay: 0.12s; }
+      .b9  { animation-delay: 0.37s; }
+      .b10 { animation-delay: 0.62s; }
+      .b11 { animation-delay: 0.87s; }
+      .b12 { animation-delay: 1.12s; }
+      .b13 { animation-delay: 1.37s; }
+      .b14 { animation-delay: 1.62s; }
+      .b15 { animation-delay: 0.18s; }
+      .b16 { animation-delay: 0.43s; }
+      .b17 { animation-delay: 0.68s; }
+      .b18 { animation-delay: 0.93s; }
+      .b19 { animation-delay: 1.18s; }
+      .b20 { animation-delay: 1.43s; }
+      .b21 { animation-delay: 1.68s; }
+      .b22 { animation-delay: 1.93s; }
+      .b23 { animation-delay: 0.30s; }
+      .b24 { animation-delay: 0.55s; }
+      @keyframes bloom-open {
+        0%        { transform: scale(0);    opacity: 0; }
+        5%        { transform: scale(1.25); opacity: 1; }
+        9%        { transform: scale(0.87); }
+        13%       { transform: scale(1.07); }
+        16%,73%   { transform: scale(1);   opacity: 1; }
+        84%       { opacity: 0; transform: scale(0.9); }
+        100%      { transform: scale(0);   opacity: 0; }
+      }
+
+      /* ======= 枝がそよそよ ======= */
+      .tree-sway {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: tree-sw 5s ease-in-out infinite alternate;
+      }
+      @keyframes tree-sw {
+        0%   { transform: rotate(-1.8deg); }
+        100% { transform: rotate(1.8deg); }
+      }
+
+      /* ======= 散り始めの花びら ======= */
+      .drift {
+        animation: drift-petal 8s ease-in infinite;
+        opacity: 0;
+      }
+      .dp1 { animation-delay: 3.8s; }
+      .dp2 { animation-delay: 5.2s; }
+      .dp3 { animation-delay: 6.8s; }
+      @keyframes drift-petal {
+        0%   { opacity: 0;   transform: translate(0,0) rotate(0deg); }
+        5%   { opacity: 0.8; }
+        100% { opacity: 0;   transform: translate(28px, 85px) rotate(200deg); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- ===== 春の空（淡いピンクブルー） ===== -->
+    <rect width="300" height="300" fill="#dce8f8"/>
+    <rect width="300" height="300" fill="#fce4ec" opacity="0.45"/>
+    <ellipse cx="150" cy="90" rx="160" ry="110" fill="#fffde7" opacity="0.28"/>
+
+    <!-- ===== 地面（柔らかい緑） ===== -->
+    <path d="M 0,266 Q 75,258 150,264 Q 225,270 300,260 L 300,300 L 0,300 Z"
+          fill="#c8e6c9"/>
+    <path d="M 0,266 Q 75,258 150,264 Q 225,270 300,260"
+          fill="none" stroke="#a5d6a7" stroke-width="2.5" opacity="0.6"/>
+    <path d="M 28,265 Q 26,256 30,258" stroke="#81c784" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M 32,264 Q 30,253 35,257" stroke="#66bb6a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M 268,262 Q 266,253 270,256" stroke="#81c784" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M 274,263 Q 273,254 277,257" stroke="#66bb6a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+    <!-- ===== 木（幹・枝） ===== -->
+    <g class="tree-sway">
+      <!-- 幹 -->
+      <path d="M 149,270 C 148,252 147,234 148,216 C 149,205 150,198 150,193"
+            fill="none" stroke="#4e342e" stroke-width="22" stroke-linecap="round"/>
+      <path d="M 149,270 C 148,252 147,234 148,216 C 149,205 150,198 150,193"
+            fill="none" stroke="#6d4c41" stroke-width="14" stroke-linecap="round"/>
+      <path d="M 149,270 C 148,252 147,234 148,216 C 149,205 150,198 150,193"
+            fill="none" stroke="#8d6e63" stroke-width="7" stroke-linecap="round"/>
+
+      <!-- 左の主枝 -->
+      <path d="M 149,208 C 132,196 112,184 92,170"
+            fill="none" stroke="#5d4037" stroke-width="14" stroke-linecap="round"/>
+      <path d="M 149,208 C 132,196 112,184 92,170"
+            fill="none" stroke="#8d6e63" stroke-width="7" stroke-linecap="round"/>
+      <!-- 右の主枝 -->
+      <path d="M 150,204 C 168,192 188,180 210,165"
+            fill="none" stroke="#5d4037" stroke-width="14" stroke-linecap="round"/>
+      <path d="M 150,204 C 168,192 188,180 210,165"
+            fill="none" stroke="#8d6e63" stroke-width="7" stroke-linecap="round"/>
+
+      <!-- ===== 中央の上枝（大きく延長） ===== -->
+      <path d="M 150,196 C 148,172 145,146 143,122 C 141,100 140,84 138,68"
+            fill="none" stroke="#5d4037" stroke-width="11" stroke-linecap="round"/>
+      <path d="M 150,196 C 148,172 145,146 143,122 C 141,100 140,84 138,68"
+            fill="none" stroke="#8d6e63" stroke-width="6" stroke-linecap="round"/>
+
+      <!-- 中央y=122から左の枝 -->
+      <path d="M 143,122 C 130,107 118,94 108,80"
+            fill="none" stroke="#795548" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 143,122 C 130,107 118,94 108,80"
+            fill="none" stroke="#8d6e63" stroke-width="4.5" stroke-linecap="round"/>
+      <!-- 中央y=122から右の枝 -->
+      <path d="M 143,122 C 156,107 168,94 178,80"
+            fill="none" stroke="#795548" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 143,122 C 156,107 168,94 178,80"
+            fill="none" stroke="#8d6e63" stroke-width="4.5" stroke-linecap="round"/>
+
+      <!-- 中央左枝の先端2本 -->
+      <path d="M 108,80 C 100,66 92,55 88,44"
+            fill="none" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 108,80 C 116,66 118,55 118,44"
+            fill="none" stroke="#8d6e63" stroke-width="3" stroke-linecap="round"/>
+      <!-- 中央右枝の先端2本 -->
+      <path d="M 178,80 C 170,66 164,55 162,44"
+            fill="none" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 178,80 C 186,66 192,55 194,44"
+            fill="none" stroke="#8d6e63" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- 中央最上部の先端2本 -->
+      <path d="M 138,68 C 130,55 124,44 118,34"
+            fill="none" stroke="#8d6e63" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 138,68 C 146,55 150,44 152,34"
+            fill="none" stroke="#8d6e63" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- 左の枝（外） -->
+      <path d="M 92,170 C 74,156 56,142 42,126"
+            fill="none" stroke="#6d4c41" stroke-width="9" stroke-linecap="round"/>
+      <path d="M 92,170 C 74,156 56,142 42,126"
+            fill="none" stroke="#8d6e63" stroke-width="5" stroke-linecap="round"/>
+      <!-- 左の枝（内） -->
+      <path d="M 92,170 C 80,158 68,146 58,132"
+            fill="none" stroke="#6d4c41" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 92,170 C 80,158 68,146 58,132"
+            fill="none" stroke="#8d6e63" stroke-width="4.5" stroke-linecap="round"/>
+
+      <!-- 右の枝（外） -->
+      <path d="M 210,165 C 226,150 242,138 258,122"
+            fill="none" stroke="#6d4c41" stroke-width="9" stroke-linecap="round"/>
+      <path d="M 210,165 C 226,150 242,138 258,122"
+            fill="none" stroke="#8d6e63" stroke-width="5" stroke-linecap="round"/>
+      <!-- 右の枝（内） -->
+      <path d="M 210,165 C 220,153 230,143 242,130"
+            fill="none" stroke="#6d4c41" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 210,165 C 220,153 230,143 242,130"
+            fill="none" stroke="#8d6e63" stroke-width="4.5" stroke-linecap="round"/>
+
+      <!-- 中央右サイドの枝 -->
+      <path d="M 144,155 C 154,144 166,134 178,122"
+            fill="none" stroke="#795548" stroke-width="6.5" stroke-linecap="round"/>
+      <path d="M 144,155 C 154,144 166,134 178,122"
+            fill="none" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/>
+
+      <!-- 先端の細い枝（左右外側） -->
+      <path d="M 42,126 C 34,114 28,104 24,94"   fill="none" stroke="#8d6e63" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 42,126 C 44,113 50,103 54,93"   fill="none" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 58,132 C 50,120 46,108 44,96"   fill="none" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 178,122 C 184,110 186,100 188,90" fill="none" stroke="#8d6e63" stroke-width="3" stroke-linecap="round"/>
+      <path d="M 258,122 C 264,110 266,100 268,90" fill="none" stroke="#8d6e63" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 258,122 C 250,110 248,100 252,90" fill="none" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 242,130 C 246,118 248,108 250,98" fill="none" stroke="#8d6e63" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- ===== 花（24輪、順番に咲く） ===== -->
+
+    <!-- 左外 -->
+    <g transform="translate(24, 92)"><g class="bloom b1">
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="3" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(44, 106)"><g class="bloom b2">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffcc02"/>
+    </g></g>
+
+    <g transform="translate(54, 90)"><g class="bloom b8">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(20)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(92)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(164)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(236)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(308)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(62, 124)"><g class="bloom b3">
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="3" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(76, 112)"><g class="bloom b9">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#fce4ec"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#fce4ec" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#fce4ec" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffcc02"/>
+    </g></g>
+
+    <!-- 中央軸の花（延長部分） -->
+    <g transform="translate(140, 128)"><g class="bloom b21">
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="3" fill="#ffd54f"/>
+    </g></g>
+
+    <!-- 中央左枝（y=122分岐） -->
+    <g transform="translate(108, 100)"><g class="bloom b19">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(112, 84)"><g class="bloom b4">
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#fce4ec" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#fce4ec" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="3" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(128, 90)"><g class="bloom b22">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f8bbd0" transform="rotate(15)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(87)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f8bbd0" transform="rotate(159)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(231)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f8bbd0" transform="rotate(303)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffcc02"/>
+    </g></g>
+
+    <!-- 中央左枝の先端 -->
+    <g transform="translate(88, 48)"><g class="bloom b17">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(118, 48)"><g class="bloom b15">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(10)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(82)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(154)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(226)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(298)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffd54f"/>
+    </g></g>
+
+    <!-- 中央最上部 -->
+    <g transform="translate(138, 72)"><g class="bloom b10">
+      <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#f8bbd0"/>
+      <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#f8bbd0" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-11" rx="7" ry="11" fill="#f8bbd0" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="4" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(118, 36)"><g class="bloom b24">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffcc02"/>
+    </g></g>
+
+    <g transform="translate(152, 36)"><g class="bloom b16">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffd54f"/>
+    </g></g>
+
+    <!-- 中央右枝（y=122分岐） -->
+    <g transform="translate(162, 90)"><g class="bloom b23">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(15)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f8bbd0" transform="rotate(87)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(159)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f8bbd0" transform="rotate(231)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(303)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffcc02"/>
+    </g></g>
+
+    <g transform="translate(168, 84)"><g class="bloom b5">
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#fce4ec" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#fce4ec" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="3" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(178, 100)"><g class="bloom b20">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffd54f"/>
+    </g></g>
+
+    <!-- 中央右枝の先端 -->
+    <g transform="translate(162, 48)"><g class="bloom b18">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(20)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(92)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(164)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(236)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(308)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffd54f"/>
+    </g></g>
+
+    <g transform="translate(194, 48)"><g class="bloom b11">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffcc02"/>
+    </g></g>
+
+    <!-- 右サイド -->
+    <g transform="translate(186, 92)"><g class="bloom b6">
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="3" fill="#ffd54f"/>
+    </g></g>
+
+    <!-- 右内 -->
+    <g transform="translate(222, 122)"><g class="bloom b12">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#fce4ec" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#fce4ec" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffcc02"/>
+    </g></g>
+
+    <g transform="translate(238, 110)"><g class="bloom b7">
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f48fb1" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-9" rx="5.5" ry="9" fill="#f8bbd0" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="3" fill="#ffd54f"/>
+    </g></g>
+
+    <!-- 右外 -->
+    <g transform="translate(252, 92)"><g class="bloom b13">
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(20)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(92)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(164)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f8bbd0" transform="rotate(236)"/>
+      <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#f48fb1" transform="rotate(308)"/>
+      <circle cx="0" cy="0" r="2.8" fill="#ffcc02"/>
+    </g></g>
+
+    <g transform="translate(268, 80)"><g class="bloom b14">
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#fce4ec" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="7" fill="#f48fb1" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="2.5" fill="#ffd54f"/>
+    </g></g>
+
+    <!-- ===== 散り始めの花びら ===== -->
+    <g class="drift dp1" transform="translate(140, 148)">
+      <ellipse cx="0" cy="-6" rx="4" ry="6" fill="#f48fb1" opacity="0.85"/>
+    </g>
+    <g class="drift dp2" transform="translate(182, 140)">
+      <ellipse cx="0" cy="-5" rx="3.5" ry="5" fill="#f8bbd0" opacity="0.85" transform="rotate(30)"/>
+    </g>
+    <g class="drift dp3" transform="translate(96, 145)">
+      <ellipse cx="0" cy="-5" rx="3.5" ry="5" fill="#f48fb1" opacity="0.8" transform="rotate(-20)"/>
+    </g>
+
+  </g>
+</svg>

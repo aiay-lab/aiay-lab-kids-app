@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 炎がゆらゆら ======= */
+      .flame {
+        transform-box: fill-box; transform-origin: 50% 100%;
+      }
+      .f1 { animation: fl1 0.70s ease-in-out infinite alternate; }
+      .f2 { animation: fl2 0.85s ease-in-out infinite alternate; animation-delay: 0.15s; }
+      .f3 { animation: fl3 0.75s ease-in-out infinite alternate; animation-delay: 0.08s; }
+      .f4 { animation: fl4 0.90s ease-in-out infinite alternate; animation-delay: 0.22s; }
+      .f5 { animation: fl5 0.78s ease-in-out infinite alternate; animation-delay: 0.12s; }
+      @keyframes fl1 { 0% { transform: scaleX(1)    scaleY(1)    rotate(0deg);  } 100% { transform: scaleX(0.88) scaleY(1.12) rotate(-6deg); } }
+      @keyframes fl2 { 0% { transform: scaleX(1)    scaleY(1)    rotate(0deg);  } 100% { transform: scaleX(1.10) scaleY(0.94) rotate(5deg);  } }
+      @keyframes fl3 { 0% { transform: scaleX(1)    scaleY(1)    rotate(0deg);  } 100% { transform: scaleX(0.92) scaleY(1.08) rotate(4deg);  } }
+      @keyframes fl4 { 0% { transform: scaleX(1)    scaleY(1)    rotate(0deg);  } 100% { transform: scaleX(1.08) scaleY(0.93) rotate(-5deg); } }
+      @keyframes fl5 { 0% { transform: scaleX(1)    scaleY(1)    rotate(0deg);  } 100% { transform: scaleX(0.90) scaleY(1.10) rotate(-4deg); } }
+
+      /* ======= キラキラ ======= */
+      .sp {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: sp-pop 2.2s ease-in-out infinite;
+        opacity: 0;
+      }
+      .sp1 { animation-delay: 0.0s;  }
+      .sp2 { animation-delay: 0.55s; }
+      .sp3 { animation-delay: 1.1s;  }
+      .sp4 { animation-delay: 1.65s; }
+      .sp5 { animation-delay: 0.8s;  }
+      .sp6 { animation-delay: 1.4s;  }
+      @keyframes sp-pop {
+        0%,8%    { opacity: 0; transform: scale(0.3); }
+        30%,65%  { opacity: 1; transform: scale(1);   }
+        88%,100% { opacity: 0; transform: scale(0.3); }
+      }
+
+      /* ======= 紙吹雪が落ちる ======= */
+      .fall-a { animation: ca var(--d,5s) linear infinite; animation-delay: var(--t,0s); opacity: 0; }
+      @keyframes ca {
+        0%   { transform: translate(0,0) rotate(0deg);   opacity: 0; }
+        8%   { opacity: 1; }
+        92%  { opacity: 0.85; }
+        100% { transform: translate(18px,320px) rotate(420deg); opacity: 0; }
+      }
+      .fall-b { animation: cb var(--d,6s) linear infinite; animation-delay: var(--t,0s); opacity: 0; }
+      @keyframes cb {
+        0%   { transform: translate(0,0) rotate(0deg);    opacity: 0; }
+        8%   { opacity: 1; }
+        92%  { opacity: 0.85; }
+        100% { transform: translate(-22px,320px) rotate(-380deg); opacity: 0; }
+      }
+      .fall-c { animation: cc var(--d,4.5s) linear infinite; animation-delay: var(--t,0s); opacity: 0; }
+      @keyframes cc {
+        0%   { transform: translate(0,0) rotate(0deg);  opacity: 0; }
+        8%   { opacity: 1; }
+        92%  { opacity: 0.85; }
+        100% { transform: translate(10px,320px) rotate(310deg); opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- ===== 背景（クリーム×ピンク） ===== -->
+    <rect width="300" height="300" fill="#fff9c4"/>
+    <rect width="300" height="300" fill="#fce4ec" opacity="0.42"/>
+
+    <!-- ===== 紙吹雪（18枚） ===== -->
+    <g style="--d:5.2s;--t:0.0s" transform="translate(22,0)">  <g class="fall-a"><rect width="8"  height="5" rx="1" fill="#f44336"/></g></g>
+    <g style="--d:6.5s;--t:1.8s" transform="translate(40,0)">  <g class="fall-b"><circle r="4"   fill="#2196f3"/></g></g>
+    <g style="--d:4.8s;--t:3.5s" transform="translate(60,0)">  <g class="fall-c"><rect width="7"  height="4" rx="1" fill="#ffeb3b"/></g></g>
+    <g style="--d:5.8s;--t:0.8s" transform="translate(14,0)">  <g class="fall-b"><circle r="3.5" fill="#9c27b0"/></g></g>
+    <g style="--d:6.0s;--t:2.5s" transform="translate(80,0)">  <g class="fall-a"><rect width="9"  height="5" rx="1" fill="#4caf50"/></g></g>
+    <g style="--d:4.5s;--t:4.2s" transform="translate(100,0)"> <g class="fall-c"><circle r="4"   fill="#ff9800"/></g></g>
+    <g style="--d:5.5s;--t:1.2s" transform="translate(120,0)"> <g class="fall-b"><rect width="8"  height="4" rx="1" fill="#e91e63"/></g></g>
+    <g style="--d:7.0s;--t:0.4s" transform="translate(138,0)"> <g class="fall-a"><circle r="3.5" fill="#f44336"/></g></g>
+    <g style="--d:5.0s;--t:5.0s" transform="translate(158,0)"> <g class="fall-c"><rect width="8"  height="5" rx="1" fill="#2196f3"/></g></g>
+    <g style="--d:6.2s;--t:2.0s" transform="translate(174,0)"> <g class="fall-b"><circle r="4"   fill="#ffeb3b"/></g></g>
+    <g style="--d:4.8s;--t:3.8s" transform="translate(190,0)"> <g class="fall-a"><rect width="7"  height="4" rx="1" fill="#9c27b0"/></g></g>
+    <g style="--d:5.6s;--t:1.0s" transform="translate(208,0)"> <g class="fall-c"><circle r="3.5" fill="#4caf50"/></g></g>
+    <g style="--d:6.8s;--t:4.5s" transform="translate(224,0)"> <g class="fall-b"><rect width="9"  height="5" rx="1" fill="#ff9800"/></g></g>
+    <g style="--d:5.2s;--t:2.8s" transform="translate(242,0)"> <g class="fall-a"><circle r="4"   fill="#e91e63"/></g></g>
+    <g style="--d:6.0s;--t:0.6s" transform="translate(260,0)"> <g class="fall-c"><rect width="8"  height="4" rx="1" fill="#f44336"/></g></g>
+    <g style="--d:4.5s;--t:5.5s" transform="translate(276,0)"> <g class="fall-b"><circle r="3.5" fill="#2196f3"/></g></g>
+    <g style="--d:5.8s;--t:3.2s" transform="translate(288,0)"> <g class="fall-a"><rect width="7"  height="5" rx="1" fill="#ffeb3b"/></g></g>
+    <g style="--d:6.4s;--t:1.6s" transform="translate(48,0)">  <g class="fall-c"><circle r="3"   fill="#e91e63"/></g></g>
+
+    <!-- ===== ケーキ ===== -->
+
+    <!-- 影 -->
+    <ellipse cx="152" cy="278" rx="116" ry="8" fill="#9e9e9e" opacity="0.18"/>
+    <!-- お皿 -->
+    <ellipse cx="150" cy="270" rx="112" ry="9" fill="#f5f5f5"/>
+    <ellipse cx="150" cy="270" rx="112" ry="9" fill="none" stroke="#e0e0e0" stroke-width="1.5"/>
+
+    <!-- ── 下段 ── -->
+    <!-- 本体 -->
+    <rect x="55" y="214" width="190" height="55" rx="5" fill="#ef9a9a"/>
+    <!-- 横縞 -->
+    <line x1="55" y1="236" x2="245" y2="236" stroke="#e57373" stroke-width="2" opacity="0.4"/>
+    <!-- 側面小デコ（ハート風ドット） -->
+    <circle cx="75"  cy="248" r="4" fill="#f06292" opacity="0.6"/>
+    <circle cx="102" cy="244" r="3" fill="#fff"    opacity="0.5"/>
+    <circle cx="128" cy="248" r="4" fill="#f06292" opacity="0.6"/>
+    <circle cx="155" cy="244" r="3" fill="#fff"    opacity="0.5"/>
+    <circle cx="182" cy="248" r="4" fill="#f06292" opacity="0.6"/>
+    <circle cx="208" cy="244" r="3" fill="#fff"    opacity="0.5"/>
+    <circle cx="230" cy="248" r="4" fill="#f06292" opacity="0.6"/>
+    <!-- 上面クリーム -->
+    <ellipse cx="150" cy="214" rx="95" ry="9" fill="#fff" opacity="0.95"/>
+    <!-- フロスティング（たれ） -->
+    <path d="M 62,218 Q 73,230 84,218 Q 95,230 106,218 Q 117,230 128,218 Q 139,230 150,218 Q 161,230 172,218 Q 183,230 194,218 Q 205,230 216,218 Q 227,230 237,221"
+          fill="#fff" opacity="0.82"/>
+    <!-- クリームのデコボール -->
+    <circle cx="83"  cy="212" r="5" fill="#f48fb1"/>
+    <circle cx="108" cy="210" r="5" fill="#f06292"/>
+    <circle cx="133" cy="210" r="5" fill="#f48fb1"/>
+    <circle cx="158" cy="210" r="5" fill="#f06292"/>
+    <circle cx="183" cy="210" r="5" fill="#f48fb1"/>
+    <circle cx="208" cy="212" r="5" fill="#f06292"/>
+    <circle cx="228" cy="213" r="4" fill="#f48fb1"/>
+
+    <!-- ── 上段 ── -->
+    <!-- 本体 -->
+    <rect x="84" y="167" width="132" height="50" rx="5" fill="#fff9c4"/>
+    <!-- 横縞 -->
+    <line x1="84" y1="188" x2="216" y2="188" stroke="#ffe082" stroke-width="2" opacity="0.5"/>
+    <!-- 側面デコドット -->
+    <circle cx="100" cy="200" r="4" fill="#ffe082" opacity="0.7"/>
+    <circle cx="125" cy="196" r="3" fill="#fff"    opacity="0.6"/>
+    <circle cx="150" cy="200" r="4" fill="#ffe082" opacity="0.7"/>
+    <circle cx="175" cy="196" r="3" fill="#fff"    opacity="0.6"/>
+    <circle cx="200" cy="200" r="4" fill="#ffe082" opacity="0.7"/>
+    <!-- 上面クリーム -->
+    <ellipse cx="150" cy="167" rx="66" ry="8" fill="#fff" opacity="0.95"/>
+    <!-- フロスティング（たれ） -->
+    <path d="M 90,171 Q 99,182 109,171 Q 119,182 129,171 Q 139,182 149,171 Q 159,182 169,171 Q 179,182 189,171 Q 199,182 209,173"
+          fill="#fff" opacity="0.82"/>
+    <!-- クリームデコボール -->
+    <circle cx="104" cy="165" r="4" fill="#fff176"/>
+    <circle cx="126" cy="163" r="4" fill="#ffe082"/>
+    <circle cx="150" cy="162" r="4" fill="#fff176"/>
+    <circle cx="174" cy="163" r="4" fill="#ffe082"/>
+    <circle cx="196" cy="165" r="4" fill="#fff176"/>
+
+    <!-- ===== ろうそく（5本） ===== -->
+    <!-- 1 赤  cx=108 -->
+    <rect x="104.5" y="143" width="7" height="25" rx="3.5" fill="#f44336"/>
+    <ellipse cx="108" cy="143" rx="3.5" ry="2" fill="#ef9a9a"/>
+    <!-- 2 青  cx=127 -->
+    <rect x="123.5" y="144" width="7" height="24" rx="3.5" fill="#1e88e5"/>
+    <ellipse cx="127" cy="144" rx="3.5" ry="2" fill="#90caf9"/>
+    <!-- 3 黄（中央・少し長い） cx=150 -->
+    <rect x="146.5" y="141" width="7" height="27" rx="3.5" fill="#fdd835"/>
+    <ellipse cx="150" cy="141" rx="3.5" ry="2" fill="#fff176"/>
+    <!-- 4 緑  cx=173 -->
+    <rect x="169.5" y="144" width="7" height="24" rx="3.5" fill="#43a047"/>
+    <ellipse cx="173" cy="144" rx="3.5" ry="2" fill="#a5d6a7"/>
+    <!-- 5 紫  cx=192 -->
+    <rect x="188.5" y="143" width="7" height="25" rx="3.5" fill="#7b1fa2"/>
+    <ellipse cx="192" cy="143" rx="3.5" ry="2" fill="#ce93d8"/>
+
+    <!-- ===== 炎（5本） ===== -->
+    <!-- 炎の形: 基底 y=0、先端が上。transform-origin: 50% 100% でゆらゆら -->
+    <g transform="translate(108, 143)">
+      <g class="flame f1">
+        <path d="M 0,0 C -5,-4 -6,-10 -3,-15 C -1,-18 0,-21 0,-23 C 0,-21 1,-18 3,-15 C 6,-10 5,-4 0,0 Z" fill="#ff9800"/>
+        <path d="M 0,-1 C -3,-4 -3,-9 -1,-13 C 0,-15 0,-17 0,-18 C 0,-17 0,-15 1,-13 C 3,-9 3,-4 0,-1 Z" fill="#ffee58"/>
+      </g>
+    </g>
+    <g transform="translate(127, 144)">
+      <g class="flame f2">
+        <path d="M 0,0 C -5,-4 -6,-10 -3,-15 C -1,-18 0,-21 0,-23 C 0,-21 1,-18 3,-15 C 6,-10 5,-4 0,0 Z" fill="#ff9800"/>
+        <path d="M 0,-1 C -3,-4 -3,-9 -1,-13 C 0,-15 0,-17 0,-18 C 0,-17 0,-15 1,-13 C 3,-9 3,-4 0,-1 Z" fill="#ffee58"/>
+      </g>
+    </g>
+    <g transform="translate(150, 141)">
+      <g class="flame f3">
+        <!-- 中央炎は少し大きめ -->
+        <path d="M 0,0 C -6,-5 -7,-11 -4,-17 C -2,-20 0,-23 0,-25 C 0,-23 2,-20 4,-17 C 7,-11 6,-5 0,0 Z" fill="#ff9800"/>
+        <path d="M 0,-1 C -3,-4 -4,-9 -2,-14 C -1,-17 0,-19 0,-20 C 0,-19 1,-17 2,-14 C 4,-9 3,-4 0,-1 Z" fill="#ffee58"/>
+      </g>
+    </g>
+    <g transform="translate(173, 144)">
+      <g class="flame f4">
+        <path d="M 0,0 C -5,-4 -6,-10 -3,-15 C -1,-18 0,-21 0,-23 C 0,-21 1,-18 3,-15 C 6,-10 5,-4 0,0 Z" fill="#ff9800"/>
+        <path d="M 0,-1 C -3,-4 -3,-9 -1,-13 C 0,-15 0,-17 0,-18 C 0,-17 0,-15 1,-13 C 3,-9 3,-4 0,-1 Z" fill="#ffee58"/>
+      </g>
+    </g>
+    <g transform="translate(192, 143)">
+      <g class="flame f5">
+        <path d="M 0,0 C -5,-4 -6,-10 -3,-15 C -1,-18 0,-21 0,-23 C 0,-21 1,-18 3,-15 C 6,-10 5,-4 0,0 Z" fill="#ff9800"/>
+        <path d="M 0,-1 C -3,-4 -3,-9 -1,-13 C 0,-15 0,-17 0,-18 C 0,-17 0,-15 1,-13 C 3,-9 3,-4 0,-1 Z" fill="#ffee58"/>
+      </g>
+    </g>
+
+    <!-- ===== キラキラ ===== -->
+    <text class="sp sp1" x="42"  y="118" font-size="20" fill="#f44336" text-anchor="middle">✦</text>
+    <text class="sp sp2" x="260" y="104" font-size="16" fill="#2196f3" text-anchor="middle">✦</text>
+    <text class="sp sp3" x="34"  y="202" font-size="15" fill="#9c27b0" text-anchor="middle">✦</text>
+    <text class="sp sp4" x="268" y="194" font-size="17" fill="#ff9800" text-anchor="middle">✦</text>
+    <text class="sp sp5" x="150" y="50"  font-size="22" fill="#fdd835" text-anchor="middle">✦</text>
+    <text class="sp sp6" x="96"  y="72"  font-size="14" fill="#4caf50" text-anchor="middle">✦</text>
+
+  </g>
+</svg>

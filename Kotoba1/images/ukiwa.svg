@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame">
+      <rect width="300" height="300" rx="20"/>
+    </clipPath>
+    <style>
+      /* 浮き輪が波にゆられる */
+      .ring-grp {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: bob 3.2s ease-in-out infinite;
+      }
+      @keyframes bob {
+        0%,100% { transform: translateY(0)    rotate(-5deg); }
+        50%     { transform: translateY(-12px) rotate(5deg);  }
+      }
+
+      /* 水面の波 */
+      .wave  { animation: wave-drift 2.8s ease-in-out infinite alternate; }
+      .wave2 { animation: wave-drift 2.8s ease-in-out infinite alternate; animation-delay: -1.4s; }
+      @keyframes wave-drift {
+        from { transform: translateX(0);    }
+        to   { transform: translateX(14px); }
+      }
+
+      /* 太陽光芒 */
+      .sun-rays {
+        transform-origin: 56px 46px;
+        animation: sun-spin 12s linear infinite;
+      }
+      @keyframes sun-spin {
+        from { transform: rotate(0deg);   }
+        to   { transform: rotate(360deg); }
+      }
+
+      /* 雲が流れる */
+      .cloud1 { animation: cloud-move 16s linear infinite; }
+      .cloud2 { animation: cloud-move 16s linear infinite; animation-delay: -8s; }
+      @keyframes cloud-move {
+        from { transform: translateX(-180px); }
+        to   { transform: translateX(320px);  }
+      }
+
+      /* 水面きらめき */
+      .sparkle {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: sp-flash 2.4s ease-in-out infinite;
+      }
+      .sp2 { animation-delay: 0.8s; }
+      .sp3 { animation-delay: 1.6s; }
+      @keyframes sp-flash {
+        0%,100% { opacity: 0; transform: scale(0.4); }
+        50%     { opacity: 0.85; transform: scale(1); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- 空 -->
+    <rect width="300" height="300" fill="#87CEEB"/>
+    <rect width="300" height="178" fill="#B3E5FC" opacity="0.3"/>
+
+    <!-- 太陽光芒 -->
+    <g class="sun-rays">
+      <line x1="56" y1="18" x2="56" y2="8"   stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="75" y1="24" x2="82" y2="16"  stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="80" y1="44" x2="90" y2="44"  stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="75" y1="64" x2="82" y2="72"  stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="56" y1="70" x2="56" y2="80"  stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="37" y1="64" x2="30" y2="72"  stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="32" y1="44" x2="22" y2="44"  stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="37" y1="24" x2="30" y2="16"  stroke="#FFD54F" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+    <!-- 太陽本体 -->
+    <circle cx="56" cy="46" r="20" fill="#FFF9C4"/>
+    <circle cx="56" cy="46" r="14" fill="#FFEE58"/>
+
+    <!-- 雲1 -->
+    <g class="cloud1">
+      <ellipse cx="190" cy="44" rx="34" ry="15" fill="white" opacity="0.92"/>
+      <ellipse cx="173" cy="51" rx="22" ry="13" fill="white" opacity="0.92"/>
+      <ellipse cx="210" cy="51" rx="25" ry="13" fill="white" opacity="0.92"/>
+    </g>
+    <!-- 雲2 -->
+    <g class="cloud2">
+      <ellipse cx="110" cy="28" rx="28" ry="12" fill="white" opacity="0.86"/>
+      <ellipse cx="95"  cy="34" rx="18" ry="10" fill="white" opacity="0.86"/>
+      <ellipse cx="128" cy="34" rx="20" ry="10" fill="white" opacity="0.86"/>
+    </g>
+
+    <!-- 水 -->
+    <rect x="0" y="178" width="300" height="122" fill="#0277BD"/>
+    <rect x="0" y="178" width="300" height="122" fill="#29B6F6" opacity="0.55"/>
+
+    <!-- 水面の波 -->
+    <g class="wave" opacity="0.55">
+      <path d="M -10,187 Q 35,179 75,187 Q 115,195 155,187 Q 195,179 235,187 Q 275,195 310,187"
+            fill="none" stroke="white" stroke-width="2.5"/>
+      <path d="M -10,212 Q 40,204 80,212 Q 120,220 160,212 Q 200,204 240,212 Q 280,220 310,212"
+            fill="none" stroke="white" stroke-width="2"/>
+    </g>
+    <g class="wave2" opacity="0.4">
+      <path d="M -10,238 Q 40,230 80,238 Q 120,246 160,238 Q 200,230 240,238 Q 280,246 310,238"
+            fill="none" stroke="white" stroke-width="2"/>
+      <path d="M -10,262 Q 40,254 80,262 Q 120,270 160,262 Q 200,254 240,262 Q 280,270 310,262"
+            fill="none" stroke="white" stroke-width="1.5"/>
+    </g>
+
+    <!-- 水面きらめき -->
+    <path class="sparkle"     d="M 48,222 L 51,215 L 54,222 L 61,225 L 54,228 L 51,235 L 48,228 L 41,225 Z" fill="white"/>
+    <path class="sparkle sp2" d="M 240,250 L 243,244 L 246,250 L 252,253 L 246,256 L 243,262 L 240,256 L 234,253 Z" fill="white"/>
+    <path class="sparkle sp3" d="M 272,218 L 274,213 L 276,218 L 281,220 L 276,222 L 274,227 L 272,222 L 267,220 Z" fill="white"/>
+
+    <!-- ===== 浮き輪 ===== -->
+    <!-- r=52, stroke-width=28 → 外径66, 内径38 -->
+    <!-- 円周 = 2π×52 = 326.73  各セクション = 81.68px -->
+    <g class="ring-grp">
+      <!-- 水面の影 -->
+      <ellipse cx="150" cy="198" rx="56" ry="7" fill="#01579B" opacity="0.22"/>
+
+      <!-- 赤セクション（0°,180° → 右下・左上） -->
+      <circle cx="150" cy="165" r="52" fill="none" stroke="#EF5350" stroke-width="28"
+              stroke-dasharray="81.68 81.68" stroke-dashoffset="0"/>
+      <!-- 白セクション（90°,270° → 右上・左下） -->
+      <circle cx="150" cy="165" r="52" fill="none" stroke="white" stroke-width="28"
+              stroke-dasharray="81.68 81.68" stroke-dashoffset="81.68"/>
+
+      <!-- 外縁ライン -->
+      <circle cx="150" cy="165" r="66.5" fill="none" stroke="#B71C1C" stroke-width="1.5" opacity="0.45"/>
+      <!-- 内縁ライン -->
+      <circle cx="150" cy="165" r="37.5" fill="none" stroke="#B71C1C" stroke-width="1.5" opacity="0.45"/>
+
+      <!-- 穴（水色で塗りつぶし） -->
+      <circle cx="150" cy="165" r="37" fill="#29B6F6"/>
+      <!-- 穴の奥行き感 -->
+      <ellipse cx="152" cy="176" rx="25" ry="7" fill="#0288D1" opacity="0.35"/>
+
+      <!-- 空気入れ口（バルブ） -->
+      <rect x="148" y="97" width="4" height="8" rx="2" fill="#78909C"/>
+
+      <!-- ハイライト（光沢） -->
+      <ellipse cx="126" cy="134" rx="13" ry="5" fill="white" opacity="0.38" transform="rotate(-35,126,134)"/>
+    </g>
+
+  </g>
+</svg>

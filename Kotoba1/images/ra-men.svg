@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <clipPath id="broth-clip">
+      <ellipse cx="150" cy="168" rx="98" ry="24"/>
+    </clipPath>
+    <style>
+      /* ======= 湯気 ======= */
+      .steam {
+        animation: steam-rise 2.4s ease-in-out infinite;
+        opacity: 0;
+      }
+      .s1 { animation-delay: 0.0s; }
+      .s2 { animation-delay: 0.8s; }
+      .s3 { animation-delay: 1.6s; }
+      @keyframes steam-rise {
+        0%   { transform: translateY(0);     opacity: 0; }
+        18%  { opacity: 0.6; }
+        78%  { opacity: 0.2; }
+        100% { transform: translateY(-58px); opacity: 0; }
+      }
+
+      /* ======= 箸が麺をすくう ======= */
+      .chop-grp {
+        animation: chop-dip 7s ease-in-out infinite;
+      }
+      @keyframes chop-dip {
+        0%,12%  { transform: translate(292px, 65px); }
+        22%     { transform: translate(198px, 172px); }
+        34%     { transform: translate(198px, 172px); }
+        44%     { transform: translate(198px, 126px); }
+        63%     { transform: translate(198px, 126px); }
+        74%     { transform: translate(198px, 172px); }
+        84%     { transform: translate(292px, 65px); }
+        100%    { transform: translate(292px, 65px); }
+      }
+
+      /* ======= すくった麺 ======= */
+      .lifted-noodle {
+        animation: noodle-show 7s infinite;
+        opacity: 0;
+      }
+      @keyframes noodle-show {
+        0%,40%  { opacity: 0; }
+        44%,64% { opacity: 1; }
+        70%     { opacity: 0; }
+        100%    { opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（壁・テーブル） -->
+  <rect width="300" height="300" fill="#fff8e6" rx="20"/>
+  <rect y="218" width="300" height="82" fill="#8d6e63"/>
+  <rect y="218" width="300" height="7"  fill="#a1887f"/>
+
+  <!-- 器の影 -->
+  <ellipse cx="152" cy="263" rx="110" ry="13" fill="#000" opacity="0.1"/>
+
+  <!-- ===== 器本体（手前の面） ===== -->
+  <path d="M 44,168 C 40,185 55,263 150,265 C 245,263 260,185 256,168"
+        fill="#fafafa"/>
+  <!-- 器の底 -->
+  <ellipse cx="150" cy="264" rx="62" ry="9" fill="#ebebeb"/>
+
+  <!-- ===== スープと具材（クリップ） ===== -->
+  <g clip-path="url(#broth-clip)">
+    <!-- スープ（琥珀色・醤油ラーメン） -->
+    <ellipse cx="150" cy="168" rx="100" ry="26" fill="#b8722a"/>
+    <ellipse cx="118" cy="162" rx="32"  ry="9"  fill="#d4943e" opacity="0.4"/>
+
+    <!-- 麺（縮れ黄色麺・4本） -->
+    <path d="M 66,176 Q 80,169 94,176 Q 108,183 122,176 Q 136,169 150,176 Q 164,183 178,176 Q 192,169 206,176 Q 217,180 224,177"
+          fill="none" stroke="#f5c442" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M 60,183 Q 74,176 88,183 Q 102,190 116,183 Q 130,176 144,183 Q 158,190 172,183 Q 186,176 200,183 Q 212,187 220,184"
+          fill="none" stroke="#f0b83c" stroke-width="4"   stroke-linecap="round"/>
+    <path d="M 68,190 Q 82,183 96,190 Q 110,197 124,190 Q 138,183 152,190 Q 166,197 180,190 Q 194,183 208,190"
+          fill="none" stroke="#f5c442" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M 76,196 Q 91,189 106,196 Q 121,203 136,196 Q 151,189 166,196 Q 181,203 192,197"
+          fill="none" stroke="#f0b83c" stroke-width="3"   stroke-linecap="round"/>
+
+    <!-- チャーシュー（丸いスライス・左） -->
+    <circle cx="103" cy="176" r="21"  fill="#e8956a"/>
+    <circle cx="103" cy="176" r="14"  fill="#c85a3a"/>
+    <circle cx="103" cy="176" r="7"   fill="#a03a22"/>
+    <path d="M 90,165 Q 103,162 115,167"
+          fill="none" stroke="#f5c8a0" stroke-width="3" opacity="0.8" stroke-linecap="round"/>
+
+    <!-- 半熟卵（右） -->
+    <ellipse cx="194" cy="174" rx="19" ry="17" fill="#f5f5f5"/>
+    <circle  cx="194" cy="177" r="10"  fill="#ffc107"/>
+    <circle  cx="191" cy="174" r="4"   fill="#ffe082" opacity="0.7"/>
+
+    <!-- 海苔（板） -->
+    <rect x="155" y="159" width="18" height="28" fill="#1a2e1a" rx="2"/>
+    <line x1="164" y1="160" x2="164" y2="186" stroke="#2d4a2d" stroke-width="1" opacity="0.5"/>
+
+    <!-- ネギ（小口切り） -->
+    <circle cx="132" cy="168" r="4"   fill="#66bb6a"/>
+    <circle cx="141" cy="181" r="3.5" fill="#4caf50"/>
+    <circle cx="170" cy="167" r="3.5" fill="#66bb6a"/>
+    <circle cx="178" cy="179" r="4"   fill="#4caf50"/>
+    <circle cx="122" cy="183" r="3"   fill="#81c784"/>
+  </g>
+
+  <!-- ===== 器の縁（赤い帯＋白・ドーナツ形） ===== -->
+  <path fill-rule="evenodd" fill="#fafafa"
+        d="M 256,168 a 106,29 0 1 0 -212,0 a 106,29 0 1 0 212,0
+           M 248,168 a 98,24 0 1 0 -196,0 a 98,24 0 1 0 196,0"/>
+  <ellipse cx="150" cy="168" rx="106" ry="29" fill="none" stroke="#d32f2f" stroke-width="7" opacity="0.7"/>
+  <ellipse cx="150" cy="168" rx="99"  ry="24" fill="none" stroke="#ffffff"  stroke-width="3.5"/>
+  <ellipse cx="150" cy="168" rx="97"  ry="23" fill="none" stroke="#e0d0b0"  stroke-width="1"/>
+
+  <!-- ===== 湯気 ===== -->
+  <path class="steam s1"
+        d="M 120,146 C 115,133 127,123 119,109 C 112,96 124,88 117,74"
+        fill="none" stroke="#b8ccd8" stroke-width="4" stroke-linecap="round"/>
+  <path class="steam s2"
+        d="M 150,142 C 145,129 157,119 149,105 C 142,92 154,84 147,70"
+        fill="none" stroke="#b8ccd8" stroke-width="4" stroke-linecap="round"/>
+  <path class="steam s3"
+        d="M 179,146 C 174,133 186,123 178,109 C 171,96 183,88 176,74"
+        fill="none" stroke="#b8ccd8" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ===== 箸 ===== -->
+  <g class="chop-grp">
+    <!-- 箸1（上） -->
+    <rect x="-3" y="-90" width="5.5" height="92" fill="#c4885a" rx="2"
+          transform="rotate(22)"/>
+    <!-- 箸2（下） -->
+    <rect x="4"  y="-90" width="5.5" height="92" fill="#c4885a" rx="2"
+          transform="rotate(17)"/>
+    <!-- すくった麺（たれ下がる） -->
+    <path class="lifted-noodle"
+          d="M -1,0 C -7,14 3,26 -2,40 C -7,52 2,60 -2,70"
+          fill="none" stroke="#f5c442" stroke-width="4.5" stroke-linecap="round"/>
+    <path class="lifted-noodle"
+          d="M 5,0 C 2,13 11,23 7,35 C 3,45 10,52 7,60"
+          fill="none" stroke="#f0b83c" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+</g>
+</svg>

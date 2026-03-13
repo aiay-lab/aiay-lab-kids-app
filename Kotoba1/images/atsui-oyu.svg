@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <clipPath id="mug-clip">
+      <!-- マグカップ内部 -->
+      <path d="M 97,102 L 209,102 L 205,244 L 101,244 Z"/>
+    </clipPath>
+    <style>
+      /* ======= 湯気が上がる ======= */
+      .steam {
+        animation: steam-rise 2.4s ease-in-out infinite;
+        opacity: 0;
+      }
+      .s1 { animation-delay: 0.0s; }
+      .s2 { animation-delay: 0.8s; }
+      .s3 { animation-delay: 1.6s; }
+      @keyframes steam-rise {
+        0%   { transform: translateY(0px);   opacity: 0; }
+        18%  { opacity: 0.65; }
+        78%  { opacity: 0.2; }
+        100% { transform: translateY(-62px); opacity: 0; }
+      }
+
+      /* ======= 小さな泡が浮き上がる ======= */
+      .bubble {
+        animation: bub-rise 2.8s ease-in infinite;
+        opacity: 0;
+      }
+      .b1 { animation-delay: 0.0s; }
+      .b2 { animation-delay: 0.7s; }
+      .b3 { animation-delay: 1.4s; }
+      .b4 { animation-delay: 2.1s; }
+      .b5 { animation-delay: 0.35s; }
+      @keyframes bub-rise {
+        0%   { transform: translateY(0px);    opacity: 0; }
+        12%  { opacity: 0.8; }
+        90%  { opacity: 0.4; }
+        100% { transform: translateY(-95px);  opacity: 0; }
+      }
+
+      /* ======= お湯の表面がゆらゆら ======= */
+      .water-shimmer {
+        animation: shimmer 1.8s ease-in-out infinite alternate;
+      }
+      @keyframes shimmer {
+        0%   { opacity: 0.45; }
+        100% { opacity: 0.7; }
+      }
+
+      /* ======= 熱マーク（周囲） ======= */
+      .heat-mark {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: heat-pulse 1.5s ease-in-out infinite alternate;
+        opacity: 0;
+      }
+      .h1 { animation-delay: 0.0s; }
+      .h2 { animation-delay: 0.5s; }
+      .h3 { animation-delay: 1.0s; }
+      @keyframes heat-pulse {
+        0%   { opacity: 0;   transform: scale(0.7); }
+        40%  { opacity: 0.9; transform: scale(1.1); }
+        100% { opacity: 0.6; transform: scale(1); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（あたたかい橙） -->
+  <rect width="300" height="300" fill="#fff3e0" rx="20"/>
+  <!-- 床 -->
+  <rect y="248" width="300" height="52" fill="#8d6e63"/>
+  <rect y="248" width="300" height="7" fill="#a1887f"/>
+
+  <!-- マグカップの影 -->
+  <ellipse cx="155" cy="252" rx="62" ry="7" fill="#000" opacity="0.1"/>
+
+  <!-- ===== マグカップ本体 ===== -->
+  <!-- マグ外形（白いセラミック） -->
+  <path d="M 90,98 L 212,98 L 207,248 L 95,248 Z"
+        fill="#f5f5f5" stroke="#e0e0e0" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- ===== お湯（マグ内にクリップ） ===== -->
+  <g clip-path="url(#mug-clip)">
+    <!-- お湯のメイン（温かい橙色） -->
+    <rect x="94" y="130" width="115" height="116" fill="#ffb74d" opacity="0.48"/>
+    <!-- お湯の底（濃いめ） -->
+    <rect x="94" y="200" width="115" height="46" fill="#f57c00" opacity="0.2"/>
+    <!-- お湯の表面ゆらゆら -->
+    <ellipse class="water-shimmer" cx="153" cy="130" rx="53" ry="5" fill="#ffe0b2" opacity="0.55"/>
+
+    <!-- 泡（底から浮き上がる） -->
+    <circle class="bubble b1" cx="118" cy="230" r="3.5"  fill="none" stroke="#ffa726" stroke-width="1.5"/>
+    <circle class="bubble b2" cx="148" cy="235" r="2.8"  fill="none" stroke="#fb8c00" stroke-width="1.5"/>
+    <circle class="bubble b3" cx="172" cy="228" r="3"    fill="none" stroke="#ffa726" stroke-width="1.5"/>
+    <circle class="bubble b4" cx="135" cy="232" r="2.2"  fill="none" stroke="#ffb74d" stroke-width="1.2"/>
+    <circle class="bubble b5" cx="160" cy="238" r="3.8"  fill="none" stroke="#ef6c00" stroke-width="1.5"/>
+  </g>
+
+  <!-- マグカップの縁（上部リム） -->
+  <path d="M 90,98 L 212,98" stroke="#bdbdbd" stroke-width="2.5"/>
+  <path d="M 90,98 L 212,98 L 212,110 L 90,110 Z" fill="#eeeeee" opacity="0.6"/>
+  <path d="M 90,110 L 212,110" stroke="#e0e0e0" stroke-width="1.5"/>
+
+  <!-- マグカップのハンドル -->
+  <path d="M 211,140 C 245,140 250,162 246,178 C 250,194 245,216 211,216"
+        fill="none" stroke="#e0e0e0" stroke-width="16" stroke-linecap="round"/>
+  <path d="M 211,140 C 238,140 242,162 238,178 C 242,194 238,216 211,216"
+        fill="none" stroke="#f5f5f5" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- マグカップの左側ハイライト -->
+  <path d="M 94,112 L 102,112 L 106,244 L 98,244 Z" fill="#fff" opacity="0.45"/>
+
+  <!-- ===== 湯気 ===== -->
+  <path class="steam s1"
+        d="M 122,92 C 117,79 129,69 121,55 C 114,42 126,34 119,20"
+        fill="none" stroke="#ffcc80" stroke-width="4" stroke-linecap="round"/>
+  <path class="steam s2"
+        d="M 153,88 C 148,75 160,65 152,51 C 145,38 157,30 150,16"
+        fill="none" stroke="#ffcc80" stroke-width="4" stroke-linecap="round"/>
+  <path class="steam s3"
+        d="M 183,92 C 178,79 190,69 182,55 C 175,42 187,34 180,20"
+        fill="none" stroke="#ffcc80" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ===== 熱マーク（周囲） ===== -->
+  <text class="heat-mark h1" x="50"  y="148" font-size="28" fill="#ff7043" text-anchor="middle">🔥</text>
+  <text class="heat-mark h2" x="255" y="162" font-size="24" fill="#ff5722" text-anchor="middle">🔥</text>
+  <text class="heat-mark h3" x="52"  y="208" font-size="20" fill="#ff8a65" text-anchor="middle">🔥</text>
+</g>
+</svg>

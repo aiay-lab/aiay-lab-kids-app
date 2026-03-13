@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame">
+      <rect width="300" height="300" rx="20"/>
+    </clipPath>
+    <clipPath id="sky-clip">
+      <rect x="56" y="38" width="188" height="164"/>
+    </clipPath>
+    <style>
+      .panel-l {
+        transform-box: fill-box;
+        transform-origin: 0% 50%;
+        animation: open-panel 7s ease-in-out infinite;
+      }
+      .panel-r {
+        transform-box: fill-box;
+        transform-origin: 100% 50%;
+        animation: open-panel 7s ease-in-out infinite;
+      }
+      @keyframes open-panel {
+        0%,  8%  { transform: scaleX(1);    }
+        40%, 100% { transform: scaleX(0.05); }
+      }
+      .sunbeam {
+        animation: beam-fade 7s ease-in-out infinite;
+        opacity: 0;
+      }
+      @keyframes beam-fade {
+        0%,  38% { opacity: 0; }
+        55%, 100% { opacity: 1; }
+      }
+      .mullion { opacity: 0; }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- 1. Wall background -->
+    <rect width="300" height="300" fill="#FFF3E0"/>
+
+    <!-- 2. Left curtain -->
+    <g>
+      <!-- curtain body -->
+      <path d="M 0,22 C 10,30 14,60 12,90 C 10,120 6,150 8,180 C 10,210 14,225 10,230 L 0,230 Z" fill="#FFECB3"/>
+      <path d="M 18,22 C 26,30 30,60 28,90 C 26,120 22,150 24,180 C 26,210 30,225 26,230 L 18,230 Z" fill="#FFECB3"/>
+      <path d="M 36,22 C 44,30 48,60 46,90 C 44,120 40,150 42,180 C 44,210 48,225 44,230 L 36,230 Z" fill="#FFECB3"/>
+      <!-- fill gaps -->
+      <path d="M 0,22 L 50,22 L 50,230 L 0,230 Z" fill="#FFECB3" opacity="0.7"/>
+      <!-- fold lines -->
+      <path d="M 9,22 C 12,60 10,120 11,180 C 11,200 10,215 9,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 27,22 C 30,60 28,120 29,180 C 29,200 28,215 27,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 45,22 C 48,60 46,120 47,180 C 47,200 46,215 45,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <!-- curtain tie ellipse -->
+      <ellipse cx="46" cy="118" rx="9" ry="14" fill="#FFD54F" stroke="#FFC107" stroke-width="1.5"/>
+      <!-- tie knot detail -->
+      <ellipse cx="46" cy="118" rx="5" ry="6" fill="#FFC107"/>
+    </g>
+
+    <!-- 2. Right curtain -->
+    <g>
+      <path d="M 300,22 C 290,30 286,60 288,90 C 290,120 294,150 292,180 C 290,210 286,225 290,230 L 300,230 Z" fill="#FFECB3"/>
+      <path d="M 282,22 C 274,30 270,60 272,90 C 274,120 278,150 276,180 C 274,210 270,225 274,230 L 282,230 Z" fill="#FFECB3"/>
+      <path d="M 264,22 C 256,30 252,60 254,90 C 256,120 260,150 258,180 C 256,210 252,225 256,230 L 264,230 Z" fill="#FFECB3"/>
+      <path d="M 250,22 L 300,22 L 300,230 L 250,230 Z" fill="#FFECB3" opacity="0.7"/>
+      <!-- fold lines -->
+      <path d="M 291,22 C 288,60 290,120 289,180 C 289,200 290,215 291,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 273,22 C 270,60 272,120 271,180 C 271,200 272,215 273,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <path d="M 255,22 C 252,60 254,120 253,180 C 253,200 254,215 255,230" stroke="#FFE082" stroke-width="1.5" fill="none"/>
+      <!-- curtain tie ellipse -->
+      <ellipse cx="254" cy="118" rx="9" ry="14" fill="#FFD54F" stroke="#FFC107" stroke-width="1.5"/>
+      <ellipse cx="254" cy="118" rx="5" ry="6" fill="#FFC107"/>
+    </g>
+
+    <!-- 3. Curtain rail -->
+    <rect x="0" y="18" width="300" height="7" rx="3" fill="#9E8068"/>
+
+    <!-- 5. Floor + baseboard + grain lines -->
+    <rect x="0" y="244" width="300" height="56" fill="#A1887F"/>
+    <rect x="0" y="240" width="300" height="7" fill="#8D6E63"/>
+    <!-- horizontal grain lines -->
+    <line x1="0" y1="258" x2="300" y2="258" stroke="#9E7B6E" stroke-width="1" opacity="0.5"/>
+    <line x1="0" y1="273" x2="300" y2="273" stroke="#9E7B6E" stroke-width="1" opacity="0.5"/>
+    <line x1="0" y1="289" x2="300" y2="289" stroke="#9E7B6E" stroke-width="1" opacity="0.5"/>
+    <!-- vertical plank lines -->
+    <line x1="62" y1="247" x2="62" y2="300" stroke="#9E7B6E" stroke-width="1" opacity="0.5"/>
+    <line x1="140" y1="247" x2="140" y2="300" stroke="#9E7B6E" stroke-width="1" opacity="0.5"/>
+    <line x1="218" y1="247" x2="218" y2="300" stroke="#9E7B6E" stroke-width="1" opacity="0.5"/>
+
+    <!-- 6. Sunbeam paths (on top of floor) -->
+    <!-- Left triangle -->
+    <path d="M 56,202 L 0,300 L 130,300 Z" fill="#FFF8C5" class="sunbeam" opacity="0"/>
+    <!-- Right triangle -->
+    <path d="M 244,202 L 170,300 L 300,300 Z" fill="#FFF8C5" class="sunbeam" opacity="0"/>
+    <!-- Center wide -->
+    <path d="M 56,202 L 244,202 L 290,300 L 10,300 Z" fill="#FFFDE7" class="sunbeam" opacity="0"/>
+    <!-- Floor spot -->
+    <ellipse cx="150" cy="270" rx="112" ry="18" fill="#FFECB3" class="sunbeam" opacity="0"/>
+
+    <!-- 7. Window sill -->
+    <rect x="38" y="202" width="224" height="20" rx="4" fill="#D7CCC8"/>
+    <rect x="38" y="202" width="224" height="7" rx="4" fill="#BCAAA4"/>
+    <!-- sill shadow below -->
+    <rect x="40" y="221" width="220" height="3" rx="1" fill="#A1887F" opacity="0.4"/>
+
+    <!-- Flower pot on sill -->
+    <!-- pot -->
+    <path d="M 196,208 L 200,190 L 218,190 L 222,208 Z" fill="#8D6E63"/>
+    <rect x="194" y="205" width="28" height="5" rx="2" fill="#795548"/>
+    <!-- stem -->
+    <path d="M 209,190 C 209,182 206,174 208,168" stroke="#66BB6A" stroke-width="2" fill="none"/>
+    <!-- leaves -->
+    <ellipse cx="205" cy="178" rx="7" ry="4" fill="#81C784" transform="rotate(-30,205,178)"/>
+    <ellipse cx="213" cy="174" rx="7" ry="4" fill="#66BB6A" transform="rotate(30,213,174)"/>
+    <!-- flower -->
+    <circle cx="208" cy="165" r="5" fill="#EF5350"/>
+    <circle cx="208" cy="165" r="2.5" fill="#FFEE58"/>
+
+    <!-- 8. Window outer frame -->
+    <rect x="46" y="26" width="208" height="180" rx="6" fill="#6D4C41"/>
+    <rect x="54" y="34" width="192" height="170" rx="3" fill="#4E342E"/>
+
+    <!-- 4. Sky group (clipped) — drawn after frame so it's visible -->
+    <g clip-path="url(#sky-clip)">
+      <!-- sky base -->
+      <rect x="56" y="38" width="188" height="164" fill="#87CEEB"/>
+      <!-- deeper blue at top -->
+      <rect x="56" y="38" width="188" height="50" fill="#1565C0" opacity="0.12"/>
+      <!-- dawn glow at horizon -->
+      <rect x="56" y="164" width="188" height="38" fill="#FF8F00" opacity="0.17"/>
+      <!-- Sun outer glow -->
+      <circle cx="150" cy="84" r="30" fill="#FFF9C4" opacity="0.88"/>
+      <!-- Sun core -->
+      <circle cx="150" cy="84" r="22" fill="#FFEE58"/>
+      <!-- Sun rays hint -->
+      <circle cx="150" cy="84" r="26" fill="none" stroke="#FFF176" stroke-width="3" opacity="0.5"/>
+      <!-- Cloud 1 at left (cx~94, cy=142) -->
+      <ellipse cx="94" cy="146" rx="28" ry="14" fill="white" opacity="0.92"/>
+      <ellipse cx="76" cy="150" rx="18" ry="11" fill="white" opacity="0.9"/>
+      <ellipse cx="112" cy="150" rx="20" ry="11" fill="white" opacity="0.9"/>
+      <!-- Cloud 2 at right (cx~210, cy=124) -->
+      <ellipse cx="210" cy="128" rx="26" ry="13" fill="white" opacity="0.92"/>
+      <ellipse cx="192" cy="133" rx="16" ry="10" fill="white" opacity="0.9"/>
+      <ellipse cx="228" cy="132" rx="18" ry="10" fill="white" opacity="0.9"/>
+
+      <!-- 庭：芝生ベース -->
+      <rect x="56" y="154" width="188" height="48" fill="#558b2f"/>
+      <rect x="56" y="154" width="188" height="16" fill="#7cb342"/>
+      <!-- 庭：木（左） -->
+      <rect x="72" y="128" width="12" height="30" rx="3" fill="#6d4c41"/>
+      <ellipse cx="78" cy="114" rx="28" ry="24" fill="#2e7d32"/>
+      <ellipse cx="78" cy="107" rx="20" ry="17" fill="#43a047"/>
+      <!-- 庭：木（右） -->
+      <rect x="212" y="132" width="12" height="26" rx="3" fill="#6d4c41"/>
+      <ellipse cx="218" cy="118" rx="26" ry="22" fill="#2e7d32"/>
+      <ellipse cx="218" cy="111" rx="18" ry="16" fill="#388e3c"/>
+      <!-- 庭：花畑（左） -->
+      <ellipse cx="116" cy="157" rx="18" ry="8" fill="#33691e"/>
+      <circle cx="107" cy="151" r="5" fill="#f44336"/>
+      <circle cx="116" cy="149" r="5" fill="#ff9800"/>
+      <circle cx="125" cy="151" r="5" fill="#ffeb3b"/>
+      <!-- 庭：花畑（右） -->
+      <ellipse cx="184" cy="157" rx="18" ry="8" fill="#1b5e20"/>
+      <circle cx="175" cy="151" r="5" fill="#e91e63"/>
+      <circle cx="184" cy="149" r="5" fill="#ab47bc"/>
+      <circle cx="193" cy="151" r="5" fill="#ff5722"/>
+      <!-- 庭：遠くの緑の丘 -->
+      <ellipse cx="150" cy="156" rx="50" ry="10" fill="#558b2f" opacity="0.5"/>
+    </g>
+
+    <!-- 9. Left panel group -->
+    <g class="panel-l">
+      <!-- glass fill -->
+      <rect x="56" y="38" width="92" height="164" fill="#F8F8F0" opacity="0.92"/>
+      <!-- frame stroke -->
+      <rect x="56" y="38" width="92" height="164" fill="none" stroke="#6D4C41" stroke-width="4.5"/>
+      <!-- horizontal crossbar -->
+      <rect x="56" y="118" width="92" height="4" fill="#6D4C41"/>
+      <!-- vertical bar -->
+      <rect x="100" y="38" width="4" height="164" fill="#6D4C41"/>
+      <!-- handle (right side of left panel) -->
+      <rect x="141" y="108" width="7" height="18" rx="3" fill="#8D6E63"/>
+      <rect x="143" y="113" width="6" height="8" rx="2" fill="#6D4C41"/>
+    </g>
+
+    <!-- 10. Right panel group -->
+    <g class="panel-r">
+      <!-- glass fill -->
+      <rect x="152" y="38" width="92" height="164" fill="#F8F8F0" opacity="0.92"/>
+      <!-- frame stroke -->
+      <rect x="152" y="38" width="92" height="164" fill="none" stroke="#6D4C41" stroke-width="4.5"/>
+      <!-- horizontal crossbar -->
+      <rect x="152" y="118" width="92" height="4" fill="#6D4C41"/>
+      <!-- vertical bar -->
+      <rect x="196" y="38" width="4" height="164" fill="#6D4C41"/>
+      <!-- handle (left side of right panel) -->
+      <rect x="152" y="108" width="7" height="18" rx="3" fill="#8D6E63"/>
+      <rect x="151" y="113" width="6" height="8" rx="2" fill="#6D4C41"/>
+    </g>
+
+    <!-- 11. Center mullion -->
+    <rect class="mullion" x="148" y="36" width="4" height="170" fill="#4E342E"/>
+
+  </g>
+</svg>

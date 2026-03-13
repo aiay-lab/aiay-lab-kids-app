@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame">
+      <rect width="300" height="300" rx="20"/>
+    </clipPath>
+    <style>
+      /* 目が開く・閉じる */
+      .eye-grp {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: eye-open 5s ease-in-out infinite;
+      }
+      @keyframes eye-open {
+        0%,  12% { transform: scaleY(0.05); }
+        32%, 65% { transform: scaleY(1);    }
+        82%,100% { transform: scaleY(0.05); }
+      }
+
+      /* あくびの口が開く */
+      .mouth {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: yawn 5s ease-in-out infinite;
+      }
+      @keyframes yawn {
+        0%,  18% { transform: scaleY(0.18); }
+        38%, 60% { transform: scaleY(1);    }
+        78%,100% { transform: scaleY(0.18); }
+      }
+
+      /* 太陽がほんのり拍動 */
+      .sun-glow {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: sun-pulse 2.4s ease-in-out infinite alternate;
+      }
+      @keyframes sun-pulse {
+        from { opacity: 0.55; transform: scale(0.94); }
+        to   { opacity: 0.85; transform: scale(1.06); }
+      }
+
+      /* 顔が少し起き上がる */
+      .face-grp { animation: rise-up 5s ease-in-out infinite; }
+      @keyframes rise-up {
+        0%,  12% { transform: translateY(7px);  }
+        32%, 70% { transform: translateY(0px);  }
+        88%,100% { transform: translateY(7px);  }
+      }
+
+      /* ほっぺた */
+      .cheek { animation: cheek-pulse 5s ease-in-out infinite alternate; }
+      @keyframes cheek-pulse {
+        from { opacity: 0.38; }
+        to   { opacity: 0.58; }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- 朝の背景 -->
+    <rect width="300" height="300" fill="#FFF8E1"/>
+    <rect x="0" y="0" width="300" height="140" fill="#FFE0B2" opacity="0.35"/>
+
+    <!-- 太陽（右上）グロー -->
+    <circle class="sun-glow" cx="258" cy="36" r="50" fill="#FFF9C4"/>
+    <!-- 太陽本体 -->
+    <circle cx="258" cy="36" r="30" fill="#FFD54F"/>
+    <circle cx="258" cy="36" r="21" fill="#FFEE58"/>
+
+    <!-- 光の筋（朝の差し込み） -->
+    <line x1="258" y1="0"  x2="140" y2="100" stroke="#FFF9C4" stroke-width="18" opacity="0.18"/>
+    <line x1="258" y1="0"  x2="80"  y2="160" stroke="#FFF9C4" stroke-width="12" opacity="0.12"/>
+
+    <!-- 壁（下部・暖かい白） -->
+    <rect x="0" y="170" width="300" height="130" fill="#FFF3E0"/>
+
+    <!-- まくら -->
+    <ellipse cx="150" cy="218" rx="114" ry="27" fill="#E8EAF6"/>
+    <ellipse cx="150" cy="215" rx="108" ry="22" fill="#F5F5FF"/>
+
+    <!-- 毛布（起き上がり・少し下がっている） -->
+    <rect x="14" y="234" width="272" height="60" rx="10" fill="#EF9A9A"/>
+    <rect x="14" y="234" width="272" height="20" rx="10" fill="#E57373"/>
+    <line x1="14" y1="254" x2="286" y2="254" stroke="#EF9A9A" stroke-width="1.5" opacity="0.6"/>
+    <line x1="14" y1="266" x2="286" y2="266" stroke="#EF9A9A" stroke-width="1.5" opacity="0.5"/>
+    <line x1="14" y1="278" x2="286" y2="278" stroke="#EF9A9A" stroke-width="1.5" opacity="0.4"/>
+
+    <!-- ベッド下枠 -->
+    <rect x="8" y="289" width="284" height="11" rx="5" fill="#4A3728"/>
+
+    <!-- ===== 顔グループ（起き上がり） ===== -->
+    <g class="face-grp">
+
+      <!-- 耳 -->
+      <circle cx="72"  cy="158" r="20" fill="#ffc27a"/>
+      <circle cx="228" cy="158" r="20" fill="#ffc27a"/>
+
+      <!-- 顔 -->
+      <circle cx="150" cy="155" r="84" fill="#ffd09d"/>
+
+      <!-- 髪 -->
+      <path d="M 80,152
+               C 73,128 71,98 80,76
+               C 90,54 114,40 136,36
+               C 143,34 147,33 150,35
+               C 153,33 157,34 164,36
+               C 186,40 210,54 220,76
+               C 229,98 227,128 220,152
+               C 214,130 209,110 200,103
+               C 188,96 170,92 150,92
+               C 130,92 112,96 100,103
+               C 91,110 86,130 80,152 Z"
+            fill="#3e2723"/>
+
+      <!-- 眉毛（少し上がり気味・眠そう） -->
+      <path d="M 102,114 Q 120,108 136,113" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M 164,113 Q 180,108 198,114" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+      <!-- 左目（開閉） -->
+      <g class="eye-grp">
+        <circle cx="121" cy="148" r="18" fill="white"/>
+        <circle cx="121" cy="150" r="12" fill="#3e2723"/>
+        <circle cx="121" cy="150" r="8"  fill="#1a1a1a"/>
+        <circle cx="116" cy="145" r="3.5" fill="white"/>
+      </g>
+
+      <!-- 右目（開閉） -->
+      <g class="eye-grp">
+        <circle cx="179" cy="148" r="18" fill="white"/>
+        <circle cx="179" cy="150" r="12" fill="#3e2723"/>
+        <circle cx="179" cy="150" r="8"  fill="#1a1a1a"/>
+        <circle cx="174" cy="145" r="3.5" fill="white"/>
+      </g>
+
+      <!-- 鼻 -->
+      <circle cx="145" cy="174" r="3.5" fill="#e8956d" opacity="0.70"/>
+      <circle cx="155" cy="174" r="3.5" fill="#e8956d" opacity="0.70"/>
+
+      <!-- ほっぺた -->
+      <circle class="cheek" cx="92"  cy="183" r="24" fill="#ef9a9a" opacity="0.50"/>
+      <circle class="cheek" cx="208" cy="183" r="24" fill="#ef9a9a" opacity="0.50"/>
+
+      <!-- あくびの口 -->
+      <g class="mouth">
+        <ellipse cx="150" cy="202" rx="23" ry="20" fill="#5d3a1a"/>
+        <ellipse cx="150" cy="203" rx="19" ry="16" fill="#c62828"/>
+        <ellipse cx="150" cy="211" rx="14" ry="8"  fill="#ef5350"/>
+      </g>
+
+    </g><!-- /face-grp -->
+
+  </g>
+</svg>

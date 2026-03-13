@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* 傘のキャノピーが横方向に開く */
+      .canopy-group {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: kasa-open 8s ease-in-out infinite;
+      }
+      @keyframes kasa-open {
+        0%, 12%  { transform: scaleX(0.12); }
+        34%      { transform: scaleX(1.06); }
+        40%, 75% { transform: scaleX(1); }
+        88%, 100%{ transform: scaleX(0.12); }
+      }
+
+      /* 雨が斜めに落ちる */
+      .rain-line {
+        animation: rain-fall 0.88s linear infinite;
+      }
+      @keyframes rain-fall {
+        0%   { transform: translate(0px, 0px); opacity: 0; }
+        12%  { opacity: 0.68; }
+        88%  { opacity: 0.68; }
+        100% { transform: translate(-12px, 58px); opacity: 0; }
+      }
+
+      /* 水たまりの波紋 */
+      .ripple {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: ripple-out 1.8s ease-out infinite;
+        opacity: 0;
+      }
+      @keyframes ripple-out {
+        0%   { transform: scale(0.2); opacity: 0.85; }
+        100% { transform: scale(1);   opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 曇り空 -->
+  <rect width="300" height="300" fill="#90a4ae"/>
+
+  <!-- 雲 -->
+  <ellipse cx="62"  cy="28" rx="58" ry="25" fill="#78909c"/>
+  <ellipse cx="115" cy="17" rx="52" ry="23" fill="#7a9db2"/>
+  <ellipse cx="205" cy="26" rx="72" ry="27" fill="#78909c"/>
+  <ellipse cx="276" cy="36" rx="44" ry="21" fill="#7a9db2"/>
+  <ellipse cx="18"  cy="44" rx="36" ry="18" fill="#7a9ab0"/>
+
+  <!-- 雨（上段） -->
+  <line class="rain-line" x1="28"  y1="60"  x2="22"  y2="77"  stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0s"/>
+  <line class="rain-line" x1="62"  y1="55"  x2="56"  y2="72"  stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.16s"/>
+  <line class="rain-line" x1="98"  y1="58"  x2="92"  y2="75"  stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.33s"/>
+  <line class="rain-line" x1="192" y1="56"  x2="186" y2="73"  stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.08s"/>
+  <line class="rain-line" x1="228" y1="60"  x2="222" y2="77"  stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.25s"/>
+  <line class="rain-line" x1="264" y1="54"  x2="258" y2="71"  stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.42s"/>
+
+  <!-- 雨（中段・傘の両脇） -->
+  <line class="rain-line" x1="18"  y1="135" x2="12"  y2="152" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.44s"/>
+  <line class="rain-line" x1="52"  y1="128" x2="46"  y2="145" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.06s"/>
+  <line class="rain-line" x1="238" y1="130" x2="232" y2="147" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.28s"/>
+  <line class="rain-line" x1="272" y1="124" x2="266" y2="141" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.48s"/>
+
+  <!-- 雨（下段） -->
+  <line class="rain-line" x1="16"  y1="202" x2="10"  y2="219" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.20s"/>
+  <line class="rain-line" x1="50"  y1="197" x2="44"  y2="214" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.37s"/>
+  <line class="rain-line" x1="245" y1="200" x2="239" y2="217" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.13s"/>
+  <line class="rain-line" x1="278" y1="196" x2="272" y2="213" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round" style="animation-delay:0.39s"/>
+
+  <!-- 地面（濡れたアスファルト） -->
+  <rect y="258" width="300" height="42" fill="#546e7a"/>
+  <rect y="258" width="300" height="7"  fill="#607d8b" opacity="0.55"/>
+
+  <!-- 水たまり -->
+  <ellipse cx="72"  cy="269" rx="50" ry="8"  fill="#455a64" opacity="0.65"/>
+  <ellipse cx="230" cy="273" rx="44" ry="7"  fill="#455a64" opacity="0.65"/>
+
+  <!-- 波紋（左） -->
+  <ellipse class="ripple" cx="72" cy="269" rx="24" ry="6"  fill="none" stroke="#78909c" stroke-width="1.5" style="animation-delay:0s"/>
+  <ellipse class="ripple" cx="72" cy="269" rx="24" ry="6"  fill="none" stroke="#78909c" stroke-width="1.5" style="animation-delay:0.6s"/>
+  <ellipse class="ripple" cx="72" cy="269" rx="24" ry="6"  fill="none" stroke="#78909c" stroke-width="1.5" style="animation-delay:1.2s"/>
+  <!-- 波紋（右） -->
+  <ellipse class="ripple" cx="230" cy="273" rx="20" ry="5"  fill="none" stroke="#78909c" stroke-width="1.5" style="animation-delay:0.38s"/>
+  <ellipse class="ripple" cx="230" cy="273" rx="20" ry="5"  fill="none" stroke="#78909c" stroke-width="1.5" style="animation-delay:1.0s"/>
+
+  <!-- 柄（シャフト） -->
+  <line x1="150" y1="150" x2="150" y2="218" stroke="#5d4037" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- ハンドル（J字フック） -->
+  <path d="M 150,218 C 152,240 116,246 114,228"
+        stroke="#5d4037" stroke-width="7" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- キャノピー（開閉アニメーション） -->
+  <g class="canopy-group">
+    <!-- ドーム本体（スカラップ付き） -->
+    <path d="M 50,150 C 50,73 250,73 250,150
+             Q 237.5,165 225,150
+             Q 212.5,165 200,150
+             Q 187.5,165 175,150
+             Q 162.5,165 150,150
+             Q 137.5,165 125,150
+             Q 112.5,165 100,150
+             Q  87.5,165  75,150
+             Q  62.5,165  50,150 Z"
+          fill="#e53935" stroke="#c62828" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- リブ（骨）：中心頂点 (150,92) → 各スカラップコーナー -->
+    <line x1="150" y1="92" x2="50"  y2="150" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="92" x2="75"  y2="150" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="92" x2="100" y2="150" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="92" x2="125" y2="150" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="92" x2="175" y2="150" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="92" x2="200" y2="150" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="92" x2="225" y2="150" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="92" x2="250" y2="150" stroke="#c62828" stroke-width="2"/>
+
+    <!-- 石突き（先端キャップ） -->
+    <ellipse cx="150" cy="88" rx="5" ry="6" fill="#4e342e"/>
+    <ellipse cx="150" cy="83" rx="3" ry="3.5" fill="#3e2723"/>
+  </g>
+</g>
+</svg>

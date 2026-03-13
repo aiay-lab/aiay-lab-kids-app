@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#bbdefb"/>
+      <stop offset="100%" stop-color="#e3f2fd"/>
+    </linearGradient>
+    <style>
+      /* 人物が階段を一段ずつのぼる */
+      .person-group {
+        animation: climb 5.5s linear infinite;
+      }
+      @keyframes climb {
+        0%,6% { transform: translate(15px,  270px); }
+        /* 各段でわずかに上へはずむ */
+        13%   { transform: translate(45px,  247px); }
+        18%   { transform: translate(65px,  245px); }
+        24%   { transform: translate(82px,  222px); }
+        29%   { transform: translate(100px, 220px); }
+        35%   { transform: translate(117px, 197px); }
+        40%   { transform: translate(135px, 195px); }
+        46%   { transform: translate(152px, 172px); }
+        51%   { transform: translate(170px, 170px); }
+        57%   { transform: translate(187px, 147px); }
+        62%   { transform: translate(205px, 145px); }
+        68%   { transform: translate(222px, 122px); }
+        73%   { transform: translate(240px, 120px); }
+        82%   { transform: translate(262px, 120px); }
+        90%   { transform: translate(320px, 120px); } /* 画面外へ */
+        100%  { transform: translate(15px,  270px); } /* リセット */
+      }
+
+      /* 歩きの上下ゆれ */
+      .person-inner {
+        animation: walk-bob 0.26s ease-in-out infinite alternate;
+      }
+      @keyframes walk-bob {
+        to { transform: translateY(-5px); }
+      }
+
+      /* 足が交互に振れる */
+      .leg-l {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: leg-l 0.26s ease-in-out infinite alternate;
+      }
+      @keyframes leg-l {
+        from { transform: rotate(-24deg); }
+        to   { transform: rotate(24deg);  }
+      }
+      .leg-r {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: leg-r 0.26s ease-in-out infinite alternate-reverse;
+      }
+      @keyframes leg-r {
+        from { transform: rotate(-24deg); }
+        to   { transform: rotate(24deg);  }
+      }
+
+      /* てっぺんで星が出る */
+      .goal-star {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: star-anim 5.5s ease-out infinite;
+        opacity: 0;
+      }
+      @keyframes star-anim {
+        0%,68%  { transform: scale(0);   opacity: 0; }
+        75%     { transform: scale(1.4); opacity: 1; }
+        84%     { transform: scale(1);   opacity: 1; }
+        91%     { transform: scale(0.4); opacity: 0; }
+        100%    { transform: scale(0);   opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 空 -->
+  <rect width="300" height="300" fill="url(#sky)" rx="20"/>
+
+  <!-- 遠くの丘 -->
+  <ellipse cx="70"  cy="215" rx="90"  ry="45" fill="#c8e6c9"/>
+  <ellipse cx="225" cy="220" rx="100" ry="40" fill="#a5d6a7"/>
+
+  <!-- 地面 -->
+  <rect y="265" width="300" height="35" fill="#6d4c41"/>
+  <rect y="265" width="300" height="7"  fill="#8d6e63"/>
+
+  <!-- ===== 階段 ===== -->
+  <!-- 階段メイン（コンクリート色） -->
+  <polygon
+    points="30,270 30,245 65,245 65,220 100,220 100,195 135,195 135,170 170,170 170,145 205,145 205,120 240,120 240,270"
+    fill="#eceff1"/>
+
+  <!-- 踏み面の手前エッジ（影） -->
+  <line x1="30"  y1="245" x2="65"  y2="245" stroke="#90a4ae" stroke-width="2.5"/>
+  <line x1="65"  y1="220" x2="100" y2="220" stroke="#90a4ae" stroke-width="2.5"/>
+  <line x1="100" y1="195" x2="135" y2="195" stroke="#90a4ae" stroke-width="2.5"/>
+  <line x1="135" y1="170" x2="170" y2="170" stroke="#90a4ae" stroke-width="2.5"/>
+  <line x1="170" y1="145" x2="205" y2="145" stroke="#90a4ae" stroke-width="2.5"/>
+  <line x1="205" y1="120" x2="240" y2="120" stroke="#90a4ae" stroke-width="2.5"/>
+
+  <!-- 蹴込み板（垂直面を薄い影で強調） -->
+  <rect x="30"  y="245" width="35" height="25" fill="#e0e0e0"/>
+  <rect x="65"  y="220" width="35" height="25" fill="#e0e0e0"/>
+  <rect x="100" y="195" width="35" height="25" fill="#e0e0e0"/>
+  <rect x="135" y="170" width="35" height="25" fill="#e0e0e0"/>
+  <rect x="170" y="145" width="35" height="25" fill="#e0e0e0"/>
+  <rect x="205" y="120" width="35" height="25" fill="#e0e0e0"/>
+
+  <!-- 踏み面の奥エッジ -->
+  <line x1="65"  y1="220" x2="65"  y2="245" stroke="#b0bec5" stroke-width="1"/>
+  <line x1="100" y1="195" x2="100" y2="220" stroke="#b0bec5" stroke-width="1"/>
+  <line x1="135" y1="170" x2="135" y2="195" stroke="#b0bec5" stroke-width="1"/>
+  <line x1="170" y1="145" x2="170" y2="170" stroke="#b0bec5" stroke-width="1"/>
+  <line x1="205" y1="120" x2="205" y2="145" stroke="#b0bec5" stroke-width="1"/>
+  <line x1="240" y1="112" x2="240" y2="120" stroke="#b0bec5" stroke-width="1"/>
+
+  <!-- ===== 手すり ===== -->
+  <!-- 支柱 -->
+  <line x1="67"  y1="245" x2="67"  y2="207" stroke="#78909c" stroke-width="3" stroke-linecap="round"/>
+  <line x1="102" y1="220" x2="102" y2="182" stroke="#78909c" stroke-width="3" stroke-linecap="round"/>
+  <line x1="137" y1="195" x2="137" y2="157" stroke="#78909c" stroke-width="3" stroke-linecap="round"/>
+  <line x1="172" y1="170" x2="172" y2="132" stroke="#78909c" stroke-width="3" stroke-linecap="round"/>
+  <line x1="207" y1="145" x2="207" y2="107" stroke="#78909c" stroke-width="3" stroke-linecap="round"/>
+  <line x1="240" y1="120" x2="240" y2="82"  stroke="#78909c" stroke-width="3" stroke-linecap="round"/>
+  <!-- 手すり本体（対角線） -->
+  <line x1="67" y1="207" x2="240" y2="82" stroke="#546e7a" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- てっぺんのプラットフォーム -->
+  <rect x="238" y="112" width="60" height="8" fill="#bdbdbd" rx="1"/>
+
+  <!-- ゴール（旗） -->
+  <line x1="270" y1="65" x2="270" y2="112" stroke="#78909c" stroke-width="2.5"/>
+  <polygon points="270,65 290,72 270,79" fill="#ef5350"/>
+
+  <!-- てっぺんで光る星 -->
+  <text class="goal-star" x="255" y="108"
+        font-size="20" text-anchor="middle" fill="#ffd600">★</text>
+
+  <!-- ===== 人物 ===== -->
+  <g class="person-group">
+    <g class="person-inner">
+      <!-- 頭 -->
+      <circle cx="0" cy="-37" r="9"  fill="#1a237e"/>
+      <!-- 体 -->
+      <rect   x="-6" y="-28" width="12" height="17" fill="#1a237e" rx="2"/>
+      <!-- 左足 -->
+      <rect class="leg-l" x="-6" y="-12" width="5" height="13" fill="#1a237e" rx="2"/>
+      <!-- 右足 -->
+      <rect class="leg-r" x="1"  y="-12" width="5" height="13" fill="#1a237e" rx="2"/>
+    </g>
+  </g>
+</g>
+</svg>

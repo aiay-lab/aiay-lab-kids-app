@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame">
+      <rect width="300" height="300" rx="20"/>
+    </clipPath>
+    <style>
+      /* ZZZ が右上へ浮かんで消える */
+      .zzz { opacity: 0; animation: float-z 3.6s ease-in-out infinite; }
+      .z2  { animation-delay: 1.2s; }
+      .z3  { animation-delay: 2.4s; }
+      @keyframes float-z {
+        0%   { transform: translate(0,     0);    opacity: 0; }
+        12%  { opacity: 1; }
+        80%  { opacity: 0.5; }
+        100% { transform: translate(14px, -55px); opacity: 0; }
+      }
+
+      /* 毛布がゆっくり呼吸する */
+      .blanket {
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: breathe 4s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%,100% { transform: scaleY(1);    }
+        50%     { transform: scaleY(1.03); }
+      }
+
+      /* 顔がふわっと上下 */
+      .face-grp { animation: face-bob 4s ease-in-out infinite; }
+      @keyframes face-bob {
+        0%,100% { transform: translateY(0);  }
+        50%     { transform: translateY(-3px); }
+      }
+
+      /* ほっぺたがほんのり拍動 */
+      .cheek { animation: cheek-pulse 4s ease-in-out infinite alternate; }
+      @keyframes cheek-pulse {
+        from { opacity: 0.40; }
+        to   { opacity: 0.58; }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- 背景（夜の部屋） -->
+    <rect width="300" height="300" fill="#1B2145"/>
+
+    <!-- 星 -->
+    <circle cx="30"  cy="22" r="2"   fill="white" opacity="0.65"/>
+    <circle cx="75"  cy="12" r="1.5" fill="white" opacity="0.55"/>
+    <circle cx="130" cy="28" r="2"   fill="white" opacity="0.60"/>
+    <circle cx="52"  cy="55" r="1.5" fill="white" opacity="0.45"/>
+    <circle cx="110" cy="48" r="1"   fill="white" opacity="0.40"/>
+
+    <!-- 三日月（右上） -->
+    <circle cx="252" cy="40" r="28" fill="#FFFDE7" opacity="0.92"/>
+    <circle cx="265" cy="31" r="22" fill="#1B2145"/>
+
+    <!-- 壁（下部・暗め暖色） -->
+    <rect x="0" y="170" width="300" height="130" fill="#2A1F3D"/>
+
+    <!-- まくら（顔の後ろ） -->
+    <ellipse cx="150" cy="218" rx="114" ry="27" fill="#E8EAF6"/>
+    <ellipse cx="150" cy="215" rx="108" ry="22" fill="#F5F5FF"/>
+
+    <!-- 毛布 -->
+    <rect class="blanket" x="14" y="224" width="272" height="70" rx="10" fill="#5C6BC0"/>
+    <rect class="blanket" x="14" y="224" width="272" height="22" rx="10" fill="#7986CB"/>
+    <line x1="14" y1="246" x2="286" y2="246" stroke="#9FA8DA" stroke-width="1.5" opacity="0.5"/>
+    <line x1="14" y1="258" x2="286" y2="258" stroke="#9FA8DA" stroke-width="1.5" opacity="0.4"/>
+    <line x1="14" y1="270" x2="286" y2="270" stroke="#9FA8DA" stroke-width="1.5" opacity="0.4"/>
+
+    <!-- ベッド下枠 -->
+    <rect x="8" y="289" width="284" height="11" rx="5" fill="#4A3728"/>
+
+    <!-- ===== 顔グループ（呼吸で上下） ===== -->
+    <g class="face-grp">
+
+      <!-- 耳 -->
+      <circle cx="72"  cy="158" r="20" fill="#ffc27a"/>
+      <circle cx="228" cy="158" r="20" fill="#ffc27a"/>
+
+      <!-- 顔 -->
+      <circle cx="150" cy="155" r="84" fill="#ffd09d"/>
+
+      <!-- 髪 -->
+      <path d="M 80,152
+               C 73,128 71,98 80,76
+               C 90,54 114,40 136,36
+               C 143,34 147,33 150,35
+               C 153,33 157,34 164,36
+               C 186,40 210,54 220,76
+               C 229,98 227,128 220,152
+               C 214,130 209,110 200,103
+               C 188,96 170,92 150,92
+               C 130,92 112,96 100,103
+               C 91,110 86,130 80,152 Z"
+            fill="#3e2723"/>
+
+      <!-- 眉毛（リラックス・ゆるやか） -->
+      <path d="M 102,118 Q 120,113 136,118" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M 164,118 Q 180,113 198,118" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+      <!-- 目（閉じている・下向きアーチ） -->
+      <path d="M 108,146 Q 121,158 134,146" stroke="#3e2723" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M 166,146 Q 179,158 192,146" stroke="#3e2723" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+      <!-- まつ毛 -->
+      <line x1="109" y1="146" x2="106" y2="140" stroke="#3e2723" stroke-width="2" stroke-linecap="round"/>
+      <line x1="121" y1="152" x2="120" y2="145" stroke="#3e2723" stroke-width="2" stroke-linecap="round"/>
+      <line x1="133" y1="147" x2="136" y2="141" stroke="#3e2723" stroke-width="2" stroke-linecap="round"/>
+      <line x1="167" y1="147" x2="164" y2="141" stroke="#3e2723" stroke-width="2" stroke-linecap="round"/>
+      <line x1="179" y1="152" x2="180" y2="145" stroke="#3e2723" stroke-width="2" stroke-linecap="round"/>
+      <line x1="191" y1="146" x2="194" y2="140" stroke="#3e2723" stroke-width="2" stroke-linecap="round"/>
+
+      <!-- 鼻 -->
+      <circle cx="145" cy="173" r="3.5" fill="#e8956d" opacity="0.70"/>
+      <circle cx="155" cy="173" r="3.5" fill="#e8956d" opacity="0.70"/>
+
+      <!-- ほっぺた -->
+      <circle class="cheek" cx="92"  cy="182" r="24" fill="#ef9a9a" opacity="0.50"/>
+      <circle class="cheek" cx="208" cy="182" r="24" fill="#ef9a9a" opacity="0.50"/>
+
+      <!-- 口（穏やかな微笑み） -->
+      <path d="M 138,197 Q 150,205 162,197" stroke="#c07850" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+    </g><!-- /face-grp -->
+
+    <!-- ZZZ（顔グループ外・右上へ浮かぶ） -->
+    <text class="zzz"    x="188" y="120" font-size="26" font-weight="bold" fill="#90CAF9" font-family="Arial, sans-serif">z</text>
+    <text class="zzz z2" x="208" y="96"  font-size="20" font-weight="bold" fill="#64B5F6" font-family="Arial, sans-serif">z</text>
+    <text class="zzz z3" x="224" y="76"  font-size="15" font-weight="bold" fill="#42A5F5" font-family="Arial, sans-serif">z</text>
+
+  </g>
+</svg>

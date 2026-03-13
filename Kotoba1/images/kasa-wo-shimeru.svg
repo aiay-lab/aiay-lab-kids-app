@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* 太陽がゆっくり輝く */
+      .sun-glow {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: sun-pulse 3s ease-in-out infinite;
+      }
+      @keyframes sun-pulse {
+        0%,100% { opacity: 0.55; transform: scale(1);    }
+        50%     { opacity: 0.85; transform: scale(1.08); }
+      }
+
+      /* 雲がゆっくり流れる */
+      .cloud {
+        animation: cloud-drift 18s linear infinite;
+      }
+      @keyframes cloud-drift {
+        0%   { transform: translateX(0);     }
+        100% { transform: translateX(320px); }
+      }
+
+      /* 傘を閉じる（8秒ループ） */
+      .canopy-group {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: kasa-close 8s ease-in-out infinite;
+      }
+      @keyframes kasa-close {
+        0%,  20% { transform: scaleX(1);    }   /* 開いている */
+        48%      { transform: scaleX(0.10); }   /* 閉じた */
+        82%      { transform: scaleX(0.10); }   /* 閉じたまま */
+        95%,100% { transform: scaleX(1);    }   /* 次ループへ */
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 晴れた青空 -->
+  <rect width="300" height="300" fill="#64b5f6"/>
+
+  <!-- 太陽の光輪 -->
+  <circle class="sun-glow" cx="56" cy="52" r="38" fill="#FFF176" opacity="0.55"/>
+
+  <!-- 太陽 光線 -->
+  <line x1="56" y1="6"  x2="56" y2="0"   stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="82" y1="14" x2="87" y2="9"   stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="96" y1="40" x2="103" y2="37" stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="88" y1="68" x2="94" y2="74"  stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="56" y1="80" x2="56" y2="87"  stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="24" y1="68" x2="18" y2="74"  stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="14" y1="40" x2="7"  y2="37"  stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="28" y1="14" x2="22" y2="9"   stroke="#FFD54F" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 太陽 本体 -->
+  <circle cx="56" cy="52" r="24" fill="#FFD54F"/>
+  <circle cx="56" cy="52" r="18" fill="#FFEE58"/>
+
+  <!-- 雲（ゆっくり流れる） -->
+  <g class="cloud" style="animation-delay:-4s">
+    <ellipse cx="200" cy="44" rx="40" ry="18" fill="#ffffff" opacity="0.90"/>
+    <ellipse cx="178" cy="50" rx="22" ry="15" fill="#ffffff" opacity="0.90"/>
+    <ellipse cx="222" cy="50" rx="24" ry="14" fill="#ffffff" opacity="0.90"/>
+  </g>
+  <g class="cloud" style="animation-delay:-11s">
+    <ellipse cx="100" cy="28" rx="28" ry="13" fill="#ffffff" opacity="0.75"/>
+    <ellipse cx="84"  cy="33" rx="16" ry="11" fill="#ffffff" opacity="0.75"/>
+    <ellipse cx="116" cy="33" rx="18" ry="10" fill="#ffffff" opacity="0.75"/>
+  </g>
+
+  <!-- 地面（乾いた晴れの日） -->
+  <rect y="252" width="300" height="48" fill="#8d9e5c"/>
+  <!-- 草 -->
+  <rect y="252" width="300" height="10" fill="#a5b862"/>
+  <!-- 草の線 -->
+  <line x1="20"  y1="252" x2="18"  y2="244" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+  <line x1="30"  y1="252" x2="33"  y2="243" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+  <line x1="55"  y1="252" x2="52"  y2="243" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+  <line x1="68"  y1="252" x2="71"  y2="244" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+  <line x1="200" y1="252" x2="198" y2="243" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+  <line x1="215" y1="252" x2="218" y2="244" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+  <line x1="240" y1="252" x2="237" y2="243" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+  <line x1="270" y1="252" x2="273" y2="244" stroke="#7a9440" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 柄（シャフト） -->
+  <line x1="150" y1="152" x2="150" y2="220" stroke="#5d4037" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- ハンドル（J字フック） -->
+  <path d="M 150,220 C 152,242 116,248 114,230"
+        stroke="#5d4037" stroke-width="7" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- キャノピー（閉じるアニメーション） -->
+  <g class="canopy-group">
+    <path d="M 50,152 C 50,75 250,75 250,152
+             Q 237.5,167 225,152
+             Q 212.5,167 200,152
+             Q 187.5,167 175,152
+             Q 162.5,167 150,152
+             Q 137.5,167 125,152
+             Q 112.5,167 100,152
+             Q  87.5,167  75,152
+             Q  62.5,167  50,152 Z"
+          fill="#e53935" stroke="#c62828" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="150" y1="94" x2="50"  y2="152" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="94" x2="75"  y2="152" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="94" x2="100" y2="152" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="94" x2="125" y2="152" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="94" x2="175" y2="152" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="94" x2="200" y2="152" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="94" x2="225" y2="152" stroke="#c62828" stroke-width="2"/>
+    <line x1="150" y1="94" x2="250" y2="152" stroke="#c62828" stroke-width="2"/>
+    <ellipse cx="150" cy="90" rx="5" ry="6" fill="#4e342e"/>
+    <ellipse cx="150" cy="85" rx="3" ry="3.5" fill="#3e2723"/>
+  </g>
+
+  </g>
+</svg>

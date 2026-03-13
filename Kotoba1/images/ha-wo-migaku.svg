@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <clipPath id="mouth-clip">
+      <ellipse cx="150" cy="194" rx="44" ry="22"/>
+    </clipPath>
+    <style>
+      /* ======= 歯ブラシが左右に動く ======= */
+      .brush-group {
+        animation: brush-move 8s ease-in-out infinite;
+      }
+      /* ブラシ頭はグループ原点より左に107px。
+         頭を口の右端(x≈178)に置く → group_x = 178+107 = 285
+         頭を口の左端(x≈118)に置く → group_x = 118+107 = 225
+         待機（画面外右、頭x>300） → group_x = 420 */
+      @keyframes brush-move {
+        0%,10%  { transform: translate(420px, 188px); }   /* 画面外右で待機 */
+        17%     { transform: translate(285px, 188px); }   /* 口の右側に入る */
+        20%,22% { transform: translate(225px, 188px); }   /* 左の歯へ */
+        24%,26% { transform: translate(285px, 188px); }   /* 右の歯へ */
+        28%,30% { transform: translate(225px, 188px); }
+        32%,34% { transform: translate(285px, 188px); }
+        36%,38% { transform: translate(225px, 188px); }
+        40%,42% { transform: translate(285px, 188px); }
+        44%,46% { transform: translate(225px, 188px); }
+        48%,50% { transform: translate(285px, 188px); }
+        52%,54% { transform: translate(225px, 188px); }
+        56%,58% { transform: translate(285px, 188px); }
+        60%,62% { transform: translate(225px, 188px); }
+        64%,66% { transform: translate(285px, 188px); }
+        68%,70% { transform: translate(225px, 188px); }
+        72%,74% { transform: translate(285px, 188px); }
+        80%     { transform: translate(420px, 188px); }   /* 口から出る */
+        100%    { transform: translate(420px, 188px); }
+      }
+
+      /* ======= 口の開閉（磨く間は少し開く） ======= */
+      .mouth-open {
+        animation: mouth-anim 8s ease-in-out infinite;
+        opacity: 0;
+      }
+      @keyframes mouth-anim {
+        0%,14%  { opacity: 0; }
+        18%,78% { opacity: 1; }
+        82%     { opacity: 0; }
+        100%    { opacity: 0; }
+      }
+      .mouth-closed {
+        animation: mouth-closed-anim 8s ease-in-out infinite;
+        opacity: 1;
+      }
+      @keyframes mouth-closed-anim {
+        0%,14%  { opacity: 1; }
+        18%,78% { opacity: 0; }
+        82%     { opacity: 1; }
+        100%    { opacity: 1; }
+      }
+
+      /* ======= 目が細まる（磨くとき） ======= */
+      .eye-normal {
+        animation: eye-normal-anim 8s infinite;
+        opacity: 1;
+      }
+      @keyframes eye-normal-anim {
+        0%,14%  { opacity: 1; }
+        18%,78% { opacity: 0; }
+        82%     { opacity: 1; }
+        100%    { opacity: 1; }
+      }
+      .eye-squint {
+        animation: eye-squint-anim 8s infinite;
+        opacity: 0;
+      }
+      @keyframes eye-squint-anim {
+        0%,14%  { opacity: 0; }
+        18%,78% { opacity: 1; }
+        82%     { opacity: 0; }
+        100%    { opacity: 0; }
+      }
+
+      /* ======= 口の泡 ======= */
+      .foam {
+        animation: foam-anim 8s infinite;
+        opacity: 0;
+      }
+      @keyframes foam-anim {
+        0%,25%  { opacity: 0; }
+        35%,75% { opacity: 1; }
+        80%     { opacity: 0; }
+        100%    { opacity: 0; }
+      }
+      .foam-bubble { animation: fbubble 1.2s ease-out infinite; opacity: 0; }
+      .fb1 { animation-delay: 0.0s; }
+      .fb2 { animation-delay: 0.4s; }
+      .fb3 { animation-delay: 0.8s; }
+      @keyframes fbubble {
+        0%   { transform: translateY(0) translateX(0);  opacity: 0; }
+        20%  { opacity: 0.85; }
+        100% { transform: translateY(-30px) translateX(8px); opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（バスルーム・タイル） -->
+  <rect width="300" height="300" fill="#e3f2fd" rx="20"/>
+  <rect width="300" height="230" fill="#fafafa"/>
+  <!-- タイル目地 -->
+  <line x1="0" y1="77" x2="300" y2="77" stroke="#e0e0e0" stroke-width="1.5"/>
+  <line x1="0" y1="154" x2="300" y2="154" stroke="#e0e0e0" stroke-width="1.5"/>
+  <line x1="75"  y1="0" x2="75"  y2="230" stroke="#e0e0e0" stroke-width="1.5"/>
+  <line x1="150" y1="0" x2="150" y2="230" stroke="#e0e0e0" stroke-width="1.5"/>
+  <line x1="225" y1="0" x2="225" y2="230" stroke="#e0e0e0" stroke-width="1.5"/>
+  <!-- 床 -->
+  <rect y="228" width="300" height="72" fill="#bdbdbd"/>
+  <rect y="228" width="300" height="8" fill="#e0e0e0"/>
+
+  <!-- ===== 顔 ===== -->
+  <!-- 頭（大きな丸） -->
+  <circle cx="150" cy="135" r="88" fill="#ffcc80"/>
+  <!-- 耳 -->
+  <circle cx="63"  cy="135" r="20" fill="#ffb74d"/>
+  <circle cx="237" cy="135" r="20" fill="#ffb74d"/>
+  <!-- 髪の毛 -->
+  <ellipse cx="150" cy="52" rx="80" ry="30" fill="#5d4037"/>
+  <ellipse cx="82"  cy="65" rx="22" ry="38" fill="#5d4037"/>
+  <ellipse cx="218" cy="65" rx="22" ry="38" fill="#5d4037"/>
+
+  <!-- 眉毛 -->
+  <path d="M 110,92 Q 122,86 134,92" stroke="#5d4037" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 166,92 Q 178,86 190,92" stroke="#5d4037" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+  <!-- ======= 目（通常） ======= -->
+  <g class="eye-normal">
+    <circle cx="121" cy="115" r="14" fill="#fff"/>
+    <circle cx="121" cy="117" r="9"  fill="#2a1505"/>
+    <circle cx="117" cy="113" r="4"  fill="#fff"/>
+    <circle cx="179" cy="115" r="14" fill="#fff"/>
+    <circle cx="179" cy="117" r="9"  fill="#2a1505"/>
+    <circle cx="175" cy="113" r="4"  fill="#fff"/>
+  </g>
+  <!-- ======= 目（細め・磨くとき） ======= -->
+  <g class="eye-squint">
+    <path d="M 107,115 Q 121,107 135,115" stroke="#2a1505" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M 165,115 Q 179,107 193,115" stroke="#2a1505" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- 鼻 -->
+  <ellipse cx="150" cy="148" rx="10" ry="7" fill="#ffb74d"/>
+  <circle cx="145" cy="150" r="3.5" fill="#e6994d"/>
+  <circle cx="155" cy="150" r="3.5" fill="#e6994d"/>
+
+  <!-- ほっぺた -->
+  <ellipse cx="96"  cy="165" rx="22" ry="14" fill="#ff8a65" opacity="0.5"/>
+  <ellipse cx="204" cy="165" rx="22" ry="14" fill="#ff8a65" opacity="0.5"/>
+
+  <!-- ======= 口（閉じ） ======= -->
+  <g class="mouth-closed">
+    <path d="M 116,184 Q 150,200 184,184"
+          stroke="#a0522d" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- ======= 口（開き・歯見える） ======= -->
+  <g class="mouth-open">
+    <!-- 口の内側 -->
+    <ellipse cx="150" cy="194" rx="44" ry="22" fill="#c62828"/>
+    <!-- 歯（上） -->
+    <g clip-path="url(#mouth-clip)">
+      <rect x="108" y="175" width="84" height="20" fill="#f5f5f5" rx="3"/>
+      <line x1="122" y1="175" x2="122" y2="195" stroke="#e0e0e0" stroke-width="1"/>
+      <line x1="136" y1="175" x2="136" y2="195" stroke="#e0e0e0" stroke-width="1"/>
+      <line x1="150" y1="175" x2="150" y2="195" stroke="#e0e0e0" stroke-width="1"/>
+      <line x1="164" y1="175" x2="164" y2="195" stroke="#e0e0e0" stroke-width="1"/>
+      <line x1="178" y1="175" x2="178" y2="195" stroke="#e0e0e0" stroke-width="1"/>
+      <!-- 歯（下） -->
+      <rect x="112" y="200" width="76" height="16" fill="#f5f5f5" rx="3"/>
+      <line x1="126" y1="200" x2="126" y2="216" stroke="#e0e0e0" stroke-width="1"/>
+      <line x1="140" y1="200" x2="140" y2="216" stroke="#e0e0e0" stroke-width="1"/>
+      <line x1="154" y1="200" x2="154" y2="216" stroke="#e0e0e0" stroke-width="1"/>
+      <line x1="168" y1="200" x2="168" y2="216" stroke="#e0e0e0" stroke-width="1"/>
+    </g>
+    <!-- 口角 -->
+    <ellipse cx="108" cy="188" rx="8" ry="8" fill="#ffcc80"/>
+    <ellipse cx="192" cy="188" rx="8" ry="8" fill="#ffcc80"/>
+  </g>
+
+  <!-- ======= 歯ブラシ ======= -->
+  <g class="brush-group">
+    <!-- ハンドル -->
+    <rect x="-100" y="-7" width="108" height="14" fill="#42a5f5" rx="7"/>
+    <!-- ヘッド -->
+    <rect x="-118" y="-9" width="22" height="18" fill="#1e88e5" rx="4"/>
+    <!-- 毛束 -->
+    <rect x="-117" y="-15" width="3" height="8"  fill="#fff" rx="1.5"/>
+    <rect x="-113" y="-15" width="3" height="8"  fill="#fff" rx="1.5"/>
+    <rect x="-109" y="-15" width="3" height="8"  fill="#fff" rx="1.5"/>
+    <rect x="-105" y="-15" width="3" height="8"  fill="#fff" rx="1.5"/>
+    <rect x="-101" y="-15" width="3" height="8"  fill="#fff" rx="1.5"/>
+    <!-- 歯磨き粉 -->
+    <ellipse cx="-108" cy="-16" rx="8" ry="4" fill="#80cbc4" opacity="0.9"/>
+  </g>
+
+  <!-- ======= 泡 ======= -->
+  <g class="foam">
+    <ellipse cx="195" cy="192" rx="12" ry="7" fill="#fff" opacity="0.85"/>
+    <ellipse cx="208" cy="188" rx="8"  ry="6" fill="#fff" opacity="0.8"/>
+  </g>
+  <circle class="foam-bubble fb1" cx="198" cy="186" r="5"   fill="none" stroke="#b2ebf2" stroke-width="1.8"/>
+  <circle class="foam-bubble fb2" cx="207" cy="183" r="4"   fill="none" stroke="#b2ebf2" stroke-width="1.8"/>
+  <circle class="foam-bubble fb3" cx="202" cy="180" r="6"   fill="none" stroke="#b2ebf2" stroke-width="1.8"/>
+</g>
+</svg>

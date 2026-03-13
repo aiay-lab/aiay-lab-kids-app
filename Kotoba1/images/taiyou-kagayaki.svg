@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <linearGradient id="sky-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1565c0"/>
+      <stop offset="100%" stop-color="#81d4fa"/>
+    </linearGradient>
+    <radialGradient id="glow-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#fff9c4" stop-opacity="0.95"/>
+      <stop offset="42%"  stop-color="#ffe082" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ff8f00" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="grass-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#66bb6a"/>
+      <stop offset="100%" stop-color="#388e3c"/>
+    </linearGradient>
+    <style>
+      /* ======= 太陽グロー：ゆっくり呼吸 ======= */
+      .sun-glow {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: glow-breath 3.2s ease-in-out infinite alternate;
+      }
+      @keyframes glow-breath {
+        0%   { transform: scale(0.88); opacity: 0.65; }
+        100% { transform: scale(1.18); opacity: 1.00; }
+      }
+
+      /* ======= 光線：14秒で1回転 ======= */
+      .sun-rays {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: ray-spin 14s linear infinite;
+      }
+      @keyframes ray-spin {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* ======= 太陽コア：パルス（グローと逆位相） ======= */
+      .sun-core {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: core-pulse 3.2s ease-in-out infinite alternate;
+        animation-delay: 1.6s;
+      }
+      @keyframes core-pulse {
+        0%   { transform: scale(0.96); }
+        100% { transform: scale(1.06); }
+      }
+
+      /* ======= 雲が流れる ======= */
+      .cloud-a { animation: cloud-drift-r 22s linear infinite; }
+      @keyframes cloud-drift-r {
+        0%   { transform: translateX(-200px); }
+        100% { transform: translateX(370px); }
+      }
+      .cloud-b { animation: cloud-drift-l 32s linear infinite; animation-delay: -12s; }
+      @keyframes cloud-drift-l {
+        0%   { transform: translateX(370px); }
+        100% { transform: translateX(-200px); }
+      }
+
+      /* ======= 鳥が飛ぶ ======= */
+      .bird-a { animation: bird-fly-a 13s linear infinite; animation-delay: 2s; }
+      @keyframes bird-fly-a {
+        0%   { transform: translate(-55px, 178px); }
+        100% { transform: translate(365px,  158px); }
+      }
+      .bird-b { animation: bird-fly-b 18s linear infinite; animation-delay: -6s; }
+      @keyframes bird-fly-b {
+        0%   { transform: translate(-55px, 200px); }
+        100% { transform: translate(365px,  178px); }
+      }
+
+      /* ======= キラキラ ======= */
+      .sp {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: sp-pop 2.6s ease-in-out infinite;
+        opacity: 0;
+      }
+      .sp1 { animation-delay: 0.0s;  }
+      .sp2 { animation-delay: 0.65s; }
+      .sp3 { animation-delay: 1.3s;  }
+      .sp4 { animation-delay: 1.95s; }
+      .sp5 { animation-delay: 0.95s; }
+      @keyframes sp-pop {
+        0%,8%    { opacity: 0; transform: scale(0.25); }
+        30%,65%  { opacity: 1; transform: scale(1.0);  }
+        88%,100% { opacity: 0; transform: scale(0.25); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- ===== 空 ===== -->
+    <rect width="300" height="300" fill="url(#sky-g)"/>
+
+    <!-- ===== 太陽（外部グループで位置固定、内部で各アニメーション） ===== -->
+    <g transform="translate(150, 108)">
+
+      <!-- グロー（放射グラデーション円・パルス） -->
+      <g class="sun-glow">
+        <circle r="92" fill="url(#glow-g)"/>
+      </g>
+
+      <!-- 光線（12本：長6・短6・交互・回転） -->
+      <g class="sun-rays">
+        <!-- 長い光線（0°, 60°, 120°, 180°, 240°, 300°） -->
+        <polygon points="-7,-53 0,-97 7,-53"  fill="#e65100"/>
+        <polygon points="-7,-53 0,-97 7,-53"  fill="#e65100" transform="rotate(60)"/>
+        <polygon points="-7,-53 0,-97 7,-53"  fill="#e65100" transform="rotate(120)"/>
+        <polygon points="-7,-53 0,-97 7,-53"  fill="#e65100" transform="rotate(180)"/>
+        <polygon points="-7,-53 0,-97 7,-53"  fill="#e65100" transform="rotate(240)"/>
+        <polygon points="-7,-53 0,-97 7,-53"  fill="#e65100" transform="rotate(300)"/>
+        <!-- 短い光線（30°, 90°, 150°, 210°, 270°, 330°） -->
+        <polygon points="-5,-53 0,-78 5,-53"  fill="#fdd835" transform="rotate(30)"/>
+        <polygon points="-5,-53 0,-78 5,-53"  fill="#fdd835" transform="rotate(90)"/>
+        <polygon points="-5,-53 0,-78 5,-53"  fill="#fdd835" transform="rotate(150)"/>
+        <polygon points="-5,-53 0,-78 5,-53"  fill="#fdd835" transform="rotate(210)"/>
+        <polygon points="-5,-53 0,-78 5,-53"  fill="#fdd835" transform="rotate(270)"/>
+        <polygon points="-5,-53 0,-78 5,-53"  fill="#fdd835" transform="rotate(330)"/>
+      </g>
+
+      <!-- コア＋顔（パルス） -->
+      <g class="sun-core">
+        <!-- 本体 -->
+        <circle r="47" fill="#fdd835"/>
+        <circle r="41" fill="#ffee58"/>
+        <!-- ハイライト -->
+        <ellipse cx="-11" cy="-14" rx="20" ry="13" fill="#fff9c4" opacity="0.35" transform="rotate(-22)"/>
+        <!-- 頬（ほんのりオレンジ） -->
+        <ellipse cx="-23" cy="9"  rx="9"  ry="5.5" fill="#ffb74d" opacity="0.52"/>
+        <ellipse cx="23"  cy="9"  rx="9"  ry="5.5" fill="#ffb74d" opacity="0.52"/>
+        <!-- 目（左） -->
+        <circle cx="-14" cy="-4" r="4.5" fill="#f57f17"/>
+        <circle cx="-13" cy="-5" r="2.6" fill="#1a1a2e"/>
+        <circle cx="-12" cy="-6" r="1.0" fill="#fff"/>
+        <!-- 目（右） -->
+        <circle cx="14"  cy="-4" r="4.5" fill="#f57f17"/>
+        <circle cx="15"  cy="-5" r="2.6" fill="#1a1a2e"/>
+        <circle cx="16"  cy="-6" r="1.0" fill="#fff"/>
+        <!-- 口（にっこり） -->
+        <path d="M -15,10 Q 0,26 15,10" stroke="#f57f17" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+
+    </g>
+
+    <!-- ===== 雲 ===== -->
+    <g class="cloud-a">
+      <g transform="translate(78, 48)">
+        <ellipse cx="0"  cy="0"  rx="22" ry="16" fill="#fff" opacity="0.96"/>
+        <ellipse cx="30" cy="-8" rx="30" ry="21" fill="#fff" opacity="0.96"/>
+        <ellipse cx="62" cy="0"  rx="22" ry="15" fill="#fff" opacity="0.96"/>
+        <ellipse cx="30" cy="10" rx="27" ry="10" fill="#fff" opacity="0.96"/>
+      </g>
+    </g>
+    <g class="cloud-b">
+      <g transform="translate(185, 195)">
+        <ellipse cx="0"  cy="0"  rx="16" ry="11" fill="#fff" opacity="0.90"/>
+        <ellipse cx="22" cy="-5" rx="22" ry="15" fill="#fff" opacity="0.90"/>
+        <ellipse cx="44" cy="0"  rx="16" ry="11" fill="#fff" opacity="0.90"/>
+        <ellipse cx="22" cy="7"  rx="19" ry="8"  fill="#fff" opacity="0.90"/>
+      </g>
+    </g>
+
+    <!-- ===== 鳥（小さなシルエット） ===== -->
+    <g class="bird-a">
+      <path d="M -10,0 Q -5,-7 0,-3.5 Q 5,-7 10,0"
+            fill="none" stroke="#0d47a1" stroke-width="2.2" stroke-linecap="round" opacity="0.78"/>
+    </g>
+    <g class="bird-b">
+      <path d="M -7,0 Q -3.5,-5 0,-2.5 Q 3.5,-5 7,0"
+            fill="none" stroke="#0d47a1" stroke-width="1.7" stroke-linecap="round" opacity="0.62"/>
+    </g>
+
+    <!-- ===== 地面・草・花 ===== -->
+    <!-- 草の丘 -->
+    <path d="M 0,260 Q 75,248 150,256 Q 225,264 300,250 L 300,300 L 0,300 Z"
+          fill="url(#grass-g)"/>
+    <path d="M 0,260 Q 75,248 150,256 Q 225,264 300,250"
+          fill="none" stroke="#81c784" stroke-width="2.5" opacity="0.7"/>
+    <!-- 草の葉 -->
+    <path d="M 30,260 L 34,244 L 38,260" fill="#81c784" opacity="0.72"/>
+    <path d="M 72,264 L 76,250 L 80,264" fill="#a5d6a7" opacity="0.72"/>
+    <path d="M 122,258 L 126,242 L 130,258" fill="#81c784" opacity="0.72"/>
+    <path d="M 178,262 L 182,246 L 186,262" fill="#a5d6a7" opacity="0.72"/>
+    <path d="M 228,256 L 232,240 L 236,256" fill="#81c784" opacity="0.72"/>
+    <path d="M 268,260 L 272,246 L 276,260" fill="#a5d6a7" opacity="0.72"/>
+    <!-- 花（中央・黄） -->
+    <circle cx="55"  cy="262" r="4.5" fill="#fff176"/>
+    <circle cx="55"  cy="262" r="2"   fill="#ffd600"/>
+    <!-- 花（赤） -->
+    <circle cx="152" cy="258" r="4.5" fill="#ef9a9a"/>
+    <circle cx="152" cy="258" r="2"   fill="#e53935"/>
+    <!-- 花（黄2） -->
+    <circle cx="252" cy="252" r="4.5" fill="#fff176"/>
+    <circle cx="252" cy="252" r="2"   fill="#ffd600"/>
+    <!-- 花（水色） -->
+    <circle cx="200" cy="264" r="4"   fill="#80deea"/>
+    <circle cx="200" cy="264" r="1.8" fill="#00838f"/>
+    <!-- 花（ピンク） -->
+    <circle cx="100" cy="260" r="4"   fill="#f48fb1"/>
+    <circle cx="100" cy="260" r="1.8" fill="#e91e63"/>
+
+    <!-- ===== キラキラ（太陽の周囲） ===== -->
+    <text class="sp sp1" x="88"  y="30"  font-size="20" fill="#ffd54f"  text-anchor="middle">✦</text>
+    <text class="sp sp2" x="218" y="34"  font-size="16" fill="#fff9c4"  text-anchor="middle">✦</text>
+    <text class="sp sp3" x="64"  y="158" font-size="15" fill="#ffd54f"  text-anchor="middle">✦</text>
+    <text class="sp sp4" x="242" y="152" font-size="17" fill="#fff9c4"  text-anchor="middle">✦</text>
+    <text class="sp sp5" x="152" y="20"  font-size="22" fill="#ffd54f"  text-anchor="middle">✦</text>
+
+  </g>
+</svg>

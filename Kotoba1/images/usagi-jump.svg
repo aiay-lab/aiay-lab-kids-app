@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 軽いうさぎがぴょーんとジャンプ ======= */
+      .rj-body {
+        animation: rj-jump 2.4s ease-in-out infinite;
+      }
+      @keyframes rj-jump {
+        0%    { transform: translateY(0); }
+        5%    { transform: translateY(7px); }     /* 小さな踏み込み */
+        24%   { transform: translateY(-150px); }  /* 頂点（すばやい） */
+        48%   { transform: translateY(0); }        /* 着地 */
+        100%  { transform: translateY(0); }        /* 待機 */
+      }
+
+      .rj-squash {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: rj-squash 2.4s ease-in-out infinite;
+      }
+      @keyframes rj-squash {
+        0%    { transform: scaleY(1)    scaleX(1); }
+        5%    { transform: scaleY(0.86) scaleX(1.10); } /* 踏み込み */
+        24%   { transform: scaleY(1.06) scaleX(0.96); } /* 伸び */
+        48%   { transform: scaleY(0.84) scaleX(1.12); } /* 軽い着地 */
+        58%   { transform: scaleY(1.03) scaleX(0.98); }
+        70%   { transform: scaleY(1)    scaleX(1); }
+        100%  { transform: scaleY(1)    scaleX(1); }
+      }
+
+      /* 耳がなびく */
+      .ear-far {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: ear-far-flap 2.4s ease-in-out infinite;
+      }
+      @keyframes ear-far-flap {
+        0%    { transform: rotate(0deg); }
+        5%    { transform: rotate(6deg); }
+        24%   { transform: rotate(-18deg); }
+        38%   { transform: rotate(-11deg); }
+        48%   { transform: rotate(6deg); }
+        62%   { transform: rotate(0deg); }
+        100%  { transform: rotate(0deg); }
+      }
+      .ear-near {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: ear-near-flap 2.4s ease-in-out infinite;
+      }
+      @keyframes ear-near-flap {
+        0%    { transform: rotate(0deg); }
+        5%    { transform: rotate(5deg); }
+        24%   { transform: rotate(-14deg); }
+        38%   { transform: rotate(-8deg); }
+        48%   { transform: rotate(5deg); }
+        62%   { transform: rotate(0deg); }
+        100%  { transform: rotate(0deg); }
+      }
+
+      /* 影（小さく） */
+      .rj-shadow {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: rshadow-anim 2.4s ease-in-out infinite;
+      }
+      @keyframes rshadow-anim {
+        0%    { transform: scaleX(1);    opacity: 0.12; }
+        5%    { transform: scaleX(1.06); opacity: 0.14; }
+        24%   { transform: scaleX(0.25); opacity: 0.05; }
+        48%   { transform: scaleX(1.12); opacity: 0.16; }
+        58%   { transform: scaleX(1);    opacity: 0.12; }
+        100%  { transform: scaleX(1);    opacity: 0.12; }
+      }
+
+      /* キラキラ（軽さの表現） */
+      .sp {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: spark-pop 2.4s ease-in-out infinite;
+        opacity: 0;
+      }
+      .sp1 { animation-delay: 0.0s; }
+      .sp2 { animation-delay: 0.6s; }
+      .sp3 { animation-delay: 1.2s; }
+      .sp4 { animation-delay: 0.3s; }
+      @keyframes spark-pop {
+        0%,10%   { opacity: 0; transform: scale(0.3) rotate(0deg); }
+        25%,65%  { opacity: 1; transform: scale(1)   rotate(18deg); }
+        88%,100% { opacity: 0; transform: scale(0.3) rotate(36deg); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（爽やかな水色） -->
+  <rect width="300" height="300" fill="#f0f8ff" rx="20"/>
+  <!-- 床 -->
+  <rect y="248" width="300" height="52" fill="#8d6e63"/>
+  <rect y="248" width="300" height="7" fill="#a1887f"/>
+
+  <!-- 影（地面固定・小さい） -->
+  <ellipse class="rj-shadow" cx="152" cy="252" rx="26" ry="4" fill="#000"/>
+
+  <!-- ===== うさぎグループ（ジャンプ） ===== -->
+  <g class="rj-body">
+    <g class="rj-squash">
+
+      <!-- しっぽ（小さくふわふわ） -->
+      <circle cx="122" cy="231" r="9"  fill="#e8e8e8"/>
+      <circle cx="122" cy="230" r="6"  fill="#fff" opacity="0.8"/>
+
+      <!-- 後ろ足（遠い） -->
+      <ellipse cx="128" cy="244" rx="14" ry="5" fill="#e0e0e0" opacity="0.7"/>
+      <!-- 後ろ足（近い） -->
+      <ellipse cx="138" cy="246" rx="17" ry="5" fill="#f5f5f5"/>
+
+      <!-- 体（丸くてふっくら） -->
+      <ellipse cx="152" cy="232" rx="27" ry="17" fill="#f5f5f5"/>
+      <!-- お腹（少し白く） -->
+      <ellipse cx="155" cy="236" rx="15" ry="10" fill="#fff" opacity="0.6"/>
+
+      <!-- 前足（遠い） -->
+      <ellipse cx="168" cy="244" rx="8"  ry="4" fill="#e0e0e0" opacity="0.7"/>
+      <!-- 前足（近い） -->
+      <ellipse cx="175" cy="246" rx="9"  ry="4" fill="#f5f5f5"/>
+
+      <!-- 頭 -->
+      <circle cx="176" cy="217" r="19" fill="#f5f5f5"/>
+      <!-- 頬（ほんのりピンク） -->
+      <circle cx="166" cy="223" r="7" fill="#f8bbd0" opacity="0.45"/>
+      <circle cx="187" cy="222" r="7" fill="#f8bbd0" opacity="0.45"/>
+
+      <!-- 遠い耳（後ろ） -->
+      <g transform="translate(170, 199)">
+        <g class="ear-far">
+          <ellipse cx="0" cy="-22" rx="6" ry="24" fill="#e0e0e0"/>
+          <ellipse cx="0" cy="-22" rx="3.5" ry="15" fill="#f8bbd0" opacity="0.7"/>
+        </g>
+      </g>
+
+      <!-- 近い耳（前） -->
+      <g transform="translate(181, 198)">
+        <g class="ear-near">
+          <ellipse cx="0" cy="-26" rx="7.5" ry="28" fill="#f5f5f5"/>
+          <ellipse cx="0" cy="-26" rx="4.5" ry="18" fill="#f48fb1" opacity="0.65"/>
+        </g>
+      </g>
+
+      <!-- 目（遠い） -->
+      <circle cx="169" cy="214" r="3.8" fill="#fff"/>
+      <circle cx="170" cy="215" r="2.4" fill="#1a1a2e"/>
+      <circle cx="168" cy="213" r="1"   fill="#fff"/>
+      <!-- 目（近い） -->
+      <circle cx="184" cy="213" r="4.5" fill="#fff"/>
+      <circle cx="185" cy="214" r="3"   fill="#1a1a2e"/>
+      <circle cx="183" cy="212" r="1.2" fill="#fff"/>
+
+      <!-- 鼻 -->
+      <ellipse cx="179" cy="224" rx="3.5" ry="2.5" fill="#f48fb1"/>
+      <!-- ひげ -->
+      <line x1="172" y1="223" x2="161" y2="221" stroke="#bdbdbd" stroke-width="0.9" opacity="0.7"/>
+      <line x1="172" y1="225" x2="160" y2="225" stroke="#bdbdbd" stroke-width="0.9" opacity="0.7"/>
+      <line x1="187" y1="223" x2="198" y2="221" stroke="#bdbdbd" stroke-width="0.9" opacity="0.7"/>
+      <line x1="187" y1="225" x2="199" y2="225" stroke="#bdbdbd" stroke-width="0.9" opacity="0.7"/>
+
+      <!-- 口（にっこり） -->
+      <path d="M 175,227 Q 179,231 183,227" stroke="#e91e8c" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+    </g><!-- /rj-squash -->
+  </g><!-- /rj-body -->
+
+  <!-- キラキラ（体の外・軽さの演出） -->
+  <text class="sp sp1" x="72"  y="148" font-size="20" fill="#ffeb3b" text-anchor="middle">✦</text>
+  <text class="sp sp2" x="240" y="132" font-size="16" fill="#fff176" text-anchor="middle">✦</text>
+  <text class="sp sp3" x="244" y="210" font-size="13" fill="#ffee58" text-anchor="middle">✦</text>
+  <text class="sp sp4" x="155" y="62"  font-size="18" fill="#fdd835" text-anchor="middle">✦</text>
+</g>
+</svg>

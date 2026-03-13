@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* 雲全体がゆっくり揺れる */
+      .cloud-body {
+        animation: cloud-sway 4s ease-in-out infinite;
+        transform-origin: 150px 120px;
+      }
+      @keyframes cloud-sway {
+        0%,100% { transform: translateX(0px); }
+        30%     { transform: translateX(6px); }
+        70%     { transform: translateX(-5px); }
+      }
+
+      /* 雲の内側がひかる（稲光） */
+      .cloud-glow {
+        animation: inner-flash 5s ease-in-out infinite;
+        opacity: 0;
+      }
+      @keyframes inner-flash {
+        0%,100%        { opacity: 0; }
+        30%            { opacity: 0; }
+        32%            { opacity: 0.55; }
+        34%            { opacity: 0.1; }
+        36%            { opacity: 0.75; }
+        38%            { opacity: 0; }
+        70%            { opacity: 0; }
+        71.5%          { opacity: 0.65; }
+        73%            { opacity: 0; }
+      }
+
+      /* 稲妻ボルト */
+      .bolt {
+        opacity: 0;
+        animation: bolt-flash 5s ease-in-out infinite;
+      }
+      @keyframes bolt-flash {
+        0%,100%  { opacity: 0; }
+        32%      { opacity: 0; }
+        33%      { opacity: 1; }
+        35%      { opacity: 0.8; }
+        37%      { opacity: 0; }
+      }
+
+      /* 2本目の稲妻（少し後） */
+      .bolt2 {
+        opacity: 0;
+        animation: bolt2-flash 5s ease-in-out infinite;
+      }
+      @keyframes bolt2-flash {
+        0%,100%  { opacity: 0; }
+        71%      { opacity: 0; }
+        71.5%    { opacity: 1; }
+        73%      { opacity: 0; }
+      }
+
+      /* 雨粒 */
+      .drop {
+        animation: rain-fall var(--dur, 0.9s) linear var(--delay, 0s) infinite;
+        opacity: 0;
+      }
+      @keyframes rain-fall {
+        0%   { transform: translateY(0);    opacity: 0; }
+        8%   { opacity: 0.9; }
+        88%  { opacity: 0.9; }
+        100% { transform: translateY(130px); opacity: 0; }
+      }
+
+      /* 波紋 */
+      .ripple {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: ripple-anim var(--dur, 0.9s) ease-out var(--delay, 0s) infinite;
+        opacity: 0;
+      }
+      @keyframes ripple-anim {
+        0%   { transform: scale(0.05); opacity: 0; }
+        15%  { opacity: 0.7; }
+        100% { transform: scale(1);    opacity: 0; }
+      }
+    </style>
+
+    <!-- 雲の内側グロー用マスク -->
+    <radialGradient id="glow-grad" cx="50%" cy="60%" r="50%">
+      <stop offset="0%"   stop-color="#fffde7" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#fff9c4" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="cloud-clip">
+      <ellipse cx="150" cy="118" rx="110" ry="56"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景：重い曇り空 -->
+  <rect width="300" height="300" fill="#546e7a" rx="20"/>
+  <rect width="300" height="300" fill="#37474f" opacity="0.45" rx="20"/>
+
+  <!-- 地面・水たまり -->
+  <ellipse cx="150" cy="276" rx="130" ry="22" fill="#263238"/>
+  <ellipse cx="150" cy="274" rx="120" ry="15" fill="#37474f"/>
+  <!-- 水たまりの光反射 -->
+  <ellipse cx="138" cy="271" rx="28" ry="4" fill="#546e7a" opacity="0.6"/>
+
+  <!-- 遠景の薄い雲 -->
+  <ellipse cx="50"  cy="185" rx="45" ry="16" fill="#455a64" opacity="0.6"/>
+  <ellipse cx="255" cy="195" rx="38" ry="13" fill="#455a64" opacity="0.5"/>
+
+  <!-- ===== 雨雲本体 ===== -->
+  <g class="cloud-body">
+    <!-- 雲の影（下） -->
+    <ellipse cx="152" cy="128" rx="108" ry="38" fill="#1a2a32" opacity="0.45"/>
+
+    <!-- 雲の内側グロー（稲光） -->
+    <g clip-path="url(#cloud-clip)">
+      <ellipse class="cloud-glow" cx="150" cy="118" rx="90" ry="44"
+               fill="url(#glow-grad)"/>
+    </g>
+
+    <!-- 雲本体（暗い積乱雲） -->
+    <ellipse cx="150" cy="122" rx="105" ry="40" fill="#546e7a"/>
+    <ellipse cx="104" cy="116" rx="52"  ry="38" fill="#607d8b"/>
+    <ellipse cx="198" cy="117" rx="48"  ry="36" fill="#546e7a"/>
+    <!-- 上部ふわふわ -->
+    <ellipse cx="150" cy="102" rx="58"  ry="34" fill="#607d8b"/>
+    <ellipse cx="118" cy="94"  rx="38"  ry="28" fill="#78909c"/>
+    <ellipse cx="178" cy="96"  rx="36"  ry="27" fill="#6d8b9a"/>
+    <ellipse cx="150" cy="86"  rx="30"  ry="22" fill="#90a4ae"/>
+    <!-- 最上部の明るいハイライト -->
+    <ellipse cx="140" cy="80"  rx="20"  ry="14" fill="#b0bec5" opacity="0.7"/>
+    <ellipse cx="164" cy="82"  rx="16"  ry="12" fill="#b0bec5" opacity="0.5"/>
+
+    <!-- 稲妻ボルト1（大きい） -->
+    <polyline class="bolt"
+      points="158,148 148,172 156,172 142,200"
+      fill="none" stroke="#fff9c4" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline class="bolt"
+      points="158,148 148,172 156,172 142,200"
+      fill="none" stroke="#ffee58" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+
+    <!-- 稲妻ボルト2（小さい） -->
+    <polyline class="bolt2"
+      points="190,145 183,162 189,162 180,180"
+      fill="none" stroke="#fff9c4" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline class="bolt2"
+      points="190,145 183,162 189,162 180,180"
+      fill="none" stroke="#ffee58" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+
+  <!-- 雨粒 -->
+  <line class="drop" x1="92"  y1="162" x2="89"  y2="177" stroke="#81d4fa" stroke-width="2.2" stroke-linecap="round" style="--dur:0.88s; --delay:0.0s"/>
+  <line class="drop" x1="112" y1="162" x2="109" y2="177" stroke="#81d4fa" stroke-width="2.2" stroke-linecap="round" style="--dur:0.82s; --delay:0.30s"/>
+  <line class="drop" x1="130" y1="162" x2="127" y2="177" stroke="#81d4fa" stroke-width="2.2" stroke-linecap="round" style="--dur:0.91s; --delay:0.14s"/>
+  <line class="drop" x1="150" y1="162" x2="147" y2="177" stroke="#81d4fa" stroke-width="2.2" stroke-linecap="round" style="--dur:0.86s; --delay:0.52s"/>
+  <line class="drop" x1="168" y1="162" x2="165" y2="177" stroke="#81d4fa" stroke-width="2.2" stroke-linecap="round" style="--dur:0.93s; --delay:0.20s"/>
+  <line class="drop" x1="186" y1="162" x2="183" y2="177" stroke="#81d4fa" stroke-width="2.2" stroke-linecap="round" style="--dur:0.85s; --delay:0.42s"/>
+  <line class="drop" x1="102" y1="162" x2="99"  y2="177" stroke="#b3e5fc" stroke-width="2.0" stroke-linecap="round" style="--dur:0.94s; --delay:0.68s"/>
+  <line class="drop" x1="140" y1="162" x2="137" y2="177" stroke="#b3e5fc" stroke-width="2.0" stroke-linecap="round" style="--dur:0.89s; --delay:0.78s"/>
+  <line class="drop" x1="159" y1="162" x2="156" y2="177" stroke="#b3e5fc" stroke-width="2.0" stroke-linecap="round" style="--dur:0.84s; --delay:0.60s"/>
+  <line class="drop" x1="177" y1="162" x2="174" y2="177" stroke="#b3e5fc" stroke-width="2.0" stroke-linecap="round" style="--dur:0.96s; --delay:0.35s"/>
+  <line class="drop" x1="120" y1="162" x2="117" y2="177" stroke="#b3e5fc" stroke-width="2.0" stroke-linecap="round" style="--dur:0.87s; --delay:0.86s"/>
+  <line class="drop" x1="196" y1="162" x2="193" y2="177" stroke="#b3e5fc" stroke-width="2.0" stroke-linecap="round" style="--dur:0.90s; --delay:1.06s"/>
+
+  <!-- 波紋 -->
+  <ellipse class="ripple" cx="89"  cy="275" rx="13" ry="4.5" fill="none" stroke="#81d4fa" stroke-width="1.4" style="--dur:0.88s; --delay:0.88s"/>
+  <ellipse class="ripple" cx="108" cy="275" rx="13" ry="4.5" fill="none" stroke="#81d4fa" stroke-width="1.4" style="--dur:0.82s; --delay:1.12s"/>
+  <ellipse class="ripple" cx="126" cy="275" rx="13" ry="4.5" fill="none" stroke="#81d4fa" stroke-width="1.4" style="--dur:0.91s; --delay:1.05s"/>
+  <ellipse class="ripple" cx="146" cy="275" rx="13" ry="4.5" fill="none" stroke="#81d4fa" stroke-width="1.4" style="--dur:0.86s; --delay:1.38s"/>
+  <ellipse class="ripple" cx="164" cy="275" rx="13" ry="4.5" fill="none" stroke="#81d4fa" stroke-width="1.4" style="--dur:0.93s; --delay:1.13s"/>
+  <ellipse class="ripple" cx="182" cy="275" rx="13" ry="4.5" fill="none" stroke="#81d4fa" stroke-width="1.4" style="--dur:0.85s; --delay:1.27s"/>
+</g>
+</svg>

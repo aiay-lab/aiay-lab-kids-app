@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 顔がゆっくり揺れる（しゅんとしている） ======= */
+      .face-grp {
+        transform-origin: 150px 158px;
+        animation: sad-droop 4s ease-in-out infinite;
+      }
+      @keyframes sad-droop {
+        0%,100% { transform: rotate(0deg) translateY(0); }
+        30%     { transform: rotate(-4deg) translateY(5px); }
+        70%     { transform: rotate(4deg)  translateY(5px); }
+      }
+
+      /* ======= 涙がつたい落ちる ======= */
+      .tear {
+        animation: tear-fall 3.5s ease-in infinite;
+        opacity: 0;
+      }
+      .t1 { animation-delay: 0.0s; }
+      .t2 { animation-delay: 1.8s; }
+      .t3 { animation-delay: 0.9s; }
+      .t4 { animation-delay: 2.7s; }
+      @keyframes tear-fall {
+        0%   { transform: translateY(0px);   opacity: 0; }
+        6%   { opacity: 1; }
+        88%  { opacity: 0.6; }
+        100% { transform: translateY(90px);  opacity: 0; }
+      }
+
+      /* ======= 目がうるうる（ゆっくりまばたき） ======= */
+      .tear-eye {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: teary-blink 4s ease-in-out infinite;
+      }
+      @keyframes teary-blink {
+        0%,40%,100% { transform: scaleY(1); }
+        44%         { transform: scaleY(0.1); }
+        48%         { transform: scaleY(1); }
+      }
+
+      /* ======= 鼻が赤くなる（すん…） ======= */
+      .sniff-nose {
+        animation: nose-red 4s ease-in-out infinite alternate;
+      }
+      @keyframes nose-red {
+        0%   { fill: #e8964d; }
+        100% { fill: #ef9a9a; }
+      }
+
+      /* ======= 口がふるえる ======= */
+      .mouth-tremble {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: mouth-shake 0.2s ease-in-out infinite alternate;
+      }
+      @keyframes mouth-shake {
+        0%   { transform: translateX(-1.5px); }
+        100% { transform: translateX(1.5px); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（しずんだ水色） -->
+  <rect width="300" height="300" fill="#eceff1" rx="20"/>
+  <!-- 雨のような細い線（背景に雰囲気） -->
+  <line x1="60"  y1="0" x2="50"  y2="300" stroke="#b0bec5" stroke-width="1" opacity="0.4"/>
+  <line x1="120" y1="0" x2="110" y2="300" stroke="#b0bec5" stroke-width="1" opacity="0.3"/>
+  <line x1="180" y1="0" x2="170" y2="300" stroke="#b0bec5" stroke-width="1" opacity="0.4"/>
+  <line x1="240" y1="0" x2="230" y2="300" stroke="#b0bec5" stroke-width="1" opacity="0.3"/>
+
+  <!-- ===== 顔グループ（揺れる） ===== -->
+  <g class="face-grp">
+
+    <!-- 耳 -->
+    <circle cx="62"  cy="158" r="21" fill="#ffc27a"/>
+    <circle cx="238" cy="158" r="21" fill="#ffc27a"/>
+
+    <!-- 顔 -->
+    <circle cx="150" cy="158" r="88" fill="#ffd09d"/>
+
+    <!-- ===== 髪（自然なショートカット） ===== -->
+    <!-- メインの髪のかたまり -->
+    <path d="M 74,155
+             C 67,130 64,100 73,78
+             C 84,56 110,43 132,40
+             C 140,38 146,37 150,39
+             C 154,37 160,38 168,40
+             C 190,43 216,56 227,78
+             C 236,100 233,130 226,155
+             C 220,133 215,112 205,104
+             C 192,97 174,93 150,92
+             C 126,93 108,97 95,104
+             C 85,112 80,133 74,155 Z"
+          fill="#3e2723"/>
+    <!-- 毛先のはねっ毛（クラウン） -->
+    <path d="M 136,41 C 138,31 144,27 148,37" stroke="#3e2723" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M 150,39 C 153,29 159,26 161,36" stroke="#3e2723" stroke-width="5"   fill="none" stroke-linecap="round"/>
+    <path d="M 124,47 C 125,37 131,33 133,43" stroke="#3e2723" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M 163,42 C 165,33 170,31 171,40" stroke="#3e2723" stroke-width="4"   fill="none" stroke-linecap="round"/>
+
+    <!-- 眉毛（悲しいへの字・内側が上がる） -->
+    <path d="M 104,118 Q 121,110 136,116" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M 164,116 Q 179,110 196,118" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+    <!-- 目（うるうる・半開き） -->
+    <g class="tear-eye">
+      <!-- 左目 -->
+      <circle cx="121" cy="151" r="18" fill="#fff"/>
+      <circle cx="121" cy="156" r="11" fill="#2c1810"/>
+      <circle cx="115" cy="150" r="5"  fill="#fff" opacity="0.7"/>
+      <!-- 下まぶた（滲んでいる感じ） -->
+      <path d="M 103,160 Q 121,168 139,160" stroke="#5dbcd2" stroke-width="2" fill="none" opacity="0.6"/>
+    </g>
+    <g class="tear-eye">
+      <!-- 右目 -->
+      <circle cx="179" cy="151" r="18" fill="#fff"/>
+      <circle cx="179" cy="156" r="11" fill="#2c1810"/>
+      <circle cx="173" cy="150" r="5"  fill="#fff" opacity="0.7"/>
+      <path d="M 161,160 Q 179,168 197,160" stroke="#5dbcd2" stroke-width="2" fill="none" opacity="0.6"/>
+    </g>
+
+    <!-- 鼻（小さな点） -->
+    <circle class="sniff-nose" cx="145" cy="175" r="3" fill="#e8964d" opacity="0.75"/>
+    <circle class="sniff-nose" cx="155" cy="175" r="3" fill="#e8964d" opacity="0.75"/>
+
+    <!-- ほっぺた（薄い・元気がない） -->
+    <circle cx="100" cy="184" r="20" fill="#90caf9" opacity="0.22"/>
+    <circle cx="200" cy="184" r="20" fill="#90caf9" opacity="0.22"/>
+
+    <!-- 口（への字・ふるえる） -->
+    <g class="mouth-tremble">
+      <path d="M 114,206 Q 150,190 186,206"
+            stroke="#5d3a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- 目の涙だまり（目の下の光） -->
+    <ellipse cx="121" cy="168" rx="12" ry="5" fill="#90caf9" opacity="0.45"/>
+    <ellipse cx="179" cy="168" rx="12" ry="5" fill="#90caf9" opacity="0.45"/>
+
+  </g><!-- / face-grp -->
+
+  <!-- ===== 涙（顔グループの外・重力で真下に落ちる） ===== -->
+  <!-- 左目の涙 -->
+  <ellipse class="tear t1" cx="112" cy="172" rx="5"   ry="8"   fill="#64b5f6"/>
+  <ellipse class="tear t2" cx="117" cy="169" rx="3.5" ry="6"   fill="#90caf9"/>
+  <!-- 右目の涙 -->
+  <ellipse class="tear t3" cx="188" cy="172" rx="5"   ry="8"   fill="#64b5f6"/>
+  <ellipse class="tear t4" cx="183" cy="169" rx="3.5" ry="6"   fill="#90caf9"/>
+</g>
+</svg>

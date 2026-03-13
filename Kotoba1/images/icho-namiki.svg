@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#4a8fc2"/>
+      <stop offset="58%"  stop-color="#88c0d8"/>
+      <stop offset="100%" stop-color="#ffcc80"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6e6e6e"/>
+      <stop offset="100%" stop-color="#555"/>
+    </linearGradient>
+    <style>
+      /* ===== 木が秋風で揺れる ===== */
+      .sw-l {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: swl 5s ease-in-out infinite alternate;
+      }
+      @keyframes swl {
+        0%   { transform: rotate(-2.2deg); }
+        100% { transform: rotate(2.2deg); }
+      }
+      .sw-r {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: swr 5s ease-in-out infinite alternate;
+      }
+      @keyframes swr {
+        0%   { transform: rotate(2.2deg); }
+        100% { transform: rotate(-2.2deg); }
+      }
+
+      /* ===== 銀杏の葉が舞い落ちる ===== */
+      .fa { animation: fa var(--d,6s) ease-in var(--t,0s) infinite; opacity: 0; }
+      .fb { animation: fb var(--d,6s) ease-in var(--t,0s) infinite; opacity: 0; }
+      .fc { animation: fc var(--d,6s) ease-in var(--t,0s) infinite; opacity: 0; }
+
+      @keyframes fa {
+        0%   { transform: translate(0,-8px) rotate(0deg);    opacity: 0; }
+        7%   { opacity: .9; }
+        30%  { transform: translate(22px,88px) rotate(115deg); }
+        65%  { transform: translate(-8px,200px) rotate(268deg); }
+        93%  { opacity: .65; }
+        100% { transform: translate(26px,318px) rotate(395deg); opacity: 0; }
+      }
+      @keyframes fb {
+        0%   { transform: translate(0,-8px) rotate(18deg);   opacity: 0; }
+        7%   { opacity: .9; }
+        33%  { transform: translate(-24px,92px) rotate(-82deg); }
+        67%  { transform: translate(14px,208px) rotate(-222deg); }
+        93%  { opacity: .65; }
+        100% { transform: translate(-18px,318px) rotate(-358deg); opacity: 0; }
+      }
+      @keyframes fc {
+        0%   { transform: translate(0,-8px) rotate(-12deg);  opacity: 0; }
+        7%   { opacity: .88; }
+        36%  { transform: translate(18px,96px) rotate(148deg); }
+        68%  { transform: translate(-10px,212px) rotate(308deg); }
+        93%  { opacity: .6; }
+        100% { transform: translate(10px,318px) rotate(455deg); opacity: 0; }
+      }
+
+      /* ===== 木漏れ日がきらめく ===== */
+      .glint {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: glit 3s ease-in-out infinite;
+        opacity: 0;
+      }
+      .g1 { animation-delay: 0.0s; }
+      .g2 { animation-delay: 1.0s; }
+      .g3 { animation-delay: 2.0s; }
+      @keyframes glit {
+        0%,10%   { opacity: 0; transform: scale(.3); }
+        30%,65%  { opacity: .7; transform: scale(1); }
+        85%,100% { opacity: 0; transform: scale(.3); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- ===== 秋の空 ===== -->
+    <rect width="300" height="300" fill="url(#sky)"/>
+    <!-- 地平線の温もり（大気遠近） -->
+    <ellipse cx="150" cy="142" rx="200" ry="60" fill="#ffe0b2" opacity="0.42"/>
+    <ellipse cx="150" cy="142" rx="120" ry="30" fill="#ffcc80" opacity="0.25"/>
+
+    <!-- ===== 遠景の木（かすみがかった小さな木） ===== -->
+    <g opacity="0.35">
+      <rect x="112" y="185" width="4" height="14" fill="#795548"/>
+      <ellipse cx="114" cy="179" rx="13" ry="10" fill="#f9a825"/>
+      <rect x="180" y="185" width="4" height="14" fill="#795548"/>
+      <ellipse cx="182" cy="179" rx="13" ry="10" fill="#f9a825"/>
+    </g>
+
+    <!-- ===== 遠中景の木（L3 R3） ===== -->
+    <g transform="translate(96, 212)" opacity="0.6">
+      <g class="sw-l">
+        <rect x="-3.5" y="-24" width="7" height="24" fill="#6d4c41" rx="2"/>
+        <ellipse cx="0" cy="-34" rx="20" ry="16" fill="#fdd835"/>
+        <ellipse cx="-6" cy="-42" rx="12" ry="10" fill="#f9a825"/>
+        <ellipse cx="8"  cy="-40" rx="10" ry="9"  fill="#ffee58" opacity="0.85"/>
+        <ellipse cx="0"  cy="-48" rx="9"  ry="8"  fill="#f57f17" opacity="0.65"/>
+      </g>
+    </g>
+    <g transform="translate(204, 212)" opacity="0.6">
+      <g class="sw-r">
+        <rect x="-3.5" y="-24" width="7" height="24" fill="#6d4c41" rx="2"/>
+        <ellipse cx="0" cy="-34" rx="20" ry="16" fill="#fdd835"/>
+        <ellipse cx="6"  cy="-42" rx="12" ry="10" fill="#f9a825"/>
+        <ellipse cx="-8" cy="-40" rx="10" ry="9"  fill="#ffee58" opacity="0.85"/>
+        <ellipse cx="0"  cy="-48" rx="9"  ry="8"  fill="#f57f17" opacity="0.65"/>
+      </g>
+    </g>
+
+    <!-- ===== 道路（一点透視） ===== -->
+    <path d="M 46,300 L 150,141 L 254,300 Z" fill="url(#road)"/>
+    <!-- 道路端のライン -->
+    <path d="M 46,300 L 150,141" stroke="#9e9e9e" stroke-width="1.8" opacity="0.5"/>
+    <path d="M 254,300 L 150,141" stroke="#9e9e9e" stroke-width="1.8" opacity="0.5"/>
+    <!-- 中央破線（遠近感） -->
+    <rect x="149.4" y="158" width="1.2" height="5"  fill="#e0e0e0" opacity="0.6"/>
+    <rect x="149.2" y="172" width="1.6" height="6"  fill="#e0e0e0" opacity="0.6"/>
+    <rect x="149.0" y="188" width="2"   height="8"  fill="#e0e0e0" opacity="0.6"/>
+    <rect x="148.6" y="206" width="2.8" height="10" fill="#e0e0e0" opacity="0.6"/>
+    <rect x="148.1" y="226" width="3.8" height="12" fill="#e0e0e0" opacity="0.6"/>
+    <rect x="147.5" y="250" width="5"   height="14" fill="#e0e0e0" opacity="0.6"/>
+    <rect x="146.8" y="276" width="6.4" height="16" fill="#e0e0e0" opacity="0.6"/>
+
+    <!-- ===== 中景の木（L2 R2） ===== -->
+    <g transform="translate(60, 244)">
+      <g class="sw-l">
+        <rect x="-6"  y="-44" width="12" height="44" fill="#5d4037" rx="3"/>
+        <rect x="-3.5" y="-44" width="7" height="44" fill="#6d4c41" rx="2"/>
+        <ellipse cx="0"   cy="-60" rx="36" ry="28" fill="#fdd835"/>
+        <ellipse cx="-12" cy="-72" rx="20" ry="18" fill="#f9a825"/>
+        <ellipse cx="16"  cy="-69" rx="18" ry="16" fill="#fdd835" opacity="0.9"/>
+        <ellipse cx="0"   cy="-82" rx="16" ry="14" fill="#f57f17" opacity="0.68"/>
+        <ellipse cx="-8"  cy="-54" rx="13" ry="11" fill="#ffee58" opacity="0.55"/>
+        <ellipse cx="18"  cy="-56" rx="11" ry="10" fill="#ffee58" opacity="0.5"/>
+      </g>
+    </g>
+    <g transform="translate(240, 244)">
+      <g class="sw-r">
+        <rect x="-6"  y="-44" width="12" height="44" fill="#5d4037" rx="3"/>
+        <rect x="-3.5" y="-44" width="7" height="44" fill="#6d4c41" rx="2"/>
+        <ellipse cx="0"   cy="-60" rx="36" ry="28" fill="#fdd835"/>
+        <ellipse cx="12"  cy="-72" rx="20" ry="18" fill="#f9a825"/>
+        <ellipse cx="-16" cy="-69" rx="18" ry="16" fill="#fdd835" opacity="0.9"/>
+        <ellipse cx="0"   cy="-82" rx="16" ry="14" fill="#f57f17" opacity="0.68"/>
+        <ellipse cx="8"   cy="-54" rx="13" ry="11" fill="#ffee58" opacity="0.55"/>
+        <ellipse cx="-18" cy="-56" rx="11" ry="10" fill="#ffee58" opacity="0.5"/>
+      </g>
+    </g>
+
+    <!-- ===== 歩道 ===== -->
+    <path d="M 0,268 Q 22,264 46,270 L 46,300 L 0,300 Z"   fill="#8a8a7a" opacity="0.55"/>
+    <path d="M 300,268 Q 278,264 254,270 L 254,300 L 300,300 Z" fill="#8a8a7a" opacity="0.55"/>
+
+    <!-- ===== 地面に積もった銀杏の葉 ===== -->
+    <!-- 左歩道 -->
+    <ellipse cx="10"  cy="278" rx="12" ry="5"   fill="#fdd835" opacity="0.82" transform="rotate(-10,10,278)"/>
+    <ellipse cx="28"  cy="286" rx="10" ry="4"   fill="#f9a825" opacity="0.75" transform="rotate(7,28,286)"/>
+    <ellipse cx="6"   cy="292" rx="9"  ry="3.5" fill="#ffee58" opacity="0.78" transform="rotate(-5,6,292)"/>
+    <ellipse cx="34"  cy="294" rx="11" ry="4.5" fill="#f57f17" opacity="0.68" transform="rotate(13,34,294)"/>
+    <ellipse cx="16"  cy="272" rx="8"  ry="3"   fill="#fdd835" opacity="0.72" transform="rotate(-16,16,272)"/>
+    <ellipse cx="38"  cy="280" rx="7"  ry="3"   fill="#f9a825" opacity="0.65" transform="rotate(5,38,280)"/>
+    <ellipse cx="22"  cy="298" rx="8"  ry="3"   fill="#ffee58" opacity="0.6" transform="rotate(-8,22,298)"/>
+    <!-- 右歩道 -->
+    <ellipse cx="290" cy="278" rx="12" ry="5"   fill="#f9a825" opacity="0.82" transform="rotate(10,290,278)"/>
+    <ellipse cx="272" cy="286" rx="10" ry="4"   fill="#fdd835" opacity="0.75" transform="rotate(-7,272,286)"/>
+    <ellipse cx="294" cy="292" rx="9"  ry="3.5" fill="#f57f17" opacity="0.78" transform="rotate(5,294,292)"/>
+    <ellipse cx="266" cy="294" rx="11" ry="4.5" fill="#fdd835" opacity="0.68" transform="rotate(-13,266,294)"/>
+    <ellipse cx="284" cy="272" rx="8"  ry="3"   fill="#ffee58" opacity="0.72" transform="rotate(16,284,272)"/>
+    <ellipse cx="262" cy="280" rx="7"  ry="3"   fill="#f9a825" opacity="0.65" transform="rotate(-5,262,280)"/>
+    <ellipse cx="278" cy="298" rx="8"  ry="3"   fill="#fdd835" opacity="0.6" transform="rotate(8,278,298)"/>
+    <!-- 道路縁の葉 -->
+    <ellipse cx="50"  cy="258" rx="7" ry="2.8" fill="#fdd835" opacity="0.55" transform="rotate(-8,50,258)"/>
+    <ellipse cx="250" cy="258" rx="7" ry="2.8" fill="#fdd835" opacity="0.55" transform="rotate(8,250,258)"/>
+    <ellipse cx="68"  cy="272" rx="5" ry="2"   fill="#f9a825" opacity="0.5" transform="rotate(-4,68,272)"/>
+    <ellipse cx="232" cy="272" rx="5" ry="2"   fill="#f9a825" opacity="0.5" transform="rotate(4,232,272)"/>
+
+    <!-- ===== 近景の木（L1 R1）大きく迫力ある ===== -->
+    <!-- L1（左の大木） -->
+    <g transform="translate(26, 282)">
+      <g class="sw-l">
+        <!-- 幹 -->
+        <rect x="-11" y="-82" width="22" height="82" fill="#4e342e" rx="6"/>
+        <rect x="-6"  y="-82" width="12" height="82" fill="#6d4c41" rx="4"/>
+        <!-- 幹の質感 -->
+        <path d="M -6,-18 C -3,-12 8,-10 7,-5"   stroke="#3e2723" stroke-width="1.8" fill="none" opacity="0.45"/>
+        <path d="M -5,-42 C -1,-36 6,-35 5,-30"  stroke="#3e2723" stroke-width="1.8" fill="none" opacity="0.45"/>
+        <path d="M -7,-62 C -3,-56 5,-56 4,-50"  stroke="#3e2723" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <!-- 樹冠（黄金色の銀杏） -->
+        <ellipse cx="0"   cy="-112" rx="60" ry="48" fill="#fdd835"/>
+        <ellipse cx="-20" cy="-128" rx="36" ry="30" fill="#f9a825"/>
+        <ellipse cx="25"  cy="-124" rx="32" ry="27" fill="#fdd835" opacity="0.92"/>
+        <ellipse cx="0"   cy="-146" rx="28" ry="24" fill="#f57f17" opacity="0.72"/>
+        <ellipse cx="-34" cy="-108" rx="24" ry="20" fill="#ffee58" opacity="0.62"/>
+        <ellipse cx="36"  cy="-104" rx="22" ry="18" fill="#ffee58" opacity="0.55"/>
+        <ellipse cx="14"  cy="-136" rx="20" ry="17" fill="#f9a825" opacity="0.65"/>
+        <ellipse cx="-14" cy="-96"  rx="18" ry="15" fill="#ffeb3b" opacity="0.5"/>
+      </g>
+    </g>
+    <!-- R1（右の大木） -->
+    <g transform="translate(274, 282)">
+      <g class="sw-r">
+        <!-- 幹 -->
+        <rect x="-11" y="-82" width="22" height="82" fill="#4e342e" rx="6"/>
+        <rect x="-6"  y="-82" width="12" height="82" fill="#6d4c41" rx="4"/>
+        <!-- 幹の質感 -->
+        <path d="M 6,-18 C 3,-12 -8,-10 -7,-5"   stroke="#3e2723" stroke-width="1.8" fill="none" opacity="0.45"/>
+        <path d="M 5,-42 C 1,-36 -6,-35 -5,-30"  stroke="#3e2723" stroke-width="1.8" fill="none" opacity="0.45"/>
+        <path d="M 7,-62 C 3,-56 -5,-56 -4,-50"  stroke="#3e2723" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <!-- 樹冠 -->
+        <ellipse cx="0"   cy="-112" rx="60" ry="48" fill="#fdd835"/>
+        <ellipse cx="20"  cy="-128" rx="36" ry="30" fill="#f9a825"/>
+        <ellipse cx="-25" cy="-124" rx="32" ry="27" fill="#fdd835" opacity="0.92"/>
+        <ellipse cx="0"   cy="-146" rx="28" ry="24" fill="#f57f17" opacity="0.72"/>
+        <ellipse cx="34"  cy="-108" rx="24" ry="20" fill="#ffee58" opacity="0.62"/>
+        <ellipse cx="-36" cy="-104" rx="22" ry="18" fill="#ffee58" opacity="0.55"/>
+        <ellipse cx="-14" cy="-136" rx="20" ry="17" fill="#f9a825" opacity="0.65"/>
+        <ellipse cx="14"  cy="-96"  rx="18" ry="15" fill="#ffeb3b" opacity="0.5"/>
+      </g>
+    </g>
+
+    <!-- ===== 木漏れ日 ===== -->
+    <text class="glint g1" x="36"  y="158" font-size="13" fill="#fff9c4" text-anchor="middle">✦</text>
+    <text class="glint g2" x="16"  y="142" font-size="10" fill="#fffde7" text-anchor="middle">✦</text>
+    <text class="glint g3" x="265" y="150" font-size="11" fill="#fff9c4" text-anchor="middle">✦</text>
+
+    <!-- ===== 銀杏の葉が舞い落ちる ===== -->
+    <!-- 葉の形: 扇形（イチョウの葉） -->
+    <!-- M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z -->
+
+    <!-- 左側 -->
+    <g style="--d:6.2s;--t:0.0s" transform="translate(16,148)">
+      <g class="fa"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#fdd835"/></g>
+    </g>
+    <g style="--d:7.4s;--t:2.4s" transform="translate(42,128)">
+      <g class="fb"><path d="M 0,0 C -6,-3 -8,-11 -5,-17 C -3,-21 0,-19 0,-17 C 0,-19 3,-21 5,-17 C 8,-11 6,-3 0,0 Z" fill="#f9a825" transform="scale(1.3)"/></g>
+    </g>
+    <g style="--d:5.6s;--t:4.2s" transform="translate(64,155)">
+      <g class="fc"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#ffee58" transform="scale(0.88)"/></g>
+    </g>
+    <g style="--d:8.0s;--t:1.0s" transform="translate(8,118)">
+      <g class="fa"><path d="M 0,0 C -6,-3 -8,-11 -5,-17 C -3,-21 0,-19 0,-17 C 0,-19 3,-21 5,-17 C 8,-11 6,-3 0,0 Z" fill="#f57f17" transform="scale(1.2)"/></g>
+    </g>
+
+    <!-- 中央左 -->
+    <g style="--d:6.8s;--t:3.2s" transform="translate(98,150)">
+      <g class="fb"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#fdd835"/></g>
+    </g>
+    <g style="--d:5.2s;--t:0.6s" transform="translate(120,136)">
+      <g class="fc"><path d="M 0,0 C -6,-3 -8,-11 -5,-17 C -3,-21 0,-19 0,-17 C 0,-19 3,-21 5,-17 C 8,-11 6,-3 0,0 Z" fill="#f9a825" transform="scale(1.25)"/></g>
+    </g>
+
+    <!-- 中央 -->
+    <g style="--d:7.0s;--t:5.5s" transform="translate(144,143)">
+      <g class="fa"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#fdd835" transform="scale(1.1)"/></g>
+    </g>
+    <g style="--d:4.8s;--t:2.8s" transform="translate(156,151)">
+      <g class="fb"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#ffee58" transform="scale(0.92)"/></g>
+    </g>
+
+    <!-- 中央右 -->
+    <g style="--d:6.4s;--t:1.6s" transform="translate(180,139)">
+      <g class="fc"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#f9a825" transform="scale(0.95)"/></g>
+    </g>
+    <g style="--d:7.8s;--t:0.2s" transform="translate(204,152)">
+      <g class="fa"><path d="M 0,0 C -6,-3 -8,-11 -5,-17 C -3,-21 0,-19 0,-17 C 0,-19 3,-21 5,-17 C 8,-11 6,-3 0,0 Z" fill="#fdd835" transform="scale(1.2)"/></g>
+    </g>
+
+    <!-- 右側 -->
+    <g style="--d:5.8s;--t:3.8s" transform="translate(236,130)">
+      <g class="fb"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#f57f17" transform="scale(1.1)"/></g>
+    </g>
+    <g style="--d:6.6s;--t:6.2s" transform="translate(260,146)">
+      <g class="fc"><path d="M 0,0 C -7,-4 -10,-13 -6,-20 C -3,-25 0,-23 0,-20 C 0,-23 3,-25 6,-20 C 10,-13 7,-4 0,0 Z" fill="#fdd835"/></g>
+    </g>
+    <g style="--d:5.0s;--t:1.8s" transform="translate(286,122)">
+      <g class="fa"><path d="M 0,0 C -6,-3 -8,-11 -5,-17 C -3,-21 0,-19 0,-17 C 0,-19 3,-21 5,-17 C 8,-11 6,-3 0,0 Z" fill="#f9a825" transform="scale(1.35)"/></g>
+    </g>
+
+  </g>
+</svg>

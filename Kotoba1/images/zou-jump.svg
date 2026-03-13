@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 重い象がどっこいしょとジャンプ ======= */
+      .ej-body {
+        animation: ej-jump 3.8s ease-in-out infinite;
+      }
+      @keyframes ej-jump {
+        0%    { transform: translateY(0); }
+        8%    { transform: translateY(14px); }   /* 踏み込み */
+        32%   { transform: translateY(-86px); }  /* 頂点（ゆっくり） */
+        56%   { transform: translateY(0); }       /* 着地 */
+        100%  { transform: translateY(0); }       /* 待機 */
+      }
+
+      .ej-squash {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: ej-squash 3.8s ease-in-out infinite;
+      }
+      @keyframes ej-squash {
+        0%    { transform: scaleY(1)    scaleX(1); }
+        8%    { transform: scaleY(0.76) scaleX(1.14); } /* 踏み込み押しつぶし */
+        32%   { transform: scaleY(1.06) scaleX(0.96); } /* 伸び */
+        56%   { transform: scaleY(0.58) scaleX(1.20); } /* 着地衝撃 */
+        68%   { transform: scaleY(1.05) scaleX(0.97); } /* 戻り */
+        80%   { transform: scaleY(0.98) scaleX(1.01); }
+        100%  { transform: scaleY(1)    scaleX(1); }
+      }
+
+      /* 影（地面固定・ジャンプ中は小さく） */
+      .ej-shadow {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: shadow-anim 3.8s ease-in-out infinite;
+      }
+      @keyframes shadow-anim {
+        0%    { transform: scaleX(1);    opacity: 0.16; }
+        8%    { transform: scaleX(1.12); opacity: 0.20; }
+        32%   { transform: scaleX(0.32); opacity: 0.07; }
+        56%   { transform: scaleX(1.30); opacity: 0.24; }
+        64%   { transform: scaleX(1);    opacity: 0.16; }
+        100%  { transform: scaleX(1);    opacity: 0.16; }
+      }
+
+      /* 着地の土煙 */
+      .dust {
+        transform-box: fill-box; transform-origin: 50% 100%;
+        animation: dust-burst 3.8s ease-out infinite;
+        opacity: 0;
+      }
+      .dl { animation-delay: 0s; }
+      .dr { animation-delay: 0.06s; }
+      @keyframes dust-burst {
+        0%,53%  { opacity: 0;   transform: scale(0.2); }
+        57%     { opacity: 0.7; transform: scale(1); }
+        74%     { opacity: 0;   transform: scale(2) translateY(-14px); }
+        100%    { opacity: 0; }
+      }
+
+      /* 汗（がんばっている） */
+      .sweat {
+        animation: sweat-drop 3.8s ease-in infinite;
+        opacity: 0;
+      }
+      .sw1 { animation-delay: 0.08s; }
+      .sw2 { animation-delay: 0.28s; }
+      @keyframes sweat-drop {
+        0%,6%  { opacity: 0;   transform: translateY(0); }
+        11%    { opacity: 0.9; }
+        24%    { opacity: 0;   transform: translateY(38px); }
+        100%   { opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景 -->
+  <rect width="300" height="300" fill="#fff9e6" rx="20"/>
+  <!-- 床 -->
+  <rect y="248" width="300" height="52" fill="#8d6e63"/>
+  <rect y="248" width="300" height="7" fill="#a1887f"/>
+
+  <!-- 影（地面固定） -->
+  <ellipse class="ej-shadow" cx="148" cy="252" rx="60" ry="7" fill="#000"/>
+
+  <!-- 土煙（着地時） -->
+  <ellipse class="dust dl" cx="86"  cy="246" rx="22" ry="14" fill="#d7ccc8"/>
+  <ellipse class="dust dr" cx="213" cy="246" rx="20" ry="13" fill="#d7ccc8"/>
+
+  <!-- ===== 象グループ（ジャンプ） ===== -->
+  <g class="ej-body">
+    <g class="ej-squash">
+
+      <!-- しっぽ -->
+      <path d="M 87,200 C 73,212 68,230 77,240"
+            fill="none" stroke="#546e7a" stroke-width="6" stroke-linecap="round"/>
+
+      <!-- 後ろ足（遠い・薄い） -->
+      <g transform="translate(102, 210)">
+        <rect x="-12" y="0" width="22" height="38" fill="#455a64" rx="9" opacity="0.60"/>
+        <rect x="-12" y="30" width="22" height="8"  fill="#37474f" rx="4" opacity="0.60"/>
+      </g>
+      <!-- 前足（遠い・薄い） -->
+      <g transform="translate(170, 210)">
+        <rect x="-11" y="0" width="21" height="38" fill="#455a64" rx="9" opacity="0.60"/>
+        <rect x="-11" y="30" width="21" height="8"  fill="#37474f" rx="4" opacity="0.60"/>
+      </g>
+
+      <!-- 体 -->
+      <ellipse cx="148" cy="196" rx="62" ry="46" fill="#607d8b"/>
+      <ellipse cx="138" cy="182" rx="30" ry="18" fill="#78909c" opacity="0.42"/>
+
+      <!-- 後ろ足（近い） -->
+      <g transform="translate(124, 210)">
+        <rect x="-12" y="0" width="23" height="38" fill="#546e7a" rx="9"/>
+        <rect x="-12" y="30" width="23" height="8"  fill="#37474f" rx="4"/>
+      </g>
+      <!-- 前足（近い） -->
+      <g transform="translate(193, 210)">
+        <rect x="-13" y="0" width="24" height="38" fill="#546e7a" rx="9"/>
+        <rect x="-13" y="30" width="24" height="8"  fill="#455a64" rx="4"/>
+      </g>
+
+      <!-- 遠い耳 -->
+      <ellipse cx="196" cy="158" rx="22" ry="30" fill="#546e7a"/>
+
+      <!-- 頭 -->
+      <circle cx="212" cy="169" r="38" fill="#607d8b"/>
+      <ellipse cx="204" cy="158" rx="15" ry="11" fill="#78909c" opacity="0.38"/>
+
+      <!-- 近い耳 -->
+      <ellipse cx="223" cy="150" rx="28" ry="34" fill="#78909c"/>
+      <ellipse cx="223" cy="150" rx="17" ry="22" fill="#ef9a9a" opacity="0.36"/>
+
+      <!-- 目（力んでいる） -->
+      <circle cx="232" cy="162" r="7.5" fill="#fff"/>
+      <circle cx="233" cy="163" r="4.8" fill="#1a1a2e"/>
+      <circle cx="231" cy="161" r="1.8" fill="#fff"/>
+      <!-- 力み眉 -->
+      <path d="M 222,153 Q 232,148 241,153" stroke="#37474f" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+
+      <!-- 鼻（長い・先にカール） -->
+      <path d="M 242,179 C 256,196 260,218 256,236 C 253,244 245,247 239,243"
+            fill="none" stroke="#607d8b" stroke-width="18" stroke-linecap="round"/>
+      <path d="M 242,179 C 256,196 260,218 256,236 C 253,244 245,247 239,243"
+            fill="none" stroke="#78909c" stroke-width="10" stroke-linecap="round"/>
+      <!-- しわ -->
+      <path d="M 252,200 Q 260,204 256,210" stroke="#546e7a" stroke-width="1.8" fill="none"/>
+      <path d="M 255,218 Q 262,222 258,228" stroke="#546e7a" stroke-width="1.8" fill="none"/>
+
+    </g><!-- /ej-squash -->
+  </g><!-- /ej-body -->
+
+  <!-- 汗（体の外で飛ぶ） -->
+  <ellipse class="sweat sw1" cx="250" cy="136" rx="4.5" ry="7"   fill="#81d4fa"/>
+  <ellipse class="sweat sw2" cx="263" cy="155" rx="3.5" ry="5.5" fill="#90caf9"/>
+</g>
+</svg>

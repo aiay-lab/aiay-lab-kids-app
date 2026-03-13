@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <clipPath id="steak-l"><rect x="0"   y="0" width="150" height="300"/></clipPath>
+    <clipPath id="steak-r"><rect x="150" y="0" width="300" height="300"/></clipPath>
+    <style>
+      /* ナイフが降りてくる（8秒ループ） */
+      .knife {
+        animation: knife-cut 8s ease-in-out infinite;
+      }
+      @keyframes knife-cut {
+        0%,  8%  { transform: translateY(-55px); }
+        40%, 68% { transform: translateY(0px); }
+        88%,100% { transform: translateY(-55px); }
+      }
+
+      /* ハンバーグが左右に開く */
+      .steak-left {
+        animation: split-l 8s ease-in-out infinite;
+      }
+      @keyframes split-l {
+        0%,  44% { transform: translateX(0); }
+        65%, 72% { transform: translateX(-20px); }
+        88%,100% { transform: translateX(0); }
+      }
+      .steak-right {
+        animation: split-r 8s ease-in-out infinite;
+      }
+      @keyframes split-r {
+        0%,  44% { transform: translateX(0); }
+        65%, 72% { transform: translateX(20px); }
+        88%,100% { transform: translateX(0); }
+      }
+
+      /* 断面が現れる */
+      .steak-inside {
+        animation: inside-show 8s ease-in-out infinite;
+        opacity: 0;
+      }
+      @keyframes inside-show {
+        0%,  48% { opacity: 0; }
+        62%, 72% { opacity: 1; }
+        88%,100% { opacity: 0; }
+      }
+
+      /* 湯気が立ち上る */
+      .steam {
+        animation: steam-rise 8s ease-in infinite;
+        opacity: 0;
+      }
+      .s2 { animation-delay: 0.4s; }
+      .s3 { animation-delay: 0.8s; }
+      @keyframes steam-rise {
+        0%,  55% { transform: translateY(0);     opacity: 0; }
+        60%      { opacity: 0.75; }
+        80%      { transform: translateY(-42px);  opacity: 0.3; }
+        88%,100% { transform: translateY(-58px);  opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（温かいクリーム） -->
+  <rect width="300" height="300" fill="#fff9e6"/>
+
+  <!-- テーブル（木目） -->
+  <rect y="235" width="300" height="65" fill="#8d6e63"/>
+  <rect y="233" width="300" height="5"  fill="#6d4c41"/>
+  <line x1="0"   y1="244" x2="300" y2="244" stroke="#7d5c53" stroke-width="1"/>
+  <line x1="0"   y1="256" x2="300" y2="256" stroke="#7d5c53" stroke-width="1"/>
+  <line x1="75"  y1="235" x2="77"  y2="300" stroke="#7d5c53" stroke-width="0.5"/>
+  <line x1="210" y1="235" x2="212" y2="300" stroke="#7d5c53" stroke-width="0.5"/>
+
+  <!-- お皿（影） -->
+  <ellipse cx="152" cy="228" rx="122" ry="30" fill="#c0c0c0"/>
+  <!-- お皿（白） -->
+  <ellipse cx="150" cy="224" rx="120" ry="28" fill="white"/>
+  <!-- リム（外縁） -->
+  <ellipse cx="150" cy="224" rx="120" ry="28" fill="none" stroke="#d0d0d0" stroke-width="3.5"/>
+  <!-- リム（内線） -->
+  <ellipse cx="150" cy="223" rx="112" ry="23" fill="none" stroke="#eaeaea" stroke-width="1.5"/>
+
+  <!-- ===== 断面（切れたとき） ===== -->
+  <g class="steak-inside">
+    <!-- 肉の外縁 -->
+    <ellipse cx="150" cy="212" rx="70" ry="23" fill="#7d4a38"/>
+    <!-- 肉の内部 -->
+    <ellipse cx="150" cy="211" rx="55" ry="15" fill="#c08060"/>
+    <!-- 中心のジューシーな赤身 -->
+    <ellipse cx="150" cy="210" rx="32" ry="8"  fill="#ef9a9a" opacity="0.55"/>
+    <!-- デミグラスが染み込んでいる -->
+    <path d="M 132,204 Q 150,200 168,204 Q 160,211 140,211 Z"
+          fill="#5c1a07" opacity="0.5"/>
+  </g>
+
+  <!-- ===== ハンバーグ左半分 ===== -->
+  <g class="steak-left">
+    <g clip-path="url(#steak-l)">
+      <!-- 底の影 -->
+      <ellipse cx="150" cy="215" rx="70" ry="23" fill="#3e1a10"/>
+      <!-- 上面（焼き色） -->
+      <ellipse cx="150" cy="208" rx="66" ry="19" fill="#7a4e2a"/>
+      <!-- グリル跡 -->
+      <line x1="92"  y1="200" x2="104" y2="220" stroke="#3e1a10" stroke-width="5" stroke-linecap="round"/>
+      <line x1="110" y1="197" x2="122" y2="217" stroke="#3e1a10" stroke-width="5" stroke-linecap="round"/>
+      <line x1="128" y1="195" x2="140" y2="215" stroke="#3e1a10" stroke-width="5" stroke-linecap="round"/>
+      <!-- 肉のテクスチャ（明るい斑） -->
+      <ellipse cx="104" cy="205" rx="7" ry="3"   fill="#9a6838" opacity="0.38"/>
+      <ellipse cx="122" cy="201" rx="6" ry="2.5" fill="#9a6838" opacity="0.32"/>
+      <ellipse cx="138" cy="207" rx="6" ry="2.5" fill="#9a6838" opacity="0.38"/>
+      <!-- ===== デミグラスソース ===== -->
+      <!-- ソース本体（上面に広がる） -->
+      <path d="M 86,202 C 94,191 114,185 144,187 C 138,197 110,201 88,200 Z"
+            fill="#4a0800" opacity="0.93"/>
+      <!-- 側面へのたれ（左サイド） -->
+      <path d="M 86,202 C 83,208 83,215 88,218"
+            stroke="#4a0800" stroke-width="5.5" fill="none" stroke-linecap="round" opacity="0.88"/>
+      <!-- ソースの艶ハイライト -->
+      <path d="M 94,195 C 108,189 126,188 142,190 C 126,193 108,194 94,195 Z"
+            fill="#8b3020" opacity="0.40"/>
+      <!-- スポットハイライト -->
+      <ellipse cx="112" cy="193" rx="9" ry="2.5" fill="#c05040" opacity="0.22"/>
+    </g>
+  </g>
+
+  <!-- ===== ハンバーグ右半分 ===== -->
+  <g class="steak-right">
+    <g clip-path="url(#steak-r)">
+      <!-- 底の影 -->
+      <ellipse cx="150" cy="215" rx="70" ry="23" fill="#3e1a10"/>
+      <!-- 上面（焼き色） -->
+      <ellipse cx="150" cy="208" rx="66" ry="19" fill="#7a4e2a"/>
+      <!-- グリル跡 -->
+      <line x1="160" y1="195" x2="172" y2="215" stroke="#3e1a10" stroke-width="5" stroke-linecap="round"/>
+      <line x1="178" y1="197" x2="190" y2="217" stroke="#3e1a10" stroke-width="5" stroke-linecap="round"/>
+      <line x1="196" y1="200" x2="208" y2="220" stroke="#3e1a10" stroke-width="5" stroke-linecap="round"/>
+      <!-- テクスチャ -->
+      <ellipse cx="162" cy="207" rx="6" ry="2.5" fill="#9a6838" opacity="0.38"/>
+      <ellipse cx="178" cy="201" rx="6" ry="2.5" fill="#9a6838" opacity="0.32"/>
+      <ellipse cx="196" cy="205" rx="7" ry="3"   fill="#9a6838" opacity="0.38"/>
+      <!-- ===== デミグラスソース ===== -->
+      <!-- ソース本体 -->
+      <path d="M 156,187 C 182,185 204,191 214,202 C 190,200 164,199 156,187 Z"
+            fill="#4a0800" opacity="0.93"/>
+      <!-- 側面へのたれ（右サイド） -->
+      <path d="M 214,202 C 217,208 216,215 212,218"
+            stroke="#4a0800" stroke-width="5.5" fill="none" stroke-linecap="round" opacity="0.88"/>
+      <!-- 艶ハイライト -->
+      <path d="M 158,189 C 176,187 198,190 212,197 C 196,196 176,195 158,189 Z"
+            fill="#8b3020" opacity="0.40"/>
+      <ellipse cx="188" cy="193" rx="9" ry="2.5" fill="#c05040" opacity="0.22"/>
+    </g>
+  </g>
+
+  <!-- ===== 付け合わせ（ハンバーグより手前に描く） ===== -->
+
+  <!-- 人参スライス（3枚） -->
+  <!-- 後ろ -->
+  <ellipse cx="236" cy="215" rx="11" ry="9" fill="#FF7043"/>
+  <ellipse cx="236" cy="215" rx="11" ry="9" fill="none" stroke="#BF360C" stroke-width="1.5"/>
+  <ellipse cx="236" cy="215" rx="6"  ry="5" fill="#FF8A65" opacity="0.55"/>
+  <ellipse cx="236" cy="215" rx="3"  ry="2.5" fill="none" stroke="#E64A19" stroke-width="0.8" opacity="0.45"/>
+  <!-- 前左 -->
+  <ellipse cx="224" cy="221" rx="12" ry="10" fill="#FF6D00"/>
+  <ellipse cx="224" cy="221" rx="12" ry="10" fill="none" stroke="#BF360C" stroke-width="1.5"/>
+  <ellipse cx="224" cy="221" rx="7"  ry="6"  fill="#FF8A50" opacity="0.55"/>
+  <ellipse cx="224" cy="221" rx="4"  ry="3"  fill="none" stroke="#E64A19" stroke-width="0.8" opacity="0.45"/>
+  <line x1="219" y1="216" x2="229" y2="226" stroke="#BF360C" stroke-width="0.7" opacity="0.3"/>
+  <line x1="229" y1="216" x2="219" y2="226" stroke="#BF360C" stroke-width="0.7" opacity="0.3"/>
+  <!-- 前右 -->
+  <ellipse cx="238" cy="224" rx="11" ry="9" fill="#FF6D00"/>
+  <ellipse cx="238" cy="224" rx="11" ry="9" fill="none" stroke="#BF360C" stroke-width="1.5"/>
+  <ellipse cx="238" cy="224" rx="6"  ry="5" fill="#FF8A50" opacity="0.55"/>
+  <ellipse cx="238" cy="224" rx="3.5" ry="2.5" fill="none" stroke="#E64A19" stroke-width="0.8" opacity="0.45"/>
+  <line x1="232" y1="219" x2="244" y2="229" stroke="#BF360C" stroke-width="0.7" opacity="0.3"/>
+  <line x1="244" y1="219" x2="232" y2="229" stroke="#BF360C" stroke-width="0.7" opacity="0.3"/>
+
+  <!-- ブロッコリー（右端） -->
+  <rect x="256" y="214" width="5" height="14" rx="2" fill="#558B2F"/>
+  <circle cx="254" cy="211" r="8"  fill="#388E3C"/>
+  <circle cx="262" cy="210" r="7"  fill="#43A047"/>
+  <circle cx="258" cy="205" r="8"  fill="#66BB6A"/>
+  <circle cx="250" cy="209" r="6"  fill="#4CAF50"/>
+  <circle cx="266" cy="207" r="5"  fill="#4CAF50"/>
+  <!-- ハイライト -->
+  <circle cx="257" cy="203" r="3"  fill="#A5D6A7" opacity="0.65"/>
+  <circle cx="251" cy="207" r="2"  fill="#A5D6A7" opacity="0.5"/>
+
+  <!-- 湯気 -->
+  <path class="steam"    d="M 145,197 C 142,184 148,172 144,159" stroke="#ffcc80" stroke-width="4"   fill="none" stroke-linecap="round"/>
+  <path class="steam s2" d="M 155,195 C 158,182 152,170 156,156" stroke="#ffcc80" stroke-width="3"   fill="none" stroke-linecap="round"/>
+  <path class="steam s3" d="M 150,194 C 146,179 152,166 148,152" stroke="#ffe0b2" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- ===== ナイフ（+50px下寄せ） ===== -->
+  <g class="knife">
+    <!-- 刃（シルバー） -->
+    <path d="M 144,140 L 156,140 L 158,205 C 158,210 153,212 150,212 C 147,212 142,210 142,205 Z"
+          fill="#e0e0e0" stroke="#bdbdbd" stroke-width="1"/>
+    <!-- 刃のハイライト -->
+    <path d="M 146,140 L 150,140 L 152,205 C 151,208 150,210 149,210 Z"
+          fill="white" opacity="0.6"/>
+    <!-- 刃のエッジ -->
+    <line x1="158" y1="140" x2="158" y2="205" stroke="#9e9e9e" stroke-width="1.5"/>
+    <!-- ガード -->
+    <rect x="138" y="134" width="24" height="8" rx="3" fill="#9e9e9e"/>
+    <rect x="140" y="135" width="20" height="6" rx="2" fill="#bdbdbd"/>
+    <!-- 柄 -->
+    <rect x="140" y="82" width="20" height="54" rx="8" fill="#4e342e"/>
+    <circle cx="150" cy="94"  r="3" fill="#8d6e63"/>
+    <circle cx="150" cy="106" r="3" fill="#8d6e63"/>
+    <circle cx="150" cy="118" r="3" fill="#8d6e63"/>
+    <line x1="140" y1="82" x2="140" y2="136" stroke="#3e2723" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="160" y1="82" x2="160" y2="136" stroke="#5d4037" stroke-width="1"   stroke-linecap="round"/>
+  </g>
+
+  </g>
+</svg>

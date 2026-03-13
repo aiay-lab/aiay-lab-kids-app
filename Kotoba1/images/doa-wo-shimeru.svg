@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      .door-panel {
+        transform-box: fill-box;
+        transform-origin: 0% 50%;
+        animation: door-swing 7s ease-in-out infinite;
+      }
+      @keyframes door-swing {
+        0%,8%    { transform: scaleX(0.05); }
+        48%      { transform: scaleX(1); }
+        86%      { transform: scaleX(1); }
+        93%      { transform: scaleX(0.05); }
+        100%     { transform: scaleX(0.05); }
+      }
+      .door-handle {
+        animation: handle-glow 7s infinite;
+      }
+      @keyframes handle-glow {
+        0%,38%   { fill: #ffd54f; }
+        40%,41%  { fill: #ffffff; }
+        42%,100% { fill: #ffd54f; }
+      }
+      .spill-light {
+        animation: spill-anim 7s infinite;
+        opacity: 1;
+      }
+      @keyframes spill-anim {
+        0%,30%   { opacity: 1; }
+        50%      { opacity: 0; }
+        100%     { opacity: 0; }
+      }
+      /* 廊下の暗転：ドアが開いている間は明るい→閉まると暗くなる */
+      .room-overlay {
+        animation: corridor-dark 7s ease-in-out infinite;
+        opacity: 0;
+      }
+      @keyframes corridor-dark {
+        0%,  10% { opacity: 0;    }   /* ドア開：明るい廊下 */
+        52%      { opacity: 0.70; }   /* ドア閉：暗くなる */
+        86%      { opacity: 0.70; }
+        93%,100% { opacity: 0;    }   /* リセット */
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- Layer 1: Cream wall background -->
+  <rect width="300" height="300" fill="#fff9e6"/>
+
+  <!-- Wood floor -->
+  <rect x="0" y="260" width="300" height="40" fill="#8d6e63"/>
+  <!-- Floor grain lines -->
+  <line x1="0" y1="268" x2="300" y2="268" stroke="#7d5c53" stroke-width="1"/>
+  <line x1="0" y1="276" x2="300" y2="276" stroke="#7d5c53" stroke-width="1"/>
+  <line x1="0" y1="284" x2="300" y2="284" stroke="#7d5c53" stroke-width="1"/>
+  <line x1="50" y1="260" x2="50" y2="300" stroke="#7d5c53" stroke-width="0.5"/>
+  <line x1="120" y1="260" x2="120" y2="300" stroke="#7d5c53" stroke-width="0.5"/>
+  <line x1="190" y1="260" x2="190" y2="300" stroke="#7d5c53" stroke-width="0.5"/>
+  <line x1="250" y1="260" x2="250" y2="300" stroke="#7d5c53" stroke-width="0.5"/>
+
+  <!-- Layer 2: Behind-door room (warm yellow interior) -->
+  <rect x="80" y="40" width="140" height="215" fill="#fff9c4"/>
+  <!-- Window inside room -->
+  <rect x="112" y="68" width="66" height="76" fill="#87ceeb"/>
+  <!-- Window frame lines -->
+  <line x1="145" y1="68" x2="145" y2="144" stroke="#ffffff" stroke-width="3"/>
+  <line x1="112" y1="106" x2="178" y2="106" stroke="#ffffff" stroke-width="3"/>
+  <!-- Window outer frame -->
+  <rect x="112" y="68" width="66" height="76" fill="none" stroke="#ffffff" stroke-width="4"/>
+  <!-- Interior floor -->
+  <rect x="80" y="220" width="140" height="35" fill="#a1887f"/>
+
+  <!-- Layer 3: Door frame -->
+  <!-- Top frame -->
+  <rect x="75" y="35" width="150" height="8" fill="#5d4037"/>
+  <!-- Left frame -->
+  <rect x="75" y="35" width="8" height="225" fill="#5d4037"/>
+  <!-- Right frame -->
+  <rect x="217" y="35" width="8" height="225" fill="#5d4037"/>
+
+  <!-- Spill light on floor (starts visible, fades as door closes) -->
+  <rect class="spill-light" x="80" y="258" width="140" height="7" fill="#fff9c4"/>
+
+  <!-- Layer 4: Door panel group -->
+  <g class="door-panel">
+    <!-- Main door -->
+    <rect x="80" y="40" width="140" height="215" fill="#8d6e63"/>
+    <!-- Door inset panels -->
+    <!-- Top-left panel -->
+    <rect x="91" y="51" width="54" height="80" fill="#795548" rx="3"/>
+    <!-- Top-right panel -->
+    <rect x="155" y="51" width="54" height="80" fill="#795548" rx="3"/>
+    <!-- Bottom-left panel -->
+    <rect x="91" y="141" width="54" height="104" fill="#795548" rx="3"/>
+    <!-- Bottom-right panel -->
+    <rect x="155" y="141" width="54" height="104" fill="#795548" rx="3"/>
+    <!-- Door handle -->
+    <circle class="door-handle" cx="207" cy="165" r="7" fill="#ffd54f"/>
+    <rect x="208" y="161" width="5" height="18" fill="#ffb300" rx="2"/>
+  </g>
+
+  <!-- Layer 5: Floor baseboard -->
+  <rect x="0" y="258" width="300" height="5" fill="#6d4c41"/>
+
+  <!-- 廊下の暗転オーバーレイ -->
+  <rect class="room-overlay" width="300" height="300" fill="#0d0a1a" rx="20"/>
+
+  <!-- Doorbell -->
+  <circle cx="230" cy="90" r="6" fill="#ffd54f"/>
+  <circle cx="230" cy="90" r="3" fill="#ffb300"/>
+
+  <!-- Pot plant (right side) -->
+  <rect x="248" y="230" width="22" height="28" fill="#8d6e63" rx="2"/>
+  <rect x="244" y="226" width="30" height="6" fill="#795548" rx="1"/>
+  <!-- Plant stem -->
+  <line x1="259" y1="226" x2="259" y2="200" stroke="#558b2f" stroke-width="3"/>
+  <!-- Plant leaves -->
+  <ellipse cx="248" cy="205" rx="14" ry="9" fill="#66bb6a" transform="rotate(-20,248,205)"/>
+  <ellipse cx="270" cy="208" rx="14" ry="9" fill="#4caf50" transform="rotate(20,270,208)"/>
+  <ellipse cx="259" cy="198" rx="12" ry="8" fill="#81c784"/>
+</g>
+</svg>

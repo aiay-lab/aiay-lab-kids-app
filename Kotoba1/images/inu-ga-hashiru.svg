@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 犬が左から右へ走る ======= */
+      .dog-group {
+        animation: dog-run 3s linear infinite;
+      }
+      @keyframes dog-run {
+        from { transform: translate(-95px, 252px); }
+        to   { transform: translate(400px, 252px); }
+      }
+
+      /* ======= 体の上下ゆれ（大きく） ======= */
+      .dog-inner {
+        animation: body-bob 0.3s ease-in-out infinite alternate;
+      }
+      @keyframes body-bob {
+        from { transform: translateY(0); }
+        to   { transform: translateY(-7px); }
+      }
+
+      /* ======= 足のスウィング（速く・大きく） ======= */
+      .leg-fa, .leg-fb, .leg-ba, .leg-bb {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+      }
+      .leg-fa { animation: leg-swing 0.3s ease-in-out infinite alternate; }
+      .leg-fb { animation: leg-swing 0.3s ease-in-out infinite alternate-reverse; }
+      .leg-ba { animation: leg-swing 0.3s ease-in-out infinite alternate-reverse; }
+      .leg-bb { animation: leg-swing 0.3s ease-in-out infinite alternate; }
+      @keyframes leg-swing {
+        from { transform: rotate(-35deg); }
+        to   { transform: rotate(35deg); }
+      }
+
+      /* ======= しっぽのゆれ（速く） ======= */
+      .dog-tail {
+        transform-box: fill-box;
+        transform-origin: 0% 100%;
+        animation: tail-wag 0.25s ease-in-out infinite alternate;
+      }
+      @keyframes tail-wag {
+        from { transform: rotate(-35deg); }
+        to   { transform: rotate(35deg); }
+      }
+
+      /* ======= 舌のゆれ ======= */
+      .dog-tongue {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: tongue-flap 0.3s ease-in-out infinite alternate;
+      }
+      @keyframes tongue-flap {
+        from { transform: rotate(-12deg); }
+        to   { transform: rotate(12deg); }
+      }
+
+      /* ======= スピードラインのスクロール ======= */
+      .speed-lines {
+        animation: speed-scroll 0.5s linear infinite;
+      }
+      @keyframes speed-scroll {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-40px); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 空 -->
+  <rect width="300" height="300" fill="#e3f2fd" rx="20"/>
+  <!-- 丘 -->
+  <ellipse cx="80"  cy="250" rx="120" ry="58" fill="#c8e6c9"/>
+  <ellipse cx="240" cy="255" rx="105" ry="52" fill="#a5d6a7"/>
+  <!-- 地面 -->
+  <rect y="253" width="300" height="47" fill="#66bb6a"/>
+  <rect y="253" width="300" height="8"  fill="#81c784"/>
+
+  <!-- スピードライン（繰り返しパターン） -->
+  <g class="speed-lines">
+    <line x1="0"   y1="210" x2="70"  y2="210" stroke="#b3e5fc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="40"  y1="210" x2="120" y2="210" stroke="#b3e5fc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="80"  y1="210" x2="160" y2="210" stroke="#b3e5fc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="120" y1="210" x2="200" y2="210" stroke="#b3e5fc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="160" y1="210" x2="240" y2="210" stroke="#b3e5fc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="200" y1="210" x2="280" y2="210" stroke="#b3e5fc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="240" y1="210" x2="320" y2="210" stroke="#b3e5fc" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="10"  y1="222" x2="55"  y2="222" stroke="#b3e5fc" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <line x1="55"  y1="222" x2="100" y2="222" stroke="#b3e5fc" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <line x1="100" y1="222" x2="145" y2="222" stroke="#b3e5fc" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <line x1="145" y1="222" x2="190" y2="222" stroke="#b3e5fc" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <line x1="190" y1="222" x2="235" y2="222" stroke="#b3e5fc" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <line x1="235" y1="222" x2="280" y2="222" stroke="#b3e5fc" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  </g>
+
+  <!-- ===== 犬グループ ===== -->
+  <g class="dog-group">
+    <g class="dog-inner">
+
+      <!-- しっぽ（体の後ろ・高く上がっている） -->
+      <g transform="translate(-44, -43)">
+        <path class="dog-tail"
+              d="M 0,0 C -6,-18 -4,-36 4,-42"
+              stroke="#b8853a" stroke-width="9" stroke-linecap="round" fill="none"/>
+      </g>
+
+      <!-- 後足・奥（暗色） -->
+      <rect class="leg-ba" x="-27" y="-25" width="10" height="28" fill="#bf8030" rx="4"/>
+      <!-- 前足・奥（暗色） -->
+      <rect class="leg-fa" x="18"  y="-25" width="10" height="28" fill="#bf8030" rx="4"/>
+
+      <!-- 体 -->
+      <ellipse cx="-2" cy="-43" rx="42" ry="18" fill="#d4a260"/>
+
+      <!-- 後足・手前（明色） -->
+      <rect class="leg-bb" x="-20" y="-25" width="10" height="28" fill="#d4a260" rx="4"/>
+      <!-- 前足・手前（明色） -->
+      <rect class="leg-fb" x="25"  y="-25" width="10" height="28" fill="#d4a260" rx="4"/>
+
+      <!-- 首 -->
+      <ellipse cx="31" cy="-57" rx="12" ry="15" fill="#d4a260"/>
+
+      <!-- 頭 -->
+      <circle cx="39" cy="-74" r="21" fill="#d4a260"/>
+
+      <!-- 耳（走ると後ろになびく） -->
+      <ellipse cx="23" cy="-68" rx="9" ry="18" fill="#b8853a"
+               transform="rotate(15, 23, -68)"/>
+
+      <!-- 鼻先（マズル） -->
+      <ellipse cx="56" cy="-68" rx="13" ry="9"   fill="#c49030"/>
+
+      <!-- 鼻 -->
+      <ellipse cx="67" cy="-68" rx="5.5" ry="4.5" fill="#1a1a1a"/>
+      <circle  cx="65" cy="-70" r="2"              fill="#555" opacity="0.6"/>
+
+      <!-- 舌（出している） -->
+      <ellipse class="dog-tongue" cx="66" cy="-59" rx="5" ry="8" fill="#ef5350"/>
+      <ellipse cx="66" cy="-59" rx="5" ry="1.5" fill="#e53935" opacity="0.5"/>
+
+      <!-- 目（細め・元気な表情） -->
+      <circle cx="52" cy="-80" r="5"   fill="#2a1505"/>
+      <circle cx="50" cy="-82" r="2"   fill="#fff"/>
+
+      <!-- 眉（元気よく上がる） -->
+      <path d="M 47,-86 Q 53,-89 58,-86"
+            stroke="#8b4513" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+</g>
+</svg>

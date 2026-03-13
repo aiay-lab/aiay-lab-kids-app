@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <clipPath id="broth-clip">
+      <ellipse cx="150" cy="168" rx="98" ry="24"/>
+    </clipPath>
+    <style>
+      /* ======= 湯気 ======= */
+      .steam {
+        animation: steam-rise 2.6s ease-in-out infinite;
+        opacity: 0;
+      }
+      .s1 { animation-delay: 0.0s; }
+      .s2 { animation-delay: 0.87s; }
+      .s3 { animation-delay: 1.74s; }
+      @keyframes steam-rise {
+        0%   { transform: translateY(0);     opacity: 0; }
+        18%  { opacity: 0.55; }
+        78%  { opacity: 0.18; }
+        100% { transform: translateY(-58px); opacity: 0; }
+      }
+
+      /* ======= 箸が麺をすくう ======= */
+      .chop-grp {
+        animation: chop-dip 7.5s ease-in-out infinite;
+      }
+      @keyframes chop-dip {
+        0%,12%  { transform: translate(292px, 65px); }
+        22%     { transform: translate(198px, 172px); }
+        34%     { transform: translate(198px, 172px); }
+        44%     { transform: translate(198px, 124px); }
+        65%     { transform: translate(198px, 124px); }
+        76%     { transform: translate(198px, 172px); }
+        86%     { transform: translate(292px, 65px); }
+        100%    { transform: translate(292px, 65px); }
+      }
+
+      /* ======= すくった麺（太い白麺） ======= */
+      .lifted-noodle {
+        animation: noodle-show 7.5s infinite;
+        opacity: 0;
+      }
+      @keyframes noodle-show {
+        0%,40%  { opacity: 0; }
+        44%,66% { opacity: 1; }
+        72%     { opacity: 0; }
+        100%    { opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（壁・テーブル） -->
+  <rect width="300" height="300" fill="#fff8e6" rx="20"/>
+  <rect y="218" width="300" height="82" fill="#8d6e63"/>
+  <rect y="218" width="300" height="7"  fill="#a1887f"/>
+
+  <!-- 器の影 -->
+  <ellipse cx="152" cy="263" rx="110" ry="13" fill="#000" opacity="0.1"/>
+
+  <!-- ===== 器本体（紺色・うどん丼） ===== -->
+  <path d="M 44,168 C 40,185 55,263 150,265 C 245,263 260,185 256,168"
+        fill="#1a2e4a"/>
+  <ellipse cx="150" cy="264" rx="62" ry="9" fill="#152438"/>
+
+  <!-- ===== スープと具材（クリップ） ===== -->
+  <g clip-path="url(#broth-clip)">
+    <!-- スープ（だし・淡い黄金色） -->
+    <ellipse cx="150" cy="168" rx="100" ry="26" fill="#d4a942"/>
+    <ellipse cx="116" cy="162" rx="34"  ry="10" fill="#e8c060" opacity="0.35"/>
+
+    <!-- うどん麺（太い白麺・2本） -->
+    <path d="M 60,174 Q 84,163 108,174 Q 132,185 156,174 Q 180,163 204,174 Q 216,179 224,176"
+          fill="none" stroke="#fffde7" stroke-width="9" stroke-linecap="round"/>
+    <path d="M 56,186 Q 80,175 104,186 Q 128,186 152,186 Q 176,175 200,186 Q 214,183 224,181"
+          fill="none" stroke="#fff9c4" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- カマボコ（白・ピンク） -->
+    <ellipse cx="104" cy="177" rx="22" ry="15" fill="#fafafa"/>
+    <ellipse cx="104" cy="170" rx="22" ry="8"  fill="#f48fb1"/>
+    <ellipse cx="104" cy="168" rx="14" ry="5"  fill="#fafafa" opacity="0.6"/>
+    <ellipse cx="104" cy="167" rx="7"  ry="3"  fill="#f06292" opacity="0.5"/>
+
+    <!-- 天ぷら（衣・エビ天シルエット） -->
+    <ellipse cx="194" cy="171" rx="20" ry="12" fill="#d4a030"/>
+    <path d="M 178,168 Q 194,158 208,165"
+          fill="none" stroke="#e8b840" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="194" cy="171" rx="20" ry="12" fill="#e8b840" opacity="0.4"/>
+    <!-- 衣のテクスチャ -->
+    <circle cx="186" cy="173" r="2.5" fill="#c89020" opacity="0.6"/>
+    <circle cx="194" cy="168" r="2"   fill="#c89020" opacity="0.6"/>
+    <circle cx="201" cy="174" r="2.5" fill="#c89020" opacity="0.6"/>
+
+    <!-- 三つ葉・ネギ（緑） -->
+    <circle cx="138" cy="168" r="4"   fill="#4caf50"/>
+    <circle cx="147" cy="180" r="3.5" fill="#66bb6a"/>
+    <circle cx="166" cy="167" r="3.5" fill="#4caf50"/>
+    <circle cx="173" cy="179" r="4"   fill="#66bb6a"/>
+    <circle cx="128" cy="181" r="3"   fill="#81c784"/>
+
+    <!-- 麩（小さな丸い浮き実） -->
+    <circle cx="155" cy="174" r="5"   fill="#f5deb3"/>
+    <circle cx="155" cy="174" r="2.5" fill="#e8c89a" opacity="0.8"/>
+  </g>
+
+  <!-- ===== 器の縁（紺＋白線・ドーナツ形） ===== -->
+  <path fill-rule="evenodd" fill="#1a2e4a"
+        d="M 256,168 a 106,29 0 1 0 -212,0 a 106,29 0 1 0 212,0
+           M 248,168 a 98,24 0 1 0 -196,0 a 98,24 0 1 0 196,0"/>
+  <!-- 白い装飾線（二重） -->
+  <ellipse cx="150" cy="168" rx="106" ry="29" fill="none" stroke="#ffffff" stroke-width="3.5" opacity="0.55"/>
+  <ellipse cx="150" cy="168" rx="100" ry="26" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  <!-- 縁の内側 -->
+  <ellipse cx="150" cy="168" rx="98"  ry="24" fill="none" stroke="#d4b870" stroke-width="1.5"/>
+
+  <!-- ===== 湯気 ===== -->
+  <path class="steam s1"
+        d="M 118,146 C 113,133 125,123 117,109 C 110,96 122,88 115,74"
+        fill="none" stroke="#c0d4de" stroke-width="4" stroke-linecap="round"/>
+  <path class="steam s2"
+        d="M 150,142 C 145,129 157,119 149,105 C 142,92 154,84 147,70"
+        fill="none" stroke="#c0d4de" stroke-width="4" stroke-linecap="round"/>
+  <path class="steam s3"
+        d="M 180,146 C 175,133 187,123 179,109 C 172,96 184,88 177,74"
+        fill="none" stroke="#c0d4de" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ===== 箸 ===== -->
+  <g class="chop-grp">
+    <rect x="-3" y="-90" width="5.5" height="92" fill="#c4885a" rx="2"
+          transform="rotate(22)"/>
+    <rect x="4"  y="-90" width="5.5" height="92" fill="#c4885a" rx="2"
+          transform="rotate(17)"/>
+    <!-- すくった太麺（白・うどん） -->
+    <path class="lifted-noodle"
+          d="M -2,0 C -9,15 2,28 -4,43 C -9,56 1,64 -3,74"
+          fill="none" stroke="#fffde7" stroke-width="13" stroke-linecap="round"/>
+    <path class="lifted-noodle"
+          d="M 6,0 C 2,14 12,25 8,38 C 4,49 11,57 8,64"
+          fill="none" stroke="#fff9c4" stroke-width="11" stroke-linecap="round"/>
+  </g>
+</g>
+</svg>

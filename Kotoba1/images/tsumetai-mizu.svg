@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <clipPath id="gc">
+      <!-- グラス内部（台形） -->
+      <path d="M 93,64 L 207,64 L 200,244 L 100,244 Z"/>
+    </clipPath>
+    <style>
+      /* ======= 氷がゆらゆら浮く ======= */
+      .ice-a {
+        animation: ice-bob-a 2.2s ease-in-out infinite alternate;
+      }
+      @keyframes ice-bob-a {
+        0%   { transform: translateY(0); }
+        100% { transform: translateY(-6px); }
+      }
+      .ice-b {
+        animation: ice-bob-b 3s ease-in-out infinite alternate;
+      }
+      @keyframes ice-bob-b {
+        0%   { transform: translateY(-2px); }
+        100% { transform: translateY(5px); }
+      }
+
+      /* ======= 結露がつたい落ちる ======= */
+      .cond {
+        animation: cond-slide 5.5s ease-in infinite;
+        opacity: 0;
+      }
+      .cd1 { animation-delay: 0.0s; }
+      .cd2 { animation-delay: 1.4s; }
+      .cd3 { animation-delay: 2.8s; }
+      .cd4 { animation-delay: 0.7s; }
+      .cd5 { animation-delay: 2.1s; }
+      @keyframes cond-slide {
+        0%   { transform: translateY(0px);  opacity: 0; }
+        8%   { opacity: 0.75; }
+        88%  { opacity: 0.5; }
+        100% { transform: translateY(90px); opacity: 0; }
+      }
+
+      /* ======= 雪の結晶がきらめく ======= */
+      .flake {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: flake-shine 3s ease-in-out infinite;
+        opacity: 0;
+      }
+      .f1 { animation-delay: 0.0s; }
+      .f2 { animation-delay: 1.0s; }
+      .f3 { animation-delay: 2.0s; }
+      @keyframes flake-shine {
+        0%,8%    { opacity: 0; transform: scale(0.5) rotate(0deg); }
+        30%,70%  { opacity: 1; transform: scale(1)   rotate(15deg); }
+        92%,100% { opacity: 0; transform: scale(0.5) rotate(30deg); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（冷たい青） -->
+  <rect width="300" height="300" fill="#e3f2fd" rx="20"/>
+  <!-- 床 -->
+  <rect y="248" width="300" height="52" fill="#8d6e63"/>
+  <rect y="248" width="300" height="7" fill="#a1887f"/>
+
+  <!-- グラスの影 -->
+  <ellipse cx="150" cy="252" rx="56" ry="7" fill="#000" opacity="0.1"/>
+
+  <!-- ===== グラスの中身（クリップ） ===== -->
+  <g clip-path="url(#gc)">
+    <!-- 水（メイン） -->
+    <rect x="90" y="108" width="120" height="136" fill="#4fc3f7" opacity="0.52"/>
+    <!-- 水の底（深い青） -->
+    <rect x="90" y="195" width="120" height="50" fill="#0277bd" opacity="0.22"/>
+    <!-- 水面ハイライト（楕円） -->
+    <ellipse cx="150" cy="108" rx="56" ry="5" fill="#b3e5fc" opacity="0.55"/>
+
+    <!-- 氷 A（左・大きめ） -->
+    <g class="ice-a">
+      <rect x="95"  y="86"  width="54" height="48" rx="7" fill="#e1f5fe" opacity="0.9"/>
+      <rect x="95"  y="86"  width="54" height="48" rx="7" fill="none" stroke="#81d4fa" stroke-width="1.5"/>
+      <!-- 光沢ライン -->
+      <line x1="99" y1="91" x2="112" y2="104" stroke="#fff" stroke-width="3"   opacity="0.7"/>
+      <line x1="106" y1="90" x2="124" y2="108" stroke="#fff" stroke-width="1.5" opacity="0.4"/>
+    </g>
+
+    <!-- 氷 B（右・小さめ） -->
+    <g class="ice-b">
+      <rect x="155" y="84"  width="44" height="42" rx="6" fill="#e3f2fd" opacity="0.88"/>
+      <rect x="155" y="84"  width="44" height="42" rx="6" fill="none" stroke="#81d4fa" stroke-width="1.5"/>
+      <line x1="159" y1="89" x2="170" y2="100" stroke="#fff" stroke-width="2.5" opacity="0.65"/>
+    </g>
+  </g>
+
+  <!-- ===== グラス外形（透明ガラス風） ===== -->
+  <!-- 左壁の光沢 -->
+  <path d="M 93,64 L 104,64 L 108,244 L 97,244 Z" fill="#fff" opacity="0.3"/>
+  <!-- 右壁の光沢 -->
+  <path d="M 207,64 L 196,64 L 192,244 L 203,244 Z" fill="#fff" opacity="0.18"/>
+  <!-- 輪郭 -->
+  <path d="M 93,64 L 207,64 L 200,244 L 100,244 Z"
+        fill="none" stroke="#90caf9" stroke-width="3" stroke-linejoin="round"/>
+  <!-- 上縁（口の部分） -->
+  <line x1="93" y1="64" x2="207" y2="64" stroke="#b3e5fc" stroke-width="3.5"/>
+
+  <!-- ===== 結露（グラス外側） ===== -->
+  <!-- 左 -->
+  <ellipse class="cond cd1" cx="87" cy="128" rx="2.5" ry="4.5" fill="#64b5f6"/>
+  <ellipse class="cond cd3" cx="83" cy="150" rx="2"   ry="4"   fill="#90caf9"/>
+  <ellipse class="cond cd5" cx="86" cy="142" rx="2.3" ry="4.2" fill="#64b5f6"/>
+  <!-- 右 -->
+  <ellipse class="cond cd2" cx="215" cy="132" rx="2.5" ry="4.5" fill="#64b5f6"/>
+  <ellipse class="cond cd4" cx="219" cy="158" rx="2"   ry="4"   fill="#90caf9"/>
+
+  <!-- ===== 雪の結晶 ===== -->
+  <text class="flake f1" x="50"  y="148" font-size="26" fill="#4fc3f7" text-anchor="middle">❄</text>
+  <text class="flake f2" x="252" y="162" font-size="22" fill="#29b6f6" text-anchor="middle">❄</text>
+  <text class="flake f3" x="54"  y="208" font-size="17" fill="#81d4fa" text-anchor="middle">❄</text>
+</g>
+</svg>

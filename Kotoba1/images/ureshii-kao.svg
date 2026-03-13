@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 顔がぴょんぴょん飛び跳ねる ======= */
+      .face-grp {
+        animation: happy-bounce 2.8s ease-in-out infinite;
+      }
+      @keyframes happy-bounce {
+        0%       { transform: translateY(0); }
+        15%      { transform: translateY(-26px); }
+        27%      { transform: translateY(0); }
+        38%      { transform: translateY(-13px); }
+        48%      { transform: translateY(0); }
+        56%      { transform: translateY(-5px); }
+        63%,100% { transform: translateY(0); }
+      }
+
+      /* ======= ほっぺがぽっと赤くなる ======= */
+      .cheek {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: cheek-glow 1.2s ease-in-out infinite alternate;
+      }
+      @keyframes cheek-glow {
+        0%   { transform: scale(1);   opacity: 0.52; }
+        100% { transform: scale(1.2); opacity: 0.78; }
+      }
+
+      /* ======= キラキラが光る ======= */
+      .sp {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: spark-pop 2.8s ease-in-out infinite;
+        opacity: 0;
+      }
+      .sp1 { animation-delay: 0.0s; }
+      .sp2 { animation-delay: 0.7s; }
+      .sp3 { animation-delay: 1.4s; }
+      .sp4 { animation-delay: 0.35s; }
+      .sp5 { animation-delay: 1.05s; }
+      @keyframes spark-pop {
+        0%,8%    { opacity: 0; transform: scale(0.3) rotate(0deg); }
+        28%,65%  { opacity: 1; transform: scale(1)   rotate(18deg); }
+        92%,100% { opacity: 0; transform: scale(0.3) rotate(36deg); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景 -->
+  <rect width="300" height="300" fill="#fffde7" rx="20"/>
+
+  <!-- ===== 顔グループ（バウンド） ===== -->
+  <g class="face-grp">
+
+    <!-- 耳 -->
+    <circle cx="62"  cy="158" r="21" fill="#ffc27a"/>
+    <circle cx="238" cy="158" r="21" fill="#ffc27a"/>
+
+    <!-- 顔 -->
+    <circle cx="150" cy="158" r="88" fill="#ffd09d"/>
+
+    <!-- ===== 髪（自然なショートカット） ===== -->
+    <!-- メインの髪のかたまり -->
+    <path d="M 74,155
+             C 67,130 64,100 73,78
+             C 84,56 110,43 132,40
+             C 140,38 146,37 150,39
+             C 154,37 160,38 168,40
+             C 190,43 216,56 227,78
+             C 236,100 233,130 226,155
+             C 220,133 215,112 205,104
+             C 192,97 174,93 150,92
+             C 126,93 108,97 95,104
+             C 85,112 80,133 74,155 Z"
+          fill="#3e2723"/>
+    <!-- 毛先のはねっ毛（クラウン） -->
+    <path d="M 136,41 C 138,31 144,27 148,37" stroke="#3e2723" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M 150,39 C 153,29 159,26 161,36" stroke="#3e2723" stroke-width="5"   fill="none" stroke-linecap="round"/>
+    <path d="M 124,47 C 125,37 131,33 133,43" stroke="#3e2723" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M 163,42 C 165,33 170,31 171,40" stroke="#3e2723" stroke-width="4"   fill="none" stroke-linecap="round"/>
+
+    <!-- 眉毛 -->
+    <path d="M 106,114 Q 120,106 132,111" stroke="#5d3a1a" stroke-width="3.8" fill="none" stroke-linecap="round"/>
+    <path d="M 168,111 Q 180,106 194,114" stroke="#5d3a1a" stroke-width="3.8" fill="none" stroke-linecap="round"/>
+
+    <!-- 目（^_^ 嬉しくつぶった目） -->
+    <path d="M 104,146 Q 120,131 136,146" stroke="#2c1810" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M 164,146 Q 180,131 196,146" stroke="#2c1810" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <!-- 目の光 -->
+    <circle cx="110" cy="145" r="4"   fill="#fff" opacity="0.8"/>
+    <circle cx="170" cy="145" r="4"   fill="#fff" opacity="0.8"/>
+
+    <!-- 鼻（小さな点） -->
+    <circle cx="145" cy="167" r="3"   fill="#e8964d" opacity="0.75"/>
+    <circle cx="155" cy="167" r="3"   fill="#e8964d" opacity="0.75"/>
+
+    <!-- ほっぺた（丸くてかわいい） -->
+    <circle class="cheek" cx="100" cy="178" r="22" fill="#f48fb1" opacity="0.52"/>
+    <circle class="cheek" cx="200" cy="178" r="22" fill="#f48fb1" opacity="0.52"/>
+
+    <!-- 口（大きな笑顔・歯が見える） -->
+    <path d="M 112,190 Q 150,226 188,190" stroke="#5d3a1a" stroke-width="3.8" fill="none" stroke-linecap="round"/>
+    <!-- 歯 -->
+    <path d="M 116,192 Q 150,223 184,192 Q 166,208 134,208 Z" fill="#fff" opacity="0.85"/>
+    <!-- 舌 -->
+    <ellipse cx="150" cy="210" rx="15" ry="9" fill="#e57373" opacity="0.6"/>
+
+    <!-- ===== キラキラ ===== -->
+    <text class="sp sp1" x="42"  y="108" font-size="26" fill="#fdd835" text-anchor="middle">✦</text>
+    <text class="sp sp2" x="258" y="116" font-size="22" fill="#ffeb3b" text-anchor="middle">✦</text>
+    <text class="sp sp3" x="258" y="222" font-size="18" fill="#fff176" text-anchor="middle">✦</text>
+    <text class="sp sp4" x="150" y="42"  font-size="24" fill="#fdd835" text-anchor="middle">✦</text>
+    <text class="sp sp5" x="42"  y="230" font-size="20" fill="#ffee58" text-anchor="middle">✦</text>
+
+  </g>
+</g>
+</svg>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#bf360c"/>
+      <stop offset="55%"  stop-color="#e65100"/>
+      <stop offset="100%" stop-color="#ff8f00"/>
+    </linearGradient>
+
+    <style>
+      /* 人物が右から家へ歩く */
+      .person-group {
+        animation:
+          person-walk  2.3s ease-in  0.3s forwards,
+          person-enter 0.35s ease-in 3.1s forwards;
+      }
+      @keyframes person-walk {
+        from { transform: translate(265px, 233px); }
+        to   { transform: translate(110px, 233px); }
+      }
+      @keyframes person-enter {
+        to { opacity: 0; }
+      }
+
+      /* 歩きの上下ゆれ */
+      .person-inner {
+        animation: walk-bob 0.28s ease-in-out 0.3s 9 alternate;
+      }
+      @keyframes walk-bob {
+        to { transform: translateY(-5px); }
+      }
+
+      /* 足が交互に振れる */
+      .leg-l {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: leg-l-swing 0.28s ease-in-out 0.3s 9 alternate;
+      }
+      @keyframes leg-l-swing {
+        from { transform: rotate(-22deg); }
+        to   { transform: rotate(22deg); }
+      }
+      .leg-r {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: leg-r-swing 0.28s ease-in-out 0.3s 9 alternate-reverse;
+      }
+      @keyframes leg-r-swing {
+        from { transform: rotate(-22deg); }
+        to   { transform: rotate(22deg); }
+      }
+
+      /* ドアが開いて閉まる */
+      .door-panel {
+        transform-box: fill-box;
+        transform-origin: 0% 50%;
+        animation: door-move 1.1s ease-in-out 2.9s forwards;
+      }
+      @keyframes door-move {
+        0%   { transform: scaleX(1); }
+        36%  { transform: scaleX(0); }
+        64%  { transform: scaleX(0); }
+        100% { transform: scaleX(1); }
+      }
+
+      /* 窓の明かりがじんわり輝く */
+      .win-glow {
+        opacity: 0.5;
+        animation: win-pulse 2.2s ease-in-out 3.6s infinite;
+      }
+      @keyframes win-pulse {
+        0%,100% { opacity: 0.45; }
+        50%     { opacity: 0.9;  }
+      }
+
+      /* 煙がふわふわ上がる */
+      .smoke {
+        animation: smoke-rise var(--dur,2.5s) ease-out var(--delay,0s) infinite;
+        opacity: 0;
+      }
+      @keyframes smoke-rise {
+        0%   { transform: translate(0,0)   scale(0.3); opacity: 0;   }
+        18%  { opacity: 0.55; }
+        100% { transform: translate(var(--dx,6px), -55px) scale(1.4); opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 夕焼け空 -->
+  <rect width="300" height="300" fill="url(#sky)" rx="20"/>
+
+  <!-- 夕日 -->
+  <circle cx="255" cy="60" r="32" fill="#ffca28" opacity="0.9"/>
+
+  <!-- 地面 -->
+  <rect y="258" width="300" height="42" fill="#4e342e" rx="0"/>
+  <rect y="258" width="300" height="42" fill="#4e342e"/>
+  <ellipse cx="150" cy="260" rx="155" ry="18" fill="#5d4037"/>
+  <ellipse cx="150" cy="258" rx="150" ry="12" fill="#6d4c41"/>
+
+  <!-- 道 -->
+  <polygon points="98,260 126,260 300,278 200,278" fill="#795548"/>
+  <polygon points="108,260 116,260 240,270 210,270" fill="#8d6e63" opacity="0.5"/>
+
+  <!-- ===== 家 ===== -->
+  <!-- 家の本体 -->
+  <rect x="48" y="165" width="124" height="95" fill="#ffe0b2" rx="3"/>
+  <!-- 家の側面（影） -->
+  <rect x="48" y="165" width="14" height="95" fill="#ffcc80" rx="2"/>
+
+  <!-- 窓の明かり（暖色・裏側） -->
+  <rect class="win-glow" x="56" y="177" width="30" height="26" fill="#ffee58" rx="4"/>
+  <rect class="win-glow" x="132" y="177" width="30" height="26" fill="#ffee58" rx="4" style="animation-delay:3.8s"/>
+
+  <!-- 窓枠 -->
+  <rect x="56"  y="177" width="30" height="26" fill="none" stroke="#8d6e63" stroke-width="2.5" rx="4"/>
+  <line x1="71"  y1="177" x2="71"  y2="203" stroke="#8d6e63" stroke-width="1.5"/>
+  <line x1="56"  y1="190" x2="86"  y2="190" stroke="#8d6e63" stroke-width="1.5"/>
+  <rect x="132" y="177" width="30" height="26" fill="none" stroke="#8d6e63" stroke-width="2.5" rx="4"/>
+  <line x1="147" y1="177" x2="147" y2="203" stroke="#8d6e63" stroke-width="1.5"/>
+  <line x1="132" y1="190" x2="162" y2="190" stroke="#8d6e63" stroke-width="1.5"/>
+
+  <!-- ドア枠 -->
+  <rect x="94" y="207" width="32" height="53" fill="#bcaaa4" rx="2"/>
+  <!-- ドア（開閉アニメーション） -->
+  <rect class="door-panel" x="94" y="207" width="32" height="53" fill="#8d6e63" rx="2"/>
+  <circle cx="121" cy="234" r="2.5" fill="#ffca28"/>
+
+  <!-- 屋根 -->
+  <polygon points="40,165 110,118 180,165" fill="#bf360c"/>
+  <polygon points="40,165  50,165  120,122 110,118" fill="#d84315" opacity="0.6"/>
+
+  <!-- 煙突 -->
+  <rect x="146" y="128" width="19" height="34" fill="#5d4037"/>
+  <rect x="143" y="126" width="25" height="6"  fill="#4e342e" rx="1"/>
+
+  <!-- 煙 -->
+  <circle class="smoke" cx="156" cy="124" r="7"
+          fill="#bdbdbd" style="--dur:2.2s; --delay:0.0s; --dx:6px"/>
+  <circle class="smoke" cx="156" cy="124" r="9"
+          fill="#9e9e9e" style="--dur:2.6s; --delay:0.8s; --dx:-5px"/>
+  <circle class="smoke" cx="156" cy="124" r="6"
+          fill="#bdbdbd" style="--dur:2.4s; --delay:1.5s; --dx:8px"/>
+
+  <!-- ===== 人物（右から歩いてくる） ===== -->
+  <g class="person-group" style="transform: translate(265px, 233px)">
+    <g class="person-inner">
+      <!-- 頭 -->
+      <circle cx="0" cy="-34" r="9"  fill="#1a237e"/>
+      <!-- 体 -->
+      <rect x="-7" y="-25" width="14" height="19" fill="#1a237e" rx="2"/>
+      <!-- 左足 -->
+      <rect class="leg-l" x="-7" y="-7" width="6" height="15" fill="#1a237e" rx="2"/>
+      <!-- 右足 -->
+      <rect class="leg-r" x="1"  y="-7" width="6" height="15" fill="#1a237e" rx="2"/>
+      <!-- カバン -->
+      <rect x="7" y="-22" width="9" height="11" fill="#283593" rx="2"/>
+    </g>
+  </g>
+
+  <!-- 遠くの木のシルエット -->
+  <rect x="230" y="205" width="8" height="55" fill="#3e2723"/>
+  <ellipse cx="234" cy="198" rx="18" ry="22" fill="#4e342e"/>
+  <rect x="258" y="218" width="7" height="42" fill="#3e2723"/>
+  <ellipse cx="261" cy="212" rx="15" ry="18" fill="#4e342e"/>
+</g>
+</svg>

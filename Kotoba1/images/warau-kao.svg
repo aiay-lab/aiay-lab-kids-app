@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* 顔がぽんぽん弾む */
+      .face-grp {
+        transform-origin: 150px 155px;
+        animation: laugh-bounce 0.65s ease-in-out infinite alternate;
+      }
+      @keyframes laugh-bounce {
+        from { transform: translateY(0)    scaleY(1);    }
+        to   { transform: translateY(-7px) scaleY(1.02); }
+      }
+
+      /* 目がまばたき */
+      .eye-grp {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: happy-blink 3s ease-in-out infinite;
+      }
+      @keyframes happy-blink {
+        0%, 40%, 60%, 100% { transform: scaleY(1); }
+        50%                 { transform: scaleY(0.08); }
+      }
+
+      /* ほっぺたが輝く */
+      .cheek {
+        animation: cheek-glow 0.65s ease-in-out infinite alternate;
+      }
+      @keyframes cheek-glow {
+        from { opacity: 0.50; }
+        to   { opacity: 0.78; }
+      }
+
+      /* キラキラ（点滅） */
+      .sparkle {
+        animation: sparkle-flash 1.4s ease-in-out infinite;
+        opacity: 0;
+      }
+      .sp2 { animation-delay: 0.35s; }
+      .sp3 { animation-delay: 0.70s; }
+      .sp4 { animation-delay: 1.05s; }
+      @keyframes sparkle-flash {
+        0%,100% { opacity: 0;   transform: scale(0.5); }
+        35%,60% { opacity: 1;   transform: scale(1);   }
+      }
+
+      /* 背景丸がゆっくり脈打つ */
+      .bg-circle {
+        animation: bg-pulse 2s ease-in-out infinite alternate;
+      }
+      @keyframes bg-pulse {
+        from { opacity: 0.18; }
+        to   { opacity: 0.30; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 背景（明るい黄色） -->
+  <rect width="300" height="300" fill="#fffde7"/>
+
+  <!-- 背景の装飾丸 -->
+  <circle class="bg-circle" cx="40"  cy="40"  r="42" fill="#ffee58"/>
+  <circle class="bg-circle" cx="260" cy="58"  r="32" fill="#ffee58" style="animation-delay:0.5s"/>
+  <circle class="bg-circle" cx="30"  cy="270" r="36" fill="#ffee58" style="animation-delay:1s"/>
+  <circle class="bg-circle" cx="272" cy="262" r="30" fill="#ffee58" style="animation-delay:0.3s"/>
+
+  <!-- キラキラ（4点） -->
+  <g class="sparkle"    transform="translate(52,78)">
+    <line x1="0" y1="-12" x2="0"   y2="12"  stroke="#ffd600" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-12" y1="0" x2="12"  y2="0"   stroke="#ffd600" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-8"  y1="-8" x2="8"  y2="8"   stroke="#ffd600" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="8"   y1="-8" x2="-8" y2="8"   stroke="#ffd600" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <g class="sparkle sp2" transform="translate(252,84)">
+    <line x1="0" y1="-11" x2="0"   y2="11"  stroke="#ffab00" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-11" y1="0" x2="11"  y2="0"   stroke="#ffab00" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-7"  y1="-7" x2="7"  y2="7"   stroke="#ffab00" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="7"   y1="-7" x2="-7" y2="7"   stroke="#ffab00" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <g class="sparkle sp3" transform="translate(58,240)">
+    <line x1="0" y1="-9"  x2="0"   y2="9"   stroke="#ffd600" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-9"  y1="0" x2="9"   y2="0"   stroke="#ffd600" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-6"  y1="-6" x2="6"  y2="6"   stroke="#ffd600" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="6"   y1="-6" x2="-6" y2="6"   stroke="#ffd600" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <g class="sparkle sp4" transform="translate(246,236)">
+    <line x1="0" y1="-10" x2="0"   y2="10"  stroke="#ffab00" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-10" y1="0" x2="10"  y2="0"   stroke="#ffab00" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-7"  y1="-7" x2="7"  y2="7"   stroke="#ffab00" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="7"   y1="-7" x2="-7" y2="7"   stroke="#ffab00" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- ===== 顔グループ（弾む） ===== -->
+  <g class="face-grp">
+
+    <!-- 耳 -->
+    <circle cx="62"  cy="158" r="21" fill="#ffc27a"/>
+    <circle cx="238" cy="158" r="21" fill="#ffc27a"/>
+
+    <!-- 顔 -->
+    <circle cx="150" cy="158" r="88" fill="#ffd09d"/>
+
+    <!-- 髪 -->
+    <path d="M 74,155
+             C 67,130 64,100 73,78
+             C 84,56 110,43 132,40
+             C 140,38 146,37 150,39
+             C 154,37 160,38 168,40
+             C 190,43 216,56 227,78
+             C 236,100 233,130 226,155
+             C 220,133 215,112 205,104
+             C 192,97 174,93 150,92
+             C 126,93 108,97 95,104
+             C 85,112 80,133 74,155 Z"
+          fill="#3e2723"/>
+    <path d="M 136,41 C 138,31 144,27 148,37" stroke="#3e2723" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M 150,39 C 153,29 159,26 161,36" stroke="#3e2723" stroke-width="5"   fill="none" stroke-linecap="round"/>
+    <path d="M 124,47 C 125,37 131,33 133,43" stroke="#3e2723" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M 163,42 C 165,33 170,31 171,40" stroke="#3e2723" stroke-width="4"   fill="none" stroke-linecap="round"/>
+
+    <!-- 眉毛（ハの字・嬉しい） -->
+    <path d="M 104,118 Q 122,128 138,120" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M 162,120 Q 178,128 196,118" stroke="#5d3a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+    <!-- 目（笑顔・まばたきあり・黒目入り） -->
+    <!-- 左目 -->
+    <g class="eye-grp">
+      <circle cx="121" cy="145" r="18" fill="white"/>
+      <circle cx="121" cy="148" r="12" fill="#3e2723"/>
+      <circle cx="121" cy="148" r="8"  fill="#1a1a1a"/>
+      <circle cx="116" cy="143" r="3.5" fill="white"/>
+      <circle cx="126" cy="151" r="2"  fill="white" opacity="0.7"/>
+      <!-- 笑って細くなった上まぶた -->
+      <path d="M 103,138 Q 121,130 139,138" stroke="#3e2723" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- 右目 -->
+    <g class="eye-grp">
+      <circle cx="179" cy="145" r="18" fill="white"/>
+      <circle cx="179" cy="148" r="12" fill="#3e2723"/>
+      <circle cx="179" cy="148" r="8"  fill="#1a1a1a"/>
+      <circle cx="174" cy="143" r="3.5" fill="white"/>
+      <circle cx="184" cy="151" r="2"  fill="white" opacity="0.7"/>
+      <path d="M 161,138 Q 179,130 197,138" stroke="#3e2723" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- 鼻 -->
+    <circle cx="145" cy="174" r="3" fill="#e8964d" opacity="0.70"/>
+    <circle cx="155" cy="174" r="3" fill="#e8964d" opacity="0.70"/>
+
+    <!-- ほっぺた（明るいピンク・拍動） -->
+    <circle class="cheek" cx="98"  cy="182" r="27" fill="#ff8a80" opacity="0.55"/>
+    <circle class="cheek" cx="202" cy="182" r="27" fill="#ff8a80" opacity="0.55"/>
+
+    <!-- 口（大きな笑顔） -->
+    <path d="M 108,200 Q 150,246 192,200 L 192,210 Q 150,258 108,210 Z"
+          fill="#5d3a1a"/>
+    <!-- 口の中 -->
+    <path d="M 110,202 Q 150,245 190,202 L 190,208 Q 150,252 110,208 Z"
+          fill="#c62828"/>
+    <!-- 歯（上） -->
+    <rect x="120" y="201" width="60" height="13" rx="5" fill="white"/>
+    <!-- 歯の区切り -->
+    <line x1="150" y1="201" x2="150" y2="214" stroke="#e0e0e0" stroke-width="1.5"/>
+    <line x1="135" y1="201" x2="133" y2="214" stroke="#e0e0e0" stroke-width="1.5"/>
+    <line x1="165" y1="201" x2="167" y2="214" stroke="#e0e0e0" stroke-width="1.5"/>
+    <!-- 舌 -->
+    <ellipse cx="150" cy="230" rx="24" ry="13" fill="#ef5350"/>
+
+  </g><!-- /face-grp -->
+
+  </g>
+</svg>

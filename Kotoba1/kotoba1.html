@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ことばアプリ">
+  <meta name="theme-color" content="#ff6b35">
+  <link rel="manifest" href="manifest.json">
+  <title>ことばアプリ</title>
+  <style>
+    /* === Reset & Base === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:  #ff6b35;
+      --blue:    #00b4d8;
+      --ok:      #52b788;
+      --ng:      #e63946;
+      --text:    #2b2d42;
+      --muted:   #8d99ae;
+      --card:    #ffffff;
+      --bg:      #fff8ee;
+      --shadow:  0 4px 14px rgba(0,0,0,0.10);
+      --r-pill:  50px;
+      --r-lg:    20px;
+      --r-md:    14px;
+      --r-sm:    10px;
+      --font:    'Hiragino Maru Gothic ProN', 'Hiragino Sans', 'Yu Gothic UI', Meiryo, sans-serif;
+    }
+
+    html, body {
+      height: 100dvh;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      overscroll-behavior: none;
+    }
+
+    /* === Screens === */
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 100dvh;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .screen.active { display: flex; }
+
+    /* === Home button (top-left orange pill) === */
+    .home-btn {
+      align-self: flex-start;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: var(--r-pill);
+      padding: 8px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      margin: 12px 14px 4px;
+      transition: transform 0.1s, filter 0.15s;
+    }
+    .home-btn:active { transform: scale(0.94); filter: brightness(0.92); }
+
+    /* ========================
+       HOME SCREEN
+    ======================== */
+    #home {
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 40px 20px;
+      background: linear-gradient(160deg, #fff8ee 0%, #ffecd2 100%);
+    }
+
+    .home-title-wrap { text-align: center; }
+    .home-emoji  { font-size: 56px; line-height: 1; }
+    .home-title  { font-size: clamp(24px, 7vw, 32px); font-weight: 800; margin-top: 8px; letter-spacing: 0.06em; }
+    .home-sub    { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+    .home-modes  { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 340px; }
+
+    .mode-card {
+      background: var(--card);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .mode-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      cursor: pointer;
+      transition: filter 0.15s;
+    }
+    .mode-header:active { filter: brightness(0.92); }
+
+    #narabe-card .mode-header { background: linear-gradient(120deg, #ff6b35 0%, #ff9a5c 100%); color: #fff; }
+    #erabe-card  .mode-header { background: linear-gradient(120deg, #00b4d8 0%, #48cae4 100%); color: #fff; }
+
+    .mode-icon { font-size: 30px; flex-shrink: 0; }
+    .mode-name { font-size: 22px; font-weight: 700; }
+    .mode-desc { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+
+    .difficulty-row { display: flex; padding: 10px 10px 12px; gap: 8px; }
+
+    .diff-btn {
+      flex: 1;
+      padding: 10px 4px;
+      border: none;
+      border-radius: var(--r-sm);
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      line-height: 1.5;
+      transition: transform 0.1s;
+    }
+    .diff-btn:active { transform: scale(0.93); }
+    .diff-btn[data-stars="1"] { background: #fff3e0; color: #e65100; }
+    .diff-btn[data-stars="2"] { background: #fce4ec; color: #c2185b; }
+    .diff-btn[data-stars="3"] { background: #e8eaf6; color: #283593; }
+    .diff-btn[data-stars="0"] { background: #e8f5e9; color: #2e7d32; }
+
+    /* ========================
+       QUIZ HEADER (shared)
+    ======================== */
+    .quiz-header {
+      padding: 6px 14px 10px;
+      background: var(--card);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      flex-shrink: 0;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: #ececec;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+    .narabe-fill { background: var(--orange); }
+    .erabe-fill  { background: var(--blue); }
+
+    .progress-text {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+      text-align: center;
+    }
+
+    /* ========================
+       NARABE SCREEN
+    ======================== */
+    #narabe { background: var(--bg); }
+
+    .narabe-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 16px 28px;
+      flex: 1;
+    }
+
+    .question-img-wrap {
+      width: clamp(150px, 48vw, 200px);
+      height: clamp(150px, 48vw, 200px);
+      background: var(--card);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .question-img { width: 100%; height: 100%; object-fit: contain; }
+
+    .answer-area {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+
+    .answer-slot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--r-sm);
+      border: 2.5px dashed #c0c0c0;
+      background: var(--card);
+      font-weight: 700;
+      flex-shrink: 0;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .answer-slot.filled {
+      border-style: solid;
+      border-color: rgba(0,0,0,0.10);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+    .answer-slot.correct { border-color: var(--ok) !important; background: #d8f3dc !important; }
+
+    .tile-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      max-width: 320px;
+    }
+
+    .tile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--r-sm);
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      text-align: center;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.14);
+      flex-shrink: 0;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .tile:active {
+      transform: scale(0.90) translateY(2px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.14);
+    }
+
+    /* Sub-buttons row (もういっかいきく / ヒント) */
+    .narabe-sub-btns,
+    .erabe-sub-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .sub-btn {
+      background: var(--card);
+      border: 2px solid #ddd;
+      border-radius: var(--r-pill);
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .sub-btn:active { transform: scale(0.94); background: #f5f5f5; }
+
+    .hint-text {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 0.12em;
+      min-height: 30px;
+      text-align: center;
+    }
+    .hint-text.hidden { visibility: hidden; }
+
+    .feedback {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      min-height: 32px;
+    }
+    .feedback.hidden { visibility: hidden; }
+    .feedback.ok { color: var(--ok); }
+    .feedback.ng { color: var(--ng); }
+
+    /* ========================
+       ERABE SCREEN
+    ======================== */
+    #erabe { background: var(--bg); }
+
+    .erabe-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 16px 32px;
+      flex: 1;
+    }
+
+    .erabe-question {
+      font-size: 19px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.6;
+      background: var(--card);
+      border-radius: var(--r-md);
+      padding: 14px 18px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: var(--shadow);
+    }
+
+    .choices {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .choice-btn {
+      flex: 1;
+      background: var(--card);
+      border: 3px solid transparent;
+      border-radius: var(--r-lg);
+      padding: 10px 8px 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.2s, background 0.2s, transform 0.1s;
+      font-family: var(--font);
+    }
+    .choice-btn:active { transform: scale(0.95); }
+    .choice-btn.correct { border-color: var(--ok); background: #d8f3dc; }
+    .choice-btn.wrong   { border-color: var(--ng); background: #ffe0e3; }
+    .choice-btn:disabled { cursor: default; }
+
+    .choice-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    /* ========================
+       RESULT SCREEN
+    ======================== */
+    #result {
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 40px 24px;
+      background: linear-gradient(160deg, #fff8ee 0%, #ffecd2 100%);
+    }
+
+    .result-stars     { font-size: 52px; letter-spacing: 6px; min-height: 64px; }
+    .result-score-num { font-size: 80px; font-weight: 800; color: var(--orange); line-height: 1; }
+    .result-total     { font-size: 18px; color: var(--muted); }
+    .result-msg       { font-size: 24px; font-weight: 700; text-align: center; }
+
+    .result-home-btn {
+      background: linear-gradient(120deg, #ff6b35, #ff9a5c);
+      color: #fff;
+      border: none;
+      border-radius: var(--r-pill);
+      padding: 16px 52px;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      margin-top: 8px;
+      transition: transform 0.1s;
+    }
+    .result-home-btn:active { transform: scale(0.96); }
+
+    /* ========================
+       MARU (〇) OVERLAY
+    ======================== */
+    #maru-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0;
+    }
+    #maru-overlay.show {
+      animation: maru-anim 1.2s ease-out forwards;
+    }
+    .maru-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 16px solid #52b788;
+      box-shadow: 0 0 0 12px rgba(82,183,136,0.20), 0 0 40px rgba(82,183,136,0.40);
+    }
+    @keyframes maru-anim {
+      0%   { opacity: 0; transform: scale(0.4); }
+      25%  { opacity: 1; transform: scale(1.2); }
+      45%  { opacity: 1; transform: scale(1.0); }
+      75%  { opacity: 1; transform: scale(1.0); }
+      100% { opacity: 0; transform: scale(1.05); }
+    }
+
+    /* ========================
+       FIREWORKS LAYER
+    ======================== */
+    #fireworks-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      overflow: hidden;
+    }
+
+    .fw-particle {
+      position: absolute;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ========================
+       ANIMATIONS
+    ======================== */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      15%     { transform: translateX(-8px); }
+      35%     { transform: translateX(8px); }
+      55%     { transform: translateX(-5px); }
+      75%     { transform: translateX(5px); }
+      90%     { transform: translateX(-2px); }
+    }
+
+    .shake { animation: shake 0.4s ease-in-out; }
+  </style>
+</head>
+<body>
+
+<!-- MARU OVERLAY -->
+<div id="maru-overlay">
+  <div class="maru-circle"></div>
+</div>
+
+<!-- FIREWORKS LAYER -->
+<div id="fireworks-layer"></div>
+
+<!-- ======================= HOME SCREEN ======================= -->
+<div id="home" class="screen active">
+  <div class="home-title-wrap">
+    <div class="home-emoji">📚</div>
+    <h1 class="home-title">ことばアプリ</h1>
+    <p class="home-sub">どっちのクイズをやる？</p>
+  </div>
+
+  <div class="home-modes">
+    <!-- ならべる -->
+    <div class="mode-card" id="narabe-card">
+      <div class="mode-header" onclick="App.startNarabe(0)">
+        <span class="mode-icon">🔤</span>
+        <div>
+          <div class="mode-name">ならべる</div>
+          <div class="mode-desc">ひらがなを ならべてことばをつくろう</div>
+        </div>
+      </div>
+      <div class="difficulty-row">
+        <button class="diff-btn" data-stars="1" onclick="App.startNarabe(1)">★<br>かんたん</button>
+        <button class="diff-btn" data-stars="2" onclick="App.startNarabe(2)">★★<br>ふつう</button>
+        <button class="diff-btn" data-stars="3" onclick="App.startNarabe(3)">★★★<br>むずかしい</button>
+        <button class="diff-btn" data-stars="0" onclick="App.startNarabe(0)">ぜんぶ</button>
+      </div>
+    </div>
+
+    <!-- えらぶ -->
+    <div class="mode-card" id="erabe-card">
+      <div class="mode-header" onclick="App.startErabe(false)">
+        <span class="mode-icon">🔍</span>
+        <div>
+          <div class="mode-name">えらぶ</div>
+          <div class="mode-desc">ただしい えを えらぼう</div>
+        </div>
+      </div>
+      <div class="difficulty-row">
+        <button class="diff-btn" data-stars="0" onclick="App.startErabe(true)">🎲<br>らんだむ</button>
+        <button class="diff-btn" data-stars="1" onclick="App.startErabe(false)">📋<br>ぜんぶ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= NARABE SCREEN ======================= -->
+<div id="narabe" class="screen">
+  <button class="home-btn" onclick="App.goHome()">🏠 ホーム</button>
+  <div class="quiz-header">
+    <div class="progress-bar">
+      <div id="narabe-prog-fill" class="progress-fill narabe-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-text" id="narabe-prog-text"></div>
+  </div>
+  <div class="narabe-body">
+    <div class="question-img-wrap">
+      <img id="narabe-img" class="question-img" src="" alt="">
+    </div>
+    <div class="answer-area" id="narabe-slots"></div>
+    <div class="tile-pool" id="narabe-tiles"></div>
+    <div class="narabe-sub-btns">
+      <button class="sub-btn" onclick="App.playAudio()">🔊 もういっかいきく</button>
+      <button class="sub-btn" onclick="App.showHint()">💡 ヒント</button>
+    </div>
+    <div class="hint-text hidden" id="narabe-hint"></div>
+    <div class="feedback hidden" id="narabe-feedback"></div>
+  </div>
+</div>
+
+<!-- ======================= ERABE SCREEN ======================= -->
+<div id="erabe" class="screen">
+  <button class="home-btn" onclick="App.goHome()">🏠 ホーム</button>
+  <div class="quiz-header">
+    <div class="progress-bar">
+      <div id="erabe-prog-fill" class="progress-fill erabe-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-text" id="erabe-prog-text"></div>
+  </div>
+  <div class="erabe-body">
+    <div class="erabe-question" id="erabe-q"></div>
+    <div class="erabe-sub-btns">
+      <button class="sub-btn" onclick="App.playAudio()">🔊 もういっかいきく</button>
+    </div>
+    <div class="choices">
+      <button class="choice-btn" id="choice-0" onclick="App.selectChoice(0)">
+        <img class="choice-img" id="choice-img-0" src="" alt="">
+      </button>
+      <button class="choice-btn" id="choice-1" onclick="App.selectChoice(1)">
+        <img class="choice-img" id="choice-img-1" src="" alt="">
+      </button>
+    </div>
+    <div class="feedback hidden" id="erabe-feedback"></div>
+  </div>
+</div>
+
+<!-- ======================= RESULT SCREEN ======================= -->
+<div id="result" class="screen">
+  <div class="result-stars"     id="result-stars"></div>
+  <div class="result-score-num" id="result-score-num"></div>
+  <div class="result-total"     id="result-total"></div>
+  <div class="result-msg"       id="result-msg"></div>
+  <button class="result-home-btn" onclick="App.goHome()">もういちど</button>
+</div>
+
+<script src="quiz-data.js"></script>
+<script src="app.js"></script>
+<script>App.init();</script>
+
+<div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
+  © aiay-lab  v1.0.0
+</div>
+
+</body>
+</html>

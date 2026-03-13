@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 犬が左から右へ歩く ======= */
+      .dog-group {
+        animation: dog-walk 7s linear infinite;
+      }
+      @keyframes dog-walk {
+        from { transform: translate(-95px, 252px); }
+        to   { transform: translate(400px, 252px); }
+      }
+
+      /* ======= 体の上下ゆれ ======= */
+      .dog-inner {
+        animation: body-bob 0.55s ease-in-out infinite alternate;
+      }
+      @keyframes body-bob {
+        from { transform: translateY(0); }
+        to   { transform: translateY(-4px); }
+      }
+
+      /* ======= 足のスウィング ======= */
+      .leg-fa, .leg-fb, .leg-ba, .leg-bb {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+      }
+      .leg-fa { animation: leg-swing 0.55s ease-in-out infinite alternate; }
+      .leg-fb { animation: leg-swing 0.55s ease-in-out infinite alternate-reverse; }
+      .leg-ba { animation: leg-swing 0.55s ease-in-out infinite alternate-reverse; }
+      .leg-bb { animation: leg-swing 0.55s ease-in-out infinite alternate; }
+      @keyframes leg-swing {
+        from { transform: rotate(-22deg); }
+        to   { transform: rotate(22deg); }
+      }
+
+      /* ======= しっぽのゆれ ======= */
+      .dog-tail {
+        transform-box: fill-box;
+        transform-origin: 0% 100%;
+        animation: tail-wag 0.4s ease-in-out infinite alternate;
+      }
+      @keyframes tail-wag {
+        from { transform: rotate(-28deg); }
+        to   { transform: rotate(28deg); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+
+  <!-- 空 -->
+  <rect width="300" height="300" fill="#e3f2fd" rx="20"/>
+  <!-- 丘 -->
+  <ellipse cx="80"  cy="250" rx="120" ry="58" fill="#c8e6c9"/>
+  <ellipse cx="240" cy="255" rx="105" ry="52" fill="#a5d6a7"/>
+  <!-- 地面 -->
+  <rect y="253" width="300" height="47" fill="#66bb6a"/>
+  <rect y="253" width="300" height="8"  fill="#81c784"/>
+
+  <!-- ===== 犬グループ ===== -->
+  <g class="dog-group">
+    <g class="dog-inner">
+
+      <!-- しっぽ（体の後ろ） -->
+      <g transform="translate(-44, -43)">
+        <path class="dog-tail"
+              d="M 0,0 C -4,-16 0,-33 8,-37"
+              stroke="#b8853a" stroke-width="9" stroke-linecap="round" fill="none"/>
+      </g>
+
+      <!-- 後足・奥（暗色） -->
+      <rect class="leg-ba" x="-27" y="-25" width="10" height="28" fill="#bf8030" rx="4"/>
+      <!-- 前足・奥（暗色） -->
+      <rect class="leg-fa" x="18"  y="-25" width="10" height="28" fill="#bf8030" rx="4"/>
+
+      <!-- 体 -->
+      <ellipse cx="-2" cy="-43" rx="42" ry="18" fill="#d4a260"/>
+
+      <!-- 後足・手前（明色） -->
+      <rect class="leg-bb" x="-20" y="-25" width="10" height="28" fill="#d4a260" rx="4"/>
+      <!-- 前足・手前（明色） -->
+      <rect class="leg-fb" x="25"  y="-25" width="10" height="28" fill="#d4a260" rx="4"/>
+
+      <!-- 首 -->
+      <ellipse cx="31" cy="-57" rx="12" ry="15" fill="#d4a260"/>
+
+      <!-- 頭 -->
+      <circle cx="39" cy="-74" r="21" fill="#d4a260"/>
+
+      <!-- 耳（垂れ耳） -->
+      <ellipse cx="27" cy="-71" rx="10" ry="17" fill="#b8853a"/>
+
+      <!-- 鼻先（マズル） -->
+      <ellipse cx="56" cy="-68" rx="13" ry="9"   fill="#c49030"/>
+
+      <!-- 鼻 -->
+      <ellipse cx="67" cy="-68" rx="5.5" ry="4.5" fill="#1a1a1a"/>
+      <circle  cx="65" cy="-70" r="2"              fill="#555" opacity="0.6"/>
+
+      <!-- 目 -->
+      <circle cx="52" cy="-80" r="5"   fill="#2a1505"/>
+      <circle cx="50" cy="-82" r="2"   fill="#fff"/>
+
+      <!-- 口（にこやか） -->
+      <path d="M 59,-63 Q 66,-58 71,-63"
+            stroke="#8b4513" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+</g>
+</svg>

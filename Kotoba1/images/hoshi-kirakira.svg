@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <linearGradient id="bg-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#050118"/>
+      <stop offset="100%" stop-color="#0e0338"/>
+    </linearGradient>
+    <radialGradient id="glow-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#ffd54f" stop-opacity="0.65"/>
+      <stop offset="45%"  stop-color="#ffb300" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#ff8f00" stop-opacity="0"/>
+    </radialGradient>
+    <style>
+      /* ======= 背景星のまたたき ======= */
+      .tw {
+        transform-box: fill-box; transform-origin: 50% 50%;
+      }
+      .tw1 { animation: twinkle 2.2s ease-in-out infinite;           }
+      .tw2 { animation: twinkle 3.0s ease-in-out infinite alternate; animation-delay: 0.6s;  }
+      .tw3 { animation: twinkle 1.8s ease-in-out infinite;           animation-delay: 1.3s;  }
+      .tw4 { animation: twinkle 2.6s ease-in-out infinite alternate; animation-delay: 0.9s;  }
+      .tw5 { animation: twinkle 3.4s ease-in-out infinite;           animation-delay: 1.7s;  }
+      .tw6 { animation: twinkle 2.0s ease-in-out infinite alternate; animation-delay: 0.4s;  }
+      .tw7 { animation: twinkle 2.8s ease-in-out infinite;           animation-delay: 2.1s;  }
+      .tw8 { animation: twinkle 1.6s ease-in-out infinite alternate; animation-delay: 0.7s;  }
+      @keyframes twinkle {
+        0%,100% { opacity: 0.08; transform: scale(0.4); }
+        50%     { opacity: 1.0;  transform: scale(1.0); }
+      }
+
+      /* ======= 中央の星・光の輪（グロー） ======= */
+      .star-glow {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: glow-pulse 2.8s ease-in-out infinite alternate;
+      }
+      @keyframes glow-pulse {
+        0%   { transform: scale(0.85); opacity: 0.55; }
+        100% { transform: scale(1.18); opacity: 0.95; }
+      }
+
+      /* ======= 4本の光線・ゆっくり回転 ======= */
+      .star-rays {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: ray-spin 12s linear infinite;
+      }
+      @keyframes ray-spin {
+        0%   { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* ======= 星本体・パルス ======= */
+      .star-body {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: star-pulse 2.8s ease-in-out infinite alternate;
+      }
+      @keyframes star-pulse {
+        0%   { transform: scale(1.00); }
+        100% { transform: scale(1.10); }
+      }
+
+      /* ======= 流れ星 ======= */
+      /* transform: translate → rotate の順（right-to-left 適用）
+         rotate(-30deg) で +x 方向が右上 = 星の軌跡方向と逆 → 尾が正しく後方へ */
+      .shoot1 { animation: shoot 9s linear infinite; animation-delay: 1.5s; }
+      .shoot2 { animation: shoot 9s linear infinite; animation-delay: 5.8s; }
+      @keyframes shoot {
+        0%,1%  { transform: translate(305px,30px) rotate(-30deg); opacity: 0; }
+        4%     { opacity: 1; }
+        18%    { opacity: 0.85; }
+        25%    { transform: translate(-15px,205px) rotate(-30deg); opacity: 0; }
+        100%   { transform: translate(-15px,205px) rotate(-30deg); opacity: 0; }
+      }
+
+      /* ======= キラキラ ======= */
+      .sp {
+        transform-box: fill-box; transform-origin: 50% 50%;
+        animation: sp-pop 3s ease-in-out infinite;
+        opacity: 0;
+      }
+      .sp1 { animation-delay: 0.0s;  }
+      .sp2 { animation-delay: 0.75s; }
+      .sp3 { animation-delay: 1.5s;  }
+      .sp4 { animation-delay: 2.25s; }
+      .sp5 { animation-delay: 1.0s;  }
+      @keyframes sp-pop {
+        0%,8%    { opacity: 0; transform: scale(0.2); }
+        30%,65%  { opacity: 1; transform: scale(1.0); }
+        88%,100% { opacity: 0; transform: scale(0.2); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- ===== 宇宙の背景 ===== -->
+    <rect width="300" height="300" fill="url(#bg-g)"/>
+    <!-- 星雲（ぼんやりとした雲） -->
+    <ellipse cx="55"  cy="75"  rx="80" ry="50" fill="#1a0060" opacity="0.28"/>
+    <ellipse cx="240" cy="210" rx="70" ry="45" fill="#0a003a" opacity="0.25"/>
+    <ellipse cx="200" cy="40"  rx="60" ry="30" fill="#180050" opacity="0.2"/>
+
+    <!-- ===== 遠い星（小さな点） ===== -->
+    <circle class="tw tw1" cx="22"  cy="18"  r="1.2" fill="#fff"    opacity="0.85"/>
+    <circle class="tw tw3" cx="58"  cy="12"  r="1.0" fill="#fff9c4" opacity="0.75"/>
+    <circle class="tw tw5" cx="95"  cy="26"  r="1.5" fill="#fff"    opacity="0.9"/>
+    <circle class="tw tw2" cx="182" cy="10"  r="1.0" fill="#fff"    opacity="0.75"/>
+    <circle class="tw tw6" cx="228" cy="22"  r="1.2" fill="#fff9c4" opacity="0.85"/>
+    <circle class="tw tw4" cx="265" cy="15"  r="1.5" fill="#fff"    opacity="0.9"/>
+    <circle class="tw tw7" cx="290" cy="32"  r="1.0" fill="#fff"    opacity="0.65"/>
+    <circle class="tw tw8" cx="10"  cy="56"  r="1.0" fill="#fff9c4" opacity="0.75"/>
+    <circle class="tw tw1" cx="140" cy="18"  r="1.0" fill="#fff"    opacity="0.72"/>
+    <circle class="tw tw5" cx="248" cy="42"  r="1.2" fill="#fff9c4" opacity="0.82"/>
+    <circle class="tw tw3" cx="285" cy="58"  r="1.5" fill="#fff"    opacity="0.9"/>
+    <circle class="tw tw2" cx="14"  cy="112" r="1.0" fill="#fff9c4" opacity="0.72"/>
+    <circle class="tw tw4" cx="290" cy="98"  r="1.2" fill="#fff"    opacity="0.82"/>
+    <circle class="tw tw6" cx="34"  cy="205" r="1.0" fill="#fff9c4" opacity="0.65"/>
+    <circle class="tw tw7" cx="272" cy="218" r="1.2" fill="#fff"    opacity="0.72"/>
+    <circle class="tw tw8" cx="20"  cy="158" r="1.5" fill="#fff"    opacity="0.85"/>
+    <circle class="tw tw1" cx="288" cy="160" r="1.0" fill="#fff9c4" opacity="0.72"/>
+    <circle class="tw tw5" cx="50"  cy="250" r="1.0" fill="#fff"    opacity="0.6"/>
+    <circle class="tw tw3" cx="262" cy="255" r="1.2" fill="#fff9c4" opacity="0.65"/>
+
+    <!-- 小さな4点星（二重グループで CSS/SVG transform 分離） -->
+    <g transform="translate(38, 30)">  <g class="tw tw2"><polygon points="0,-4 1.13,-1.13 4,0 1.13,1.13 0,4 -1.13,1.13 -4,0 -1.13,-1.13" fill="#fff9c4"/></g></g>
+    <g transform="translate(118, 18)"> <g class="tw tw5"><polygon points="0,-5 1.41,-1.41 5,0 1.41,1.41 0,5 -1.41,1.41 -5,0 -1.41,-1.41" fill="#fff"/></g></g>
+    <g transform="translate(262, 35)"> <g class="tw tw1"><polygon points="0,-4 1.13,-1.13 4,0 1.13,1.13 0,4 -1.13,1.13 -4,0 -1.13,-1.13" fill="#fff9c4"/></g></g>
+    <g transform="translate(18, 82)">  <g class="tw tw7"><polygon points="0,-5 1.41,-1.41 5,0 1.41,1.41 0,5 -1.41,1.41 -5,0 -1.41,-1.41" fill="#fff"/></g></g>
+    <g transform="translate(282, 75)"> <g class="tw tw4"><polygon points="0,-4 1.13,-1.13 4,0 1.13,1.13 0,4 -1.13,1.13 -4,0 -1.13,-1.13" fill="#fff9c4"/></g></g>
+    <g transform="translate(55, 115)"> <g class="tw tw3"><polygon points="0,-4 1.13,-1.13 4,0 1.13,1.13 0,4 -1.13,1.13 -4,0 -1.13,-1.13" fill="#fff"/></g></g>
+    <g transform="translate(268, 108)"><g class="tw tw6"><polygon points="0,-5 1.41,-1.41 5,0 1.41,1.41 0,5 -1.41,1.41 -5,0 -1.41,-1.41" fill="#fff9c4"/></g></g>
+    <g transform="translate(62, 192)"> <g class="tw tw8"><polygon points="0,-4 1.13,-1.13 4,0 1.13,1.13 0,4 -1.13,1.13 -4,0 -1.13,-1.13" fill="#fff"/></g></g>
+    <g transform="translate(252, 188)"><g class="tw tw2"><polygon points="0,-4 1.13,-1.13 4,0 1.13,1.13 0,4 -1.13,1.13 -4,0 -1.13,-1.13" fill="#fff9c4"/></g></g>
+    <g transform="translate(44, 248)"> <g class="tw tw1"><polygon points="0,-5 1.41,-1.41 5,0 1.41,1.41 0,5 -1.41,1.41 -5,0 -1.41,-1.41" fill="#fff"/></g></g>
+    <g transform="translate(265, 244)"><g class="tw tw5"><polygon points="0,-4 1.13,-1.13 4,0 1.13,1.13 0,4 -1.13,1.13 -4,0 -1.13,-1.13" fill="#fff9c4"/></g></g>
+
+    <!-- ===== 流れ星（2本・ずらして出現） ===== -->
+    <!-- 尾を +x 方向（rotate -30deg で右上）に伸ばすことで、左下への移動の後方に尾が正しく残る -->
+    <g class="shoot1">
+      <line x1="0" y1="0" x2="68" y2="0" stroke="#fff" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="38" y2="0" stroke="#fff" stroke-width="2.5" opacity="0.75" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="3"   fill="#fff"/>
+      <circle cx="0" cy="0" r="6.5" fill="#fff" opacity="0.22"/>
+    </g>
+    <g class="shoot2">
+      <line x1="0" y1="0" x2="58" y2="0" stroke="#fffde7" stroke-width="1.5" opacity="0.38" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="30" y2="0" stroke="#fffde7" stroke-width="2"   opacity="0.7"  stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="2.5" fill="#fff"/>
+      <circle cx="0" cy="0" r="5.5" fill="#fff" opacity="0.18"/>
+    </g>
+
+    <!-- ===== 中央の大きな星 ===== -->
+    <g transform="translate(150, 145)">
+
+      <!-- グロー（光の輪） -->
+      <g class="star-glow">
+        <circle r="88" fill="url(#glow-g)"/>
+      </g>
+
+      <!-- 4本の長い光線（ゆっくり回転） -->
+      <g class="star-rays">
+        <line x1="0" y1="-98" x2="0"   y2="98"  stroke="#fff9c4" stroke-width="1.5" opacity="0.20"/>
+        <line x1="-98" y1="0" x2="98"  y2="0"   stroke="#fff9c4" stroke-width="1.5" opacity="0.20"/>
+        <line x1="-69" y1="-69" x2="69" y2="69" stroke="#fff9c4" stroke-width="1.0" opacity="0.12"/>
+        <line x1="69"  y1="-69" x2="-69" y2="69" stroke="#fff9c4" stroke-width="1.0" opacity="0.12"/>
+      </g>
+
+      <!-- 星本体（パルス） -->
+      <g class="star-body">
+        <!-- ドロップシャドウ（少し下・暗め） -->
+        <polygon
+          points="0,-50 11.76,-16.18 47.55,-15.45 19.02,6.18 29.39,40.45 0,20 -29.39,40.45 -19.02,6.18 -47.55,-15.45 -11.76,-16.18"
+          fill="#e65100" opacity="0.35" transform="translate(4,5)"/>
+        <!-- 星本体（ゴールデン） -->
+        <polygon
+          points="0,-50 11.76,-16.18 47.55,-15.45 19.02,6.18 29.39,40.45 0,20 -29.39,40.45 -19.02,6.18 -47.55,-15.45 -11.76,-16.18"
+          fill="#fdd835"/>
+        <!-- ハイライト（左上：明るい黄） -->
+        <polygon
+          points="0,-50 11.76,-16.18 47.55,-15.45 19.02,6.18 29.39,40.45 0,20 -29.39,40.45 -19.02,6.18 -47.55,-15.45 -11.76,-16.18"
+          fill="#fff9c4" opacity="0.42" transform="translate(-5,-6) scale(0.86)"/>
+        <!-- 内部の輝き -->
+        <ellipse cx="-5" cy="-10" rx="20" ry="14" fill="#fffde7" opacity="0.28" transform="rotate(-18)"/>
+        <!-- 中心のきらめき -->
+        <circle cx="0" cy="-2" r="8" fill="#fff9c4" opacity="0.22"/>
+      </g>
+    </g>
+
+    <!-- ===== キラキラ（中央星の周囲） ===== -->
+    <text class="sp sp1" x="94"  y="98"  font-size="20" fill="#ffd54f"  text-anchor="middle">✦</text>
+    <text class="sp sp2" x="212" y="106" font-size="16" fill="#fff9c4"  text-anchor="middle">✦</text>
+    <text class="sp sp3" x="86"  y="198"  font-size="15" fill="#ffd54f" text-anchor="middle">✦</text>
+    <text class="sp sp4" x="218" y="192" font-size="18" fill="#fff9c4"  text-anchor="middle">✦</text>
+    <text class="sp sp5" x="152" y="52"  font-size="22" fill="#ffd54f"  text-anchor="middle">✦</text>
+
+  </g>
+</svg>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      /* ======= 花びら3パターンの落下経路 ======= */
+      .fall-a {
+        animation: fall-a var(--dur,6s) ease-in infinite;
+        animation-delay: var(--del,0s);
+        opacity: 0;
+      }
+      @keyframes fall-a {
+        0%   { transform: translate(0,-10px) rotate(0deg);   opacity: 0; }
+        6%   { opacity: 0.85; }
+        28%  { transform: translate(24px, 88px) rotate(115deg); }
+        60%  { transform: translate(-10px,198px) rotate(268deg); }
+        93%  { opacity: 0.5; }
+        100% { transform: translate(30px, 315px) rotate(390deg); opacity: 0; }
+      }
+
+      .fall-b {
+        animation: fall-b var(--dur,5.5s) ease-in infinite;
+        animation-delay: var(--del,0s);
+        opacity: 0;
+      }
+      @keyframes fall-b {
+        0%   { transform: translate(0,-10px) rotate(20deg);  opacity: 0; }
+        6%   { opacity: 0.8; }
+        32%  { transform: translate(-26px, 94px) rotate(-85deg); }
+        66%  { transform: translate(16px, 208px) rotate(-225deg); }
+        93%  { opacity: 0.5; }
+        100% { transform: translate(-24px,315px) rotate(-365deg); opacity: 0; }
+      }
+
+      .fall-c {
+        animation: fall-c var(--dur,7s) ease-in infinite;
+        animation-delay: var(--del,0s);
+        opacity: 0;
+      }
+      @keyframes fall-c {
+        0%   { transform: translate(0,-10px) rotate(-15deg); opacity: 0; }
+        6%   { opacity: 0.9; }
+        36%  { transform: translate(20px,100px) rotate(155deg); }
+        68%  { transform: translate(-14px,212px) rotate(310deg); }
+        93%  { opacity: 0.6; }
+        100% { transform: translate(10px, 315px) rotate(460deg); opacity: 0; }
+      }
+
+      /* ======= 風が吹くライン ======= */
+      .wind-line {
+        animation: wind-drift 5s ease-in-out infinite;
+        opacity: 0;
+      }
+      .w1 { animation-delay: 0.0s; }
+      .w2 { animation-delay: 1.8s; }
+      .w3 { animation-delay: 3.6s; }
+      @keyframes wind-drift {
+        0%   { transform: translateX(-80px); opacity: 0;   }
+        15%  { opacity: 0.25; }
+        80%  { opacity: 0.18; }
+        100% { transform: translateX(340px); opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+
+    <!-- ===== 背景（春の淡いラベンダー空） ===== -->
+    <rect width="300" height="300" fill="#f3eef8"/>
+    <rect width="300" height="300" fill="#fce4ec" opacity="0.38"/>
+    <ellipse cx="150" cy="100" rx="170" ry="120" fill="#fffde7" opacity="0.22"/>
+
+    <!-- ===== 奥の桜の木（満開・薄く） ===== -->
+    <!-- 幹 -->
+    <path d="M 148,270 C 148,252 148,232 149,212 C 150,200 150,194 150,190"
+          fill="none" stroke="#8d6e63" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+    <path d="M 148,270 C 148,252 148,232 149,212 C 150,200 150,194 150,190"
+          fill="none" stroke="#a1887f" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+    <!-- 枝 -->
+    <path d="M 150,200 C 132,188 108,174 86,162" fill="none" stroke="#a1887f" stroke-width="7" stroke-linecap="round" opacity="0.45"/>
+    <path d="M 150,196 C 170,182 194,168 216,155" fill="none" stroke="#a1887f" stroke-width="7" stroke-linecap="round" opacity="0.45"/>
+    <path d="M 150,195 C 148,176 144,156 140,136" fill="none" stroke="#a1887f" stroke-width="6" stroke-linecap="round" opacity="0.45"/>
+    <path d="M 86,162 C 68,148 50,134 36,118"    fill="none" stroke="#a1887f" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
+    <path d="M 86,162 C 76,148 66,136 56,120"    fill="none" stroke="#a1887f" stroke-width="4.5" stroke-linecap="round" opacity="0.4"/>
+    <path d="M 216,155 C 234,140 250,126 264,112" fill="none" stroke="#a1887f" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
+    <path d="M 216,155 C 228,140 238,128 248,114" fill="none" stroke="#a1887f" stroke-width="4.5" stroke-linecap="round" opacity="0.4"/>
+    <path d="M 140,136 C 132,120 126,106 122,92"  fill="none" stroke="#a1887f" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+    <path d="M 140,136 C 150,120 156,106 156,92"  fill="none" stroke="#a1887f" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+    <!-- 花の塊（背景・薄いピンク雲） -->
+    <ellipse cx="150" cy="120" rx="78" ry="52" fill="#f8bbd0" opacity="0.38"/>
+    <ellipse cx="86"  cy="138" rx="46" ry="36" fill="#f8bbd0" opacity="0.34"/>
+    <ellipse cx="216" cy="130" rx="46" ry="36" fill="#f8bbd0" opacity="0.34"/>
+    <ellipse cx="38"  cy="110" rx="32" ry="28" fill="#fce4ec" opacity="0.42"/>
+    <ellipse cx="262" cy="104" rx="32" ry="28" fill="#fce4ec" opacity="0.42"/>
+    <ellipse cx="140" cy="88"  rx="36" ry="26" fill="#fce4ec" opacity="0.38"/>
+
+    <!-- ===== 地面 ===== -->
+    <path d="M 0,264 Q 75,256 150,262 Q 225,268 300,258 L 300,300 L 0,300 Z"
+          fill="#dcedc8"/>
+    <path d="M 0,264 Q 75,256 150,262 Q 225,268 300,258"
+          fill="none" stroke="#c5e1a5" stroke-width="2" opacity="0.6"/>
+    <!-- 地面に積もった花びら -->
+    <ellipse cx="32"  cy="268" rx="9"  ry="3.5" fill="#f8bbd0" opacity="0.7"  transform="rotate(-8,32,268)"/>
+    <ellipse cx="68"  cy="272" rx="7"  ry="3"   fill="#f48fb1" opacity="0.6"  transform="rotate(12,68,272)"/>
+    <ellipse cx="105" cy="266" rx="8"  ry="3"   fill="#fce4ec" opacity="0.75" transform="rotate(-5,105,266)"/>
+    <ellipse cx="140" cy="273" rx="10" ry="3.5" fill="#f8bbd0" opacity="0.65" transform="rotate(8,140,273)"/>
+    <ellipse cx="172" cy="267" rx="7"  ry="3"   fill="#f48fb1" opacity="0.6"  transform="rotate(-10,172,267)"/>
+    <ellipse cx="210" cy="271" rx="9"  ry="3.5" fill="#fce4ec" opacity="0.7"  transform="rotate(6,210,271)"/>
+    <ellipse cx="248" cy="265" rx="8"  ry="3"   fill="#f8bbd0" opacity="0.65" transform="rotate(-7,248,265)"/>
+    <ellipse cx="280" cy="270" rx="7"  ry="3"   fill="#f48fb1" opacity="0.55" transform="rotate(14,280,270)"/>
+
+    <!-- ===== 風のライン ===== -->
+    <path class="wind-line w1" d="M 0,82 Q 80,78 160,84 Q 220,88 300,80"
+          fill="none" stroke="#f8bbd0" stroke-width="1.5" stroke-linecap="round" opacity="0"/>
+    <path class="wind-line w2" d="M 0,140 Q 100,134 180,142 Q 240,148 300,138"
+          fill="none" stroke="#fce4ec" stroke-width="1.2" stroke-linecap="round" opacity="0"/>
+    <path class="wind-line w3" d="M 0,62 Q 90,56 170,64 Q 240,70 300,60"
+          fill="none" stroke="#f8bbd0" stroke-width="1" stroke-linecap="round" opacity="0"/>
+
+    <!-- ===== 散る花びら（15枚） ===== -->
+    <!-- 花びら形状: M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z -->
+
+    <!-- 左側 -->
+    <g style="--dur:6.2s;--del:0.0s" transform="translate(28,18)">
+      <g class="fall-a">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f48fb1" opacity="0.88"/>
+      </g>
+    </g>
+
+    <g style="--dur:7.5s;--del:2.8s" transform="translate(50,10)">
+      <g class="fall-b">
+        <path d="M 0,0 C 4,-3 6,-9 4,-14 C 2,-17 -2,-17 -4,-14 C -6,-9 -4,-3 0,0 Z"
+              fill="#fce4ec" opacity="0.85" transform="scale(1.2)"/>
+      </g>
+    </g>
+
+    <g style="--dur:5.8s;--del:4.5s" transform="translate(72,24)">
+      <g class="fall-c">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f8bbd0" opacity="0.9"/>
+      </g>
+    </g>
+
+    <!-- 左中 -->
+    <g style="--dur:6.8s;--del:1.4s" transform="translate(98,8)">
+      <g class="fall-a">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f48fb1" opacity="0.82" transform="scale(0.85)"/>
+      </g>
+    </g>
+
+    <g style="--dur:5.2s;--del:0.6s" transform="translate(118,16)">
+      <g class="fall-b">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#fce4ec" opacity="0.88"/>
+      </g>
+    </g>
+
+    <g style="--dur:8.0s;--del:3.8s" transform="translate(136,4)">
+      <g class="fall-c">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f48fb1" opacity="0.9" transform="scale(1.15)"/>
+      </g>
+    </g>
+
+    <!-- 中央 -->
+    <g style="--dur:6.4s;--del:5.5s" transform="translate(152,20)">
+      <g class="fall-a">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f8bbd0" opacity="0.85"/>
+      </g>
+    </g>
+
+    <g style="--dur:5.5s;--del:2.0s" transform="translate(164,12)">
+      <g class="fall-b">
+        <path d="M 0,0 C 4,-3 6,-9 4,-14 C 2,-17 -2,-17 -4,-14 C -6,-9 -4,-3 0,0 Z"
+              fill="#f48fb1" opacity="0.8" transform="scale(1.3)"/>
+      </g>
+    </g>
+
+    <!-- 右中 -->
+    <g style="--dur:7.2s;--del:0.9s" transform="translate(186,6)">
+      <g class="fall-c">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#fce4ec" opacity="0.88" transform="scale(0.9)"/>
+      </g>
+    </g>
+
+    <g style="--dur:5.0s;--del:4.2s" transform="translate(204,14)">
+      <g class="fall-a">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f48fb1" opacity="0.85"/>
+      </g>
+    </g>
+
+    <g style="--dur:6.6s;--del:1.6s" transform="translate(222,22)">
+      <g class="fall-b">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f8bbd0" opacity="0.9" transform="scale(1.1)"/>
+      </g>
+    </g>
+
+    <!-- 右側 -->
+    <g style="--dur:4.8s;--del:3.0s" transform="translate(242,10)">
+      <g class="fall-c">
+        <path d="M 0,0 C 4,-3 6,-9 4,-14 C 2,-17 -2,-17 -4,-14 C -6,-9 -4,-3 0,0 Z"
+              fill="#f48fb1" opacity="0.82" transform="scale(1.2)"/>
+      </g>
+    </g>
+
+    <g style="--dur:7.8s;--del:0.4s" transform="translate(258,18)">
+      <g class="fall-a">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#fce4ec" opacity="0.88" transform="scale(0.8)"/>
+      </g>
+    </g>
+
+    <g style="--dur:6.0s;--del:6.2s" transform="translate(274,8)">
+      <g class="fall-b">
+        <path d="M 0,0 C 5,-4 8,-12 5,-18 C 2,-22 -2,-22 -5,-18 C -8,-12 -5,-4 0,0 Z"
+              fill="#f48fb1" opacity="0.85"/>
+      </g>
+    </g>
+
+    <g style="--dur:5.6s;--del:7.0s" transform="translate(82,2)">
+      <g class="fall-c">
+        <path d="M 0,0 C 4,-3 6,-9 4,-14 C 2,-17 -2,-17 -4,-14 C -6,-9 -4,-3 0,0 Z"
+              fill="#f8bbd0" opacity="0.8" transform="scale(1.1)"/>
+      </g>
+    </g>
+
+  </g>
+</svg>
