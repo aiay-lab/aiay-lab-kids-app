@@ -200,12 +200,6 @@ const App = (() => {
       u.lang  = 'ja-JP';
       u.rate  = IS_IOS ? 0.90 : 0.72;
       u.pitch = 1.1;
-      const voices  = window.speechSynthesis.getVoices();
-      // 女性音声を優先（Kyoko/O-ren）、なければ最初の日本語音声
-      const jaVoice =
-        voices.find(v => v.lang && v.lang.startsWith('ja') && /kyoko|o.ren/i.test(v.name)) ||
-        voices.find(v => v.lang && v.lang.startsWith('ja'));
-      if (jaVoice) u.voice = jaVoice;
       window.speechSynthesis.speak(u);
     }, IS_IOS ? 120 : 0);
   }
@@ -235,10 +229,6 @@ const App = (() => {
   function init() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(() => {});
-    }
-    window.speechSynthesis.getVoices();
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = () => {};
     }
   }
 
