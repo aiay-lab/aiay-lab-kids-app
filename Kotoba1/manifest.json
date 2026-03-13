@@ -2,7 +2,7 @@
   "name": "ことばクイズ",
   "short_name": "ことばクイズ",
   "description": "ひらがなをならべたり、えをえらんだりしてことばをおぼえよう！",
-  "start_url": "./index.html",
+  "start_url": "./kotoba1.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
