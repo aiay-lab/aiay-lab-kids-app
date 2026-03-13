@@ -1,3 +1,7 @@
+// iPadOS 13以降はUAに"iPad"が含まれないためタッチ判定も併用
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
 const App = (() => {
   // ---- State ----
   let mode         = null;   // 'narabe' | 'erabe'
@@ -190,14 +194,17 @@ const App = (() => {
   function speak(text) {
     if (!text) return;
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang  = 'ja-JP';
-    u.rate  = 0.72;
-    u.pitch = 1.1;
-    const voices  = window.speechSynthesis.getVoices();
-    const jaVoice = voices.find(v => v.lang && v.lang.startsWith('ja'));
-    if (jaVoice) u.voice = jaVoice;
-    window.speechSynthesis.speak(u);
+    // iOS は cancel() 直後に speak() すると先頭音節が欠けるため遅延を入れる
+    setTimeout(() => {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang  = 'ja-JP';
+      u.rate  = IS_IOS ? 0.90 : 0.72;
+      u.pitch = 1.1;
+      const voices  = window.speechSynthesis.getVoices();
+      const jaVoice = voices.find(v => v.lang && v.lang.startsWith('ja'));
+      if (jaVoice) u.voice = jaVoice;
+      window.speechSynthesis.speak(u);
+    }, IS_IOS ? 120 : 0);
   }
 
   function showScreen(id) {
