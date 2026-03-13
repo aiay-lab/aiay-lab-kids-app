@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>すうじアプリ</title>
-  <meta name="version" content="1.0.15">
+  <meta name="version" content="1.0.16">
   <meta name="theme-color" content="#1565c0">
   <link rel="manifest" href="./manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
@@ -541,7 +541,7 @@
 <div id="wrong-overlay"><span id="wrong-mark">✕</span></div>
 
 <div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
-  © aiay-lab  v1.0.15
+  © aiay-lab  v1.0.16
 </div>
 
 <script>
@@ -552,9 +552,53 @@ let quizTimer = null;
 let fwInterval = null;
 let fwSoundInterval = null;
 
+// ==================== BGM ====================
+
+let bgMusicTimer = null;
+const MUSIC_BEAT = 60 / 126; // テンポ 126 BPM
+const MUSIC_SEQ = [
+  // [周波数Hz, 拍数]
+  [523.25, 0.5], [659.25, 0.5], [783.99, 1.0], // C E G
+  [659.25, 0.5], [587.33, 0.5], [523.25, 1.0], // E D C
+  [587.33, 0.5], [659.25, 0.5], [783.99, 0.5], [880.00, 0.5], // D E G A
+  [783.99, 0.5], [659.25, 0.5], [523.25, 1.5], // G E C (hold)
+];
+
+function startBgMusic() {
+  if (bgMusicTimer) return;
+  scheduleMusicLoop();
+}
+function stopBgMusic() {
+  clearTimeout(bgMusicTimer);
+  bgMusicTimer = null;
+}
+function scheduleMusicLoop() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  let t = 0;
+  MUSIC_SEQ.forEach(([freq, beats]) => {
+    const dur = beats * MUSIC_BEAT;
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, now + t);
+    g.gain.linearRampToValueAtTime(0.11, now + t + 0.02);
+    g.gain.setValueAtTime(0.11, now + t + dur * 0.72);
+    g.gain.exponentialRampToValueAtTime(0.001, now + t + dur * 0.95);
+    o.start(now + t); o.stop(now + t + dur + 0.05);
+    t += dur;
+  });
+  bgMusicTimer = setTimeout(scheduleMusicLoop, (t - 0.08) * 1000);
+}
+
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
+  if (name === 'home') {
+    stopBgMusic();
+  } else {
+    // startBgMusic();  // BGM off
+  }
 }
 
 function goHome() {
@@ -1000,6 +1044,8 @@ function startListening() {
 }
 
 function setListeningLevel(level) {
+  speechSynthesis.cancel();   // 前の読み上げを即座に停止
+  clearTimeout(quizTimer);    // 前の問題タイマーをキャンセル
   lsLevel = level;
   ['easy','normal','hard'].forEach(x =>
     document.getElementById('ls-' + x).classList.toggle('selected', x === level));
@@ -1123,7 +1169,7 @@ function nextSubitizeEasyNormal() {
   const enable = () => grid.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
   setTimeout(() => {
     const fallback = setTimeout(enable, 3000);
-    speak('いくつあるかな？', () => { clearTimeout(fallback); enable(); });
+    speak('まるはいくつあるかな？', () => { clearTimeout(fallback); enable(); });
   }, 400);
 }
 
