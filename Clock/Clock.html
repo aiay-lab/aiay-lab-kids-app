@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>とけいアプリ</title>
-  <meta name="version" content="1.0.15">
+  <meta name="version" content="1.0.17">
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#E8405A">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,7 +148,7 @@
 
     /* ===== 時計SVGラッパー ===== */
     .clock-wrap { width: 100%; max-width: min(300px, 40vmin); flex-shrink: 0; }
-    .clock-wrap svg { width: 100%; height: auto; touch-action: none; }
+    .clock-wrap svg { width: 100%; height: auto; touch-action: none; overflow: visible; }
 
     /* ===== ヒントボタン ===== */
     .hint-toggle {
@@ -216,7 +216,7 @@
 
     /* ===== じかんのよみかた ===== */
     #screen-yomikata { gap: clamp(3px, 1vmin, 10px); }
-    #screen-yomikata .clock-wrap { max-width: min(220px, 28vmin); }
+    #screen-yomikata .clock-wrap { max-width: min(300px, 40vmin); }
     .yomikata-reading {
       font-size: clamp(1rem, 3.5vmin, 2.2rem);
       font-weight: bold;
@@ -468,8 +468,14 @@
 // ==================== 画面切替 ====================
 
 function showScreen(name) {
+  stopHintAnimation();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + name).classList.add('active');
+  if (name === 'home') {
+    stopBgMusic();
+  } else {
+    // startBgMusic();  // BGM off
+  }
 }
 
 function goHome() {
@@ -810,6 +816,166 @@ function updateClockHint(svgEl, h, show, showMinutes = false, currentM = null) {
   group.appendChild(path);
 }
 
+// ==================== ヒントアニメーション ====================
+
+let hintAnimTimer = null;
+let hintAnimSvgEl = null;
+let hintAnimStep  = 0;
+let hintAnimGetHM = null;
+
+function startHintAnimation(svgEl, getHM) {
+  stopHintAnimation();
+  hintAnimSvgEl = svgEl;
+  hintAnimGetHM = getHM;
+  hintAnimStep  = 0;
+  runHintStep();
+}
+
+function stopHintAnimation() {
+  clearTimeout(hintAnimTimer);
+  hintAnimTimer = null;
+  if (hintAnimSvgEl) {
+    resetHintAnimNumbers(hintAnimSvgEl);
+    const g = hintAnimSvgEl.querySelector('.hint-group');
+    if (g) g.innerHTML = '';
+  }
+  hintAnimSvgEl = null;
+  hintAnimGetHM = null;
+}
+
+function runHintStep() {
+  if (!hintAnimSvgEl || !hintAnimGetHM) return;
+  const { h, m } = hintAnimGetHM();
+  showHintStep(hintAnimSvgEl, h, m, hintAnimStep);
+  if (m !== 0) hintAnimStep = 1 - hintAnimStep;  // m=0のとき常に step0
+  hintAnimTimer = setTimeout(runHintStep, 1000);
+}
+
+function resetHintAnimNumbers(svgEl) {
+  svgEl.querySelectorAll('text').forEach(t => {
+    if (t.closest && t.closest('.hint-group')) return;
+    const n = parseInt(t.textContent.trim());
+    if (n >= 1 && n <= 12 && t.textContent.trim() === String(n)) {
+      t.setAttribute('font-size', '14');
+      t.setAttribute('font-weight', 'bold');
+      t.setAttribute('fill', '#1A1A1A');
+    }
+  });
+}
+
+function showHintStep(svgEl, h, m, step) {
+  const group = svgEl.querySelector('.hint-group');
+  if (!group) return;
+  group.innerHTML = '';
+  const ns  = 'http://www.w3.org/2000/svg';
+  const h12 = h % 12 || 12;
+  resetHintAnimNumbers(svgEl);
+
+  function mkEl(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+    return e;
+  }
+
+  if (step === 0) {
+    // ---- 時針ステップ: 時の数字を強調 ----
+    const a  = (h12 * 30 - 90) * Math.PI / 180;
+    const ex = 62 * Math.cos(a);
+    const ey = 62 * Math.sin(a);
+    group.appendChild(mkEl('ellipse', {
+      cx: ex.toFixed(2), cy: ey.toFixed(2), rx: '16', ry: '16',
+      fill: 'rgba(232,64,90,0.2)', stroke: '#E8405A', 'stroke-width': '2.5',
+    }));
+    // 時の数字を拡大・赤色
+    svgEl.querySelectorAll('text').forEach(t => {
+      if (t.closest && t.closest('.hint-group')) return;
+      if (t.textContent.trim() === String(h12)) {
+        t.setAttribute('font-size', '21');
+        t.setAttribute('fill', '#E8405A');
+      }
+    });
+
+  } else {
+    // ---- 分針ステップ: 分ラベルを強調 ----
+    // 全分ラベル（強調対象のみ大きく）
+    for (let min = 5; min <= 60; min += 5) {
+      const a = (min * 6 - 90) * Math.PI / 180;
+      const r = 112;
+      const isTarget = min === m;
+      const t = mkEl('text', {
+        x: (r * Math.cos(a)).toFixed(2), y: (r * Math.sin(a)).toFixed(2),
+        'text-anchor': 'middle', 'dominant-baseline': 'central',
+        'font-size': isTarget ? '19' : '13',
+        'font-weight': isTarget ? 'bold' : 'normal',
+        fill: isTarget ? '#1565c0' : '#bbb',
+      });
+      t.textContent = min === 30 ? 'はん' : String(min);
+      group.appendChild(t);
+    }
+    // 対象分ラベルに楕円（テキストの下に挿入）
+    const am = (m * 6 - 90) * Math.PI / 180;
+    group.insertBefore(mkEl('ellipse', {
+      cx: (112 * Math.cos(am)).toFixed(2), cy: (112 * Math.sin(am)).toFixed(2),
+      rx: '18', ry: '18',
+      fill: 'rgba(21,101,192,0.15)', stroke: '#1565c0', 'stroke-width': '2.5',
+    }), group.firstChild);
+  }
+}
+
+// ==================== BGM ====================
+
+let bgMusicTimer = null;
+
+// 楽しいメロディー: 120BPM、8拍ループ
+const MUSIC_BEAT = 60 / 120; // 0.5s per beat
+const MUSIC_SEQ = [
+  // [周波数Hz, 拍数]
+  [659.25, 0.5], // E5
+  [783.99, 0.5], // G5
+  [880.00, 1.0], // A5
+  [783.99, 0.5], // G5
+  [659.25, 0.5], // E5
+  [587.33, 1.0], // D5
+  [659.25, 0.5], // E5
+  [783.99, 0.5], // G5
+  [880.00, 0.5], // A5
+  [783.99, 0.5], // G5
+  [659.25, 0.5], // E5
+  [523.25, 1.5], // C5 (hold)
+];
+
+function startBgMusic() {
+  if (bgMusicTimer) return;
+  scheduleMusicLoop();
+}
+
+function stopBgMusic() {
+  clearTimeout(bgMusicTimer);
+  bgMusicTimer = null;
+}
+
+function scheduleMusicLoop() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  let t = 0;
+  MUSIC_SEQ.forEach(([freq, beats]) => {
+    const dur = beats * MUSIC_BEAT;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = 'sine';
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(0,    now + t);
+    g.gain.linearRampToValueAtTime(0.005, now + t + 0.02);
+    g.gain.setValueAtTime(0.005, now + t + dur * 0.72);
+    g.gain.exponentialRampToValueAtTime(0.001, now + t + dur * 0.95);
+    o.start(now + t);
+    o.stop(now + t + dur + 0.05);
+    t += dur;
+  });
+  bgMusicTimer = setTimeout(scheduleMusicLoop, (t - 0.08) * 1000);
+}
+
 // ==================== クイズ ====================
 
 const QUIZ_TOTAL = 10;
@@ -847,32 +1013,24 @@ function resetQuizHint() {
   clearTimeout(quizHintReleaseTimer);
   quizHintReleaseTimer = null;
   quizHintActive = false;
+  stopHintAnimation();
   const btn = document.getElementById('quiz-hint-btn');
   if (btn) btn.classList.remove('active');
 }
 
 function initQuizHintButton() {
   const btn = document.getElementById('quiz-hint-btn');
-  btn.addEventListener('pointerdown', e => {
+  btn.addEventListener('click', e => {
     e.preventDefault();
-    clearTimeout(quizHintReleaseTimer);
-    quizHintReleaseTimer = null;
-    quizHintActive = true;
-    btn.classList.add('active');
-    applyQuizHint();
-  });
-  const onRelease = () => {
-    if (!quizHintActive) return;
-    clearTimeout(quizHintReleaseTimer);
-    quizHintReleaseTimer = setTimeout(() => {
-      quizHintActive = false;
-      btn.classList.remove('active');
+    quizHintActive = !quizHintActive;
+    btn.classList.toggle('active', quizHintActive);
+    if (quizHintActive && currentQuizAnswer) {
+      startHintAnimation(document.getElementById('quiz-clock'), () => currentQuizAnswer || { h: 12, m: 0 });
+    } else {
+      stopHintAnimation();
       applyQuizHint();
-      quizHintReleaseTimer = null;
-    }, 5000);
-  };
-  btn.addEventListener('pointerup', onRelease);
-  btn.addEventListener('pointercancel', onRelease);
+    }
+  });
 }
 
 function setDifficulty(d) {
@@ -1192,9 +1350,14 @@ let yomikataOrder = 'shuffle';
 function toggleYomikataHint() {
   hintMode = !hintMode;
   syncHintButtons();
-  const { h, m } = yomikataPool[yomikataIndex];
-  const showMinYk = hintMode && yomikataDifficulty === 'hard' && m !== 0;
-  updateClockHint(document.getElementById('yomikata-clock'), h, hintMode && yomikataDifficulty !== 'easy' && m !== 0, showMinYk, m);
+  const svgYk = document.getElementById('yomikata-clock');
+  if (hintMode && yomikataDifficulty !== 'easy') {
+    startHintAnimation(svgYk, () => yomikataPool[yomikataIndex]);
+  } else {
+    stopHintAnimation();
+    const { h, m } = yomikataPool[yomikataIndex];
+    updateClockHint(svgYk, h, false, false, m);
+  }
 }
 let yomikataPool = [];
 let yomikataIndex = 0;
@@ -1260,7 +1423,11 @@ function showYomikataCard() {
   setClockHands(svgYk, h, m);
   const ykHintAvail = yomikataDifficulty !== 'easy';
   document.getElementById('yomikata-hint-btn').style.visibility = ykHintAvail ? 'visible' : 'hidden';
-  updateClockHint(svgYk, h, hintMode && ykHintAvail && m !== 0, hintMode && yomikataDifficulty === 'hard' && m !== 0, m);
+  if (hintMode && ykHintAvail) {
+    startHintAnimation(svgYk, () => yomikataPool[yomikataIndex]);
+  } else {
+    updateClockHint(svgYk, h, hintMode && ykHintAvail && m !== 0, hintMode && yomikataDifficulty === 'hard' && m !== 0, m);
+  }
   document.getElementById('yomikata-time-display').textContent = formatTimeDisplay(h, m);
   document.getElementById('yomikata-reading').textContent = formatReading(h, m);
   document.getElementById('yomikata-progress').textContent =
@@ -1301,8 +1468,13 @@ let interactiveSpeakTimer = null;
 function toggleInteractiveHint() {
   hintMode = !hintMode;
   syncHintButtons();
-  const show = hintMode && interactiveM !== 0;
-  updateClockHint(document.getElementById('interactive-clock'), interactiveH, show, show, interactiveM);
+  const svgEl = document.getElementById('interactive-clock');
+  if (hintMode) {
+    startHintAnimation(svgEl, () => ({ h: interactiveH, m: interactiveM }));
+  } else {
+    stopHintAnimation();
+    updateClockHint(svgEl, interactiveH, false, false, interactiveM);
+  }
 }
 
 function startInteractive() {
@@ -1317,7 +1489,11 @@ function startInteractive() {
   const svgEl = document.getElementById('interactive-clock');
   setClockHands(svgEl, interactiveH, interactiveM);
   document.getElementById('interactive-time').textContent = formatTimeDisplay(interactiveH, interactiveM);
-  updateClockHint(svgEl, interactiveH, false, false, interactiveM);
+  if (hintMode) {
+    startHintAnimation(svgEl, () => ({ h: interactiveH, m: interactiveM }));
+  } else {
+    updateClockHint(svgEl, interactiveH, false, false, interactiveM);
+  }
 }
 
 function initInteractiveClock() {
@@ -1358,8 +1534,10 @@ function initInteractiveClock() {
     }
     setClockHands(svgEl, interactiveH, interactiveM);
     document.getElementById('interactive-time').textContent = formatTimeDisplay(interactiveH, interactiveM);
-    const iShow = hintMode && interactiveM !== 0;
-    updateClockHint(svgEl, interactiveH, iShow, iShow, interactiveM);
+    if (hintAnimSvgEl !== svgEl) {
+      const iShow = hintMode && interactiveM !== 0;
+      updateClockHint(svgEl, interactiveH, iShow, iShow, interactiveM);
+    }
     // ドラッグ中はデバウンス：止まってから500ms後に読み上げ
     clearTimeout(interactiveSpeakTimer);
     interactiveSpeakTimer = setTimeout(() => {
@@ -1401,13 +1579,23 @@ let currentFormat = 12;
 function toggleCurrentHint() {
   hintMode = !hintMode;
   syncHintButtons();
-  updateCurrentTime();
+  const svgCur = document.getElementById('current-clock');
+  if (hintMode) {
+    startHintAnimation(svgCur, () => { const n = new Date(); return { h: n.getHours(), m: n.getMinutes() }; });
+  } else {
+    stopHintAnimation();
+    updateCurrentTime();
+  }
 }
 
 function startCurrentTime() {
-  buildClockSVG(document.getElementById('current-clock'), { showSeconds: true });
+  const svgCur = document.getElementById('current-clock');
+  buildClockSVG(svgCur, { showSeconds: true });
   updateCurrentTime();
   currentTimer = setInterval(updateCurrentTime, 1000);
+  if (hintMode) {
+    startHintAnimation(svgCur, () => { const n = new Date(); return { h: n.getHours(), m: n.getMinutes() }; });
+  }
   speakCurrentTime();
 }
 
@@ -1421,8 +1609,10 @@ function updateCurrentTime() {
   const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
   const svgCur = document.getElementById('current-clock');
   setClockHands(svgCur, h, m, s);
-  const cShow = hintMode && m !== 0;
-  updateClockHint(svgCur, h, cShow, cShow, m);
+  if (svgCur !== hintAnimSvgEl) {
+    const cShow = hintMode && m !== 0;
+    updateClockHint(svgCur, h, cShow, cShow, m);
+  }
 
   const pad = n => String(n).padStart(2, '0');
   let display;
@@ -1496,7 +1686,7 @@ if ('serviceWorker' in navigator) {
 
 
 <div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
-  © aiay-lab  v1.0.15
+  © aiay-lab  v1.0.17
 </div>
 
 </body>
