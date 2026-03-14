@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    <style>
+      .idx-finger {
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: snip-idx 0.7s ease-in-out infinite;
+      }
+      @keyframes snip-idx {
+        0%, 100% { transform: rotate(-14deg); }
+        50%      { transform: rotate(5deg); }
+      }
+      .mid-finger {
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: snip-mid 0.7s ease-in-out infinite;
+      }
+      @keyframes snip-mid {
+        0%, 100% { transform: rotate(14deg); }
+        50%      { transform: rotate(-5deg); }
+      }
+      .spark {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: spark-pop 0.7s ease-in-out infinite;
+      }
+      @keyframes spark-pop {
+        0%, 35%, 100% { opacity: 0; transform: scale(0.3); }
+        52%            { opacity: 1; transform: scale(1);   }
+        65%            { opacity: 0; transform: scale(1.5); }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="300" height="300" fill="#fffde7"/>
+    <rect x="177" y="180" width="22" height="34" rx="11" fill="#f5a858"/>
+    <line x1="179" y1="191" x2="197" y2="191" stroke="#d08020" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+    <rect x="194" y="188" width="17" height="26" rx="8" fill="#f5a858"/>
+    <rect x="102" y="200" width="100" height="72" rx="24" fill="#f9c07a"/>
+    <path d="M 115,222 Q 152,217 195,222" fill="none" stroke="#e8a050" stroke-width="1.5" stroke-linecap="round" opacity="0.45"/>
+    <rect x="197" y="217" width="46" height="24" rx="12" fill="#f9c07a" transform="rotate(14, 197, 229)"/>
+    <rect x="225" y="215" width="14" height="12" rx="5" fill="#f5e5c8" transform="rotate(14, 197, 229)"/>
+    <g class="idx-finger">
+      <rect x="108" y="96" width="28" height="108" rx="14" fill="#f9c07a"/>
+      <line x1="111" y1="148" x2="133" y2="148" stroke="#e8a050" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+      <line x1="111" y1="170" x2="133" y2="170" stroke="#e8a050" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+      <rect x="114" y="99"  width="16" height="13" rx="5" fill="#f5e5c8"/>
+    </g>
+    <g class="mid-finger">
+      <rect x="147" y="93" width="28" height="111" rx="14" fill="#f9c07a"/>
+      <line x1="150" y1="145" x2="172" y2="145" stroke="#e8a050" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+      <line x1="150" y1="167" x2="172" y2="167" stroke="#e8a050" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+      <rect x="153" y="96" width="16" height="13" rx="5" fill="#f5e5c8"/>
+    </g>
+    <path class="spark" d="M 142,102 l2.5,-7 l2.5,7 l7,2.5 l-7,2.5 l-2.5,7 l-2.5,-7 l-7,-2.5 Z" fill="#ffd700"/>
+  </g>
+</svg>

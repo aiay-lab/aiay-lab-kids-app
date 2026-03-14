@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    
+    <style>
+      .sky { fill: #e3f2fd; }
+      .sidewalk { fill: #cfd8dc; }
+      .road { fill: #546e7a; }
+      
+      /* 青信号の点滅（点滅はせず、明るい青として維持） */
+      .green-light { animation: pulse-green 2s ease-in-out infinite alternate; }
+      @keyframes pulse-green {
+        from { opacity: 0.8; }
+        to { opacity: 1; filter: drop-shadow(0 0 5px #00c853); }
+      }
+
+      /* キャラクターの横断アニメーション（ゆったり8秒） */
+      .character-cross {
+        animation: cross-walking 8s linear infinite;
+      }
+      @keyframes cross-walking {
+        0% { transform: translate(140px, 240px) scale(0.6); }
+        70% { transform: translate(140px, 120px) scale(0.45); } /* 渡り切る地点を手前に調整 */
+        90% { transform: translate(140px, 120px) scale(0.45); } /* その場で静止 */
+        100% { transform: translate(140px, 240px) scale(0.6); }
+      }
+      
+      /* 手を挙げる動き */
+      .hand-up {
+        animation: wave-hand 1s ease-in-out infinite alternate;
+        transform-origin: 0% 0%;
+      }
+      @keyframes wave-hand {
+        from { transform: rotate(-10deg); }
+        to { transform: rotate(10deg); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <!-- 背景 -->
+    <rect width="300" height="300" class="sky" />
+    <rect y="100" width="300" height="200" class="sidewalk" />
+    <rect y="130" width="300" height="80" class="road" />
+    
+    <!-- 横断歩道 -->
+    <g fill="#ffffff">
+      <rect x="120" y="130" width="60" height="12" rx="2" />
+      <rect x="120" y="150" width="60" height="12" rx="2" />
+      <rect x="120" y="170" width="60" height="12" rx="2" />
+      <rect x="120" y="190" width="60" height="12" rx="2" />
+    </g>
+
+    <!-- 向こう側の歩道にある信号機（青信号） -->
+    <rect x="185" y="40" width="6" height="90" fill="#455a64" />
+    <rect x="175" y="45" width="26" height="50" rx="4" fill="#333" />
+    <circle cx="188" cy="58" r="9" fill="#222" />
+    <circle cx="188" cy="58" r="7" fill="#ff1744" opacity="0.1" /> <!-- 赤信号（消灯） -->
+    <circle cx="188" cy="80" r="9" fill="#222" />
+    <circle cx="188" cy="80" r="7" fill="#00c853" class="green-light" /> <!-- 青信号（点灯） -->
+
+    <!-- 停止している車 -->
+    <g transform="translate(40, 175)">
+      <rect width="50" height="25" rx="5" fill="#ffeb3b" />
+      <rect x="35" y="3" width="12" height="10" rx="2" fill="#81d4fa" />
+      <circle cx="10" cy="25" r="5" fill="#333" />
+      <circle cx="40" cy="25" r="5" fill="#333" />
+    </g>
+    
+    <g transform="translate(210, 135)">
+      <rect width="55" height="28" rx="5" fill="#03a9f4" />
+      <rect x="8" y="3" width="12" height="11" rx="2" fill="#e1f5fe" />
+      <circle cx="12" cy="28" r="6" fill="#333" />
+      <circle cx="43" cy="28" r="6" fill="#333" />
+    </g>
+
+    <!-- 横断する子供たち（手を挙げて渡る） -->
+    <g class="character-cross">
+      <!-- 子供1（緑） -->
+      <g transform="translate(25, 0)">
+        <!-- 足 -->
+        <rect x="-10" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <rect x="2" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <!-- 体 -->
+        <rect x="-20" y="-55" width="40" height="45" fill="#81c784" rx="10" />
+        <!-- 手（右手を挙げる） -->
+        <g class="hand-up" transform="translate(15, -45)">
+          <rect x="0" y="-30" width="8" height="30" fill="#ffccbc" rx="4" />
+        </g>
+        <!-- リュック -->
+        <rect x="-15" y="-50" width="30" height="30" fill="#4caf50" rx="5" />
+        <!-- 頭 -->
+        <circle cx="0" cy="-75" r="22" fill="#ffccbc" />
+        <path d="M -22,-75 Q 0,-105 22,-75 Z" fill="#5d4037" />
+        <!-- 帽子 -->
+        <path d="M -22,-80 Q 0,-105 22,-80 Z" fill="#ffeb3b" />
+        <rect x="-25" y="-83" width="50" height="4" rx="2" fill="#fbc02d" />
+      </g>
+
+      <!-- 子供2（ピンク） -->
+      <g transform="translate(-25, 5)">
+        <!-- 足 -->
+        <rect x="-10" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <rect x="4" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <!-- 体（ピンクの服） -->
+        <rect x="-18" y="-52" width="36" height="42" fill="#f48fb1" rx="10" />
+        <!-- 手（左手を挙げる） -->
+        <g class="hand-up" transform="translate(-15, -42)">
+          <rect x="-8" y="-30" width="8" height="30" fill="#ffccbc" rx="4" />
+        </g>
+        <!-- ランドセル（赤） -->
+        <rect x="-14" y="-48" width="28" height="28" fill="#d81b60" rx="4" />
+        <!-- 頭 -->
+        <circle cx="0" cy="-72" r="21" fill="#ffccbc" />
+        <!-- 髪（二つ結び風） -->
+        <circle cx="-18" cy="-65" r="6" fill="#3e2723" />
+        <circle cx="18" cy="-65" r="6" fill="#3e2723" />
+        <path d="M -21,-72 Q 0,-98 21,-72 Z" fill="#3e2723" />
+        <!-- 通学帽子（黄色） -->
+        <path d="M -21,-77 Q 0,-100 21,-77 Z" fill="#ffeb3b" />
+        <rect x="-24" y="-80" width="48" height="4" rx="2" fill="#fbc02d" />
+      </g>
+    </g>
+  </g>
+</svg>

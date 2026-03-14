@@ -60,9 +60,25 @@ const NARABE = [
   { img:'tori-ga-tobu.svg',          yomi:'とりがとぶ',       stars:3 },
   { img:'mado-wo-akeru.svg',         yomi:'まどをあける',     stars:3 },
   { img:'mado-wo-shimeru.svg',       yomi:'まどをしめる',     stars:3 },
-  { img:'warau-kao.svg',             yomi:'わらうかお',       stars:3 },
+  { img:'warau-kao.svg',             yomi:'わらったかお',     stars:3 },
   { img:'hikouki-ga-tobu.svg',       yomi:'ひこうきがとぶ',   stars:3 },
   { img:'hanbaagu-wo-kiru.svg',      yomi:'はんばーぐをきる', stars:3 },
+  // ===== 新規追加2 =====
+  // ★ (3文字)
+  { img:'piano-playing.svg',         yomi:'ぴあの',           stars:1 },
+  { img:'crossing-crosswalk-safe.svg',yomi:'わたる',          stars:1 },
+  // ★★ (4文字)
+  { img:'crayon-drawing-circle.svg', yomi:'くれよん',         stars:2 },
+  { img:'pencil-drawing-square.svg', yomi:'えんぴつ',         stars:2 },
+  // ★★★ (フレーズ)
+  { img:'playing-tambourine.svg',    yomi:'たんばりん',       stars:3 },
+  { img:'piano-playing.svg',         yomi:'ぴあのをひく',     stars:3 },
+  { img:'boarding-train.svg',        yomi:'でんしゃにのる',   stars:3 },
+  { img:'densha-wo-oriru.svg',       yomi:'でんしゃをおりる', stars:3 },
+  { img:'crayon-drawing-circle.svg', yomi:'くれよんでかく',   stars:3 },
+  { img:'pencil-drawing-square.svg', yomi:'えんぴつでかく',   stars:3 },
+  { img:'crossing-crosswalk-safe.svg',yomi:'しんごうをわたる', stars:3 },
+  { img:'waiting-crosswalk-cars.svg', yomi:'しんごうをまつ',   stars:3 },
 ];
 
 // えらぶクイズ問題  correct:1=img1が正解 / 2=img2が正解
@@ -108,4 +124,17 @@ const ERABE = [
   { img1:'okiru.svg',                    img2:'neru.svg',                    audio:'おきるのは どっち？',               correct:1 },
   { img1:'neru.svg',                     img2:'okiru.svg',                   audio:'ねるのは どっち？',                 correct:1 },
   { img1:'mado-wo-shimeru.svg',          img2:'mado-wo-akeru.svg',           audio:'まどをしめるのは どっち？',         correct:1 },
+  // ===== 新規追加2 =====
+  { img1:'boarding-train.svg',           img2:'densha-wo-oriru.svg',         audio:'でんしゃに のるのは どっち？',       correct:1 },
+  { img1:'densha-wo-oriru.svg',          img2:'boarding-train.svg',          audio:'でんしゃを おりるのは どっち？',     correct:1 },
+  { img1:'crossing-crosswalk-safe.svg',  img2:'waiting-crosswalk-cars.svg',  audio:'わたるのは どっち？',               correct:1 },
+  { img1:'piano-playing.svg',            img2:'playing-tambourine.svg',      audio:'ぴあのを ひくのは どっち？',         correct:1 },
+  { img1:'playing-tambourine.svg',       img2:'piano-playing.svg',           audio:'たんばりんを たたくのは どっち？',   correct:1 },
+  { img1:'crayon-drawing-circle.svg',    img2:'pencil-drawing-square.svg',   audio:'くれよんでは どっち？',             correct:1 },
+  { img1:'pencil-drawing-square.svg',    img2:'crayon-drawing-circle.svg',   audio:'えんぴつは どっち？',               correct:1 },
+  { img1:'waiting-crosswalk-cars.svg',   img2:'crossing-crosswalk-safe.svg', audio:'まつのは どっち？',                 correct:1 },
+  { img1:'crayon-drawing-circle.svg',    img2:'pencil-drawing-square.svg',   audio:'せんがふといのは どっち？',         correct:1 },
+  { img1:'pencil-drawing-square.svg',    img2:'crayon-drawing-circle.svg',   audio:'せんがほそいのは どっち？',         correct:1 },
+  { img1:'pencil-drawing-square.svg',    img2:'crayon-drawing-circle.svg',   audio:'しかくは どっち？',                 correct:1 },
+  { img1:'crayon-drawing-circle.svg',    img2:'pencil-drawing-square.svg',   audio:'まるは どっち？',                   correct:1 },
 ];

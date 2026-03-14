@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    
+    <style>
+      .bg-piano { fill: #fffde7; }
+      
+      /* 鍵盤が押される動き */
+      .key-press {
+        animation: key-action 2s infinite ease-in-out;
+        transform-origin: top;
+      }
+      @keyframes key-action {
+        0%, 100% { transform: scaleY(1); fill: #ffffff; }
+        20%, 40%, 60% { transform: scaleY(0.95); fill: #e1f5fe; }
+      }
+      
+      .key-delay-1 { animation-delay: 0.2s; }
+      .key-delay-2 { animation-delay: 0.5s; }
+      .key-delay-3 { animation-delay: 0.8s; }
+
+      /* 音符がふわふわ浮き上がる */
+      .music-note {
+        animation: note-float 4s infinite ease-in-out;
+        opacity: 0;
+      }
+      @keyframes note-float {
+        0% { transform: translateY(0) scale(0.5); opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { transform: translateY(-100px) translateX(20px) rotate(20deg); opacity: 0; }
+      }
+      
+      .note-delay-1 { animation-delay: 0s; }
+      .note-delay-2 { animation-delay: 1.5s; }
+      .note-delay-3 { animation-delay: 3s; }
+
+      /* 手の動き（簡易） */
+      .hand-move {
+        animation: hand-swing 4s infinite ease-in-out;
+        transform-origin: bottom center;
+      }
+      @keyframes hand-swing {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(30px, -10px) rotate(5deg); }
+        50% { transform: translate(-20px, -5px) rotate(-5deg); }
+        75% { transform: translate(10px, -15px) rotate(3deg); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="300" height="300" class="bg-piano" />
+    
+    <!-- ピアノ本体（上部） -->
+    <rect x="20" y="40" width="260" height="100" rx="10" fill="#424242" />
+    <rect x="30" y="50" width="240" height="20" rx="5" fill="#616161" />
+    
+    <!-- 鍵盤（白鍵） -->
+    <g stroke="#9e9e9e" stroke-width="1">
+      <rect x="40" y="140" width="31" height="120" rx="4" fill="#ffffff" class="key-press key-delay-1" />
+      <rect x="71" y="140" width="31" height="120" rx="4" fill="#ffffff" />
+      <rect x="102" y="140" width="31" height="120" rx="4" fill="#ffffff" class="key-press key-delay-2" />
+      <rect x="133" y="140" width="31" height="120" rx="4" fill="#ffffff" />
+      <rect x="164" y="140" width="31" height="120" rx="4" fill="#ffffff" class="key-press key-delay-3" />
+      <rect x="195" y="140" width="31" height="120" rx="4" fill="#ffffff" />
+      <rect x="226" y="140" width="31" height="120" rx="4" fill="#ffffff" />
+    </g>
+
+    <!-- 黒鍵 -->
+    <g fill="#212121">
+      <rect x="62" y="140" width="18" height="70" rx="2" />
+      <rect x="93" y="140" width="18" height="70" rx="2" />
+      <rect x="155" y="140" width="18" height="70" rx="2" />
+      <rect x="186" y="140" width="18" height="70" rx="2" />
+      <rect x="217" y="140" width="18" height="70" rx="2" />
+    </g>
+
+    <!-- 音符エフェクト -->
+    <text x="60" y="120" font-size="30" fill="#ec407a" class="music-note note-delay-1">♪</text>
+    <text x="150" y="100" font-size="40" fill="#7e57c2" class="music-note note-delay-2">♫</text>
+    <text x="220" y="130" font-size="35" fill="#03a9f4" class="music-note note-delay-3">♬</text>
+
+    <!-- 子供の手（簡易シルエット） -->
+    <g class="hand-move">
+      <path d="M 80,280 Q 90,220 120,200 Q 140,190 150,210 Q 140,230 130,280 Z" fill="#ffe0b2" opacity="0.8" />
+      <path d="M 220,280 Q 210,220 180,200 Q 160,190 150,210 Q 160,230 170,280 Z" fill="#ffe0b2" opacity="0.8" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+    
+    <style>
+      .sky { fill: #e3f2fd; }
+      .sidewalk { fill: #cfd8dc; }
+      .road { fill: #546e7a; }
+      
+      /* 車のアニメーション */
+      .car-right { animation: drive-right 4s linear infinite; }
+      @keyframes drive-right {
+        0% { transform: translateX(-100px); }
+        100% { transform: translateX(400px); }
+      }
+      
+      .car-left { animation: drive-left 5s linear infinite; }
+      @keyframes drive-left {
+        0% { transform: translateX(400px); }
+        100% { transform: translateX(-100px); }
+      }
+
+      /* 信号機の赤ライト点滅 */
+      .red-light { animation: pulse 2s ease-in-out infinite alternate; }
+      @keyframes pulse {
+        from { opacity: 0.7; }
+        to { opacity: 1; filter: drop-shadow(0 0 5px #ff1744); }
+      }
+
+      /* キャラクターの呼吸（ゆったり） */
+      .character-bob {
+        animation: wait-bob 2s ease-in-out infinite alternate;
+      }
+      @keyframes wait-bob {
+        from { transform: translateY(0); }
+        to { transform: translateY(-3px); }
+      }
+    </style>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <!-- 背景：空、道路、歩道 -->
+    <rect width="300" height="300" class="sky" />
+    <rect y="100" width="300" height="200" class="sidewalk" />
+    <rect y="130" width="300" height="80" class="road" />
+    
+    <!-- 横断歩道 -->
+    <g fill="#ffffff" opacity="0.6">
+      <rect x="120" y="130" width="60" height="12" rx="2" />
+      <rect x="120" y="150" width="60" height="12" rx="2" />
+      <rect x="120" y="170" width="60" height="12" rx="2" />
+      <rect x="120" y="190" width="60" height="12" rx="2" />
+    </g>
+
+    <!-- 向こう側の歩道にある信号機 -->
+    <rect x="185" y="40" width="6" height="90" fill="#455a64" />
+    <rect x="175" y="45" width="26" height="50" rx="4" fill="#333" />
+    <circle cx="188" cy="58" r="9" fill="#222" />
+    <circle cx="188" cy="58" r="7" fill="#ff1744" class="red-light" />
+    <circle cx="188" cy="80" r="9" fill="#222" />
+    <circle cx="188" cy="80" r="7" fill="#00c853" opacity="0.1" />
+
+    <!-- 道路を走る車 -->
+    <g class="car-right" style="animation-delay: -1s;">
+      <rect x="0" y="175" width="50" height="25" rx="5" fill="#ffeb3b" />
+      <rect x="35" y="178" width="12" height="10" rx="2" fill="#81d4fa" />
+      <circle cx="10" cy="200" r="5" fill="#333" />
+      <circle cx="40" cy="200" r="5" fill="#333" />
+    </g>
+    
+    <g class="car-left" style="animation-delay: -3s;">
+      <rect x="0" y="135" width="55" height="28" rx="5" fill="#03a9f4" />
+      <rect x="8" y="138" width="12" height="11" rx="2" fill="#e1f5fe" />
+      <circle cx="12" cy="163" r="6" fill="#333" />
+      <circle cx="43" cy="163" r="6" fill="#333" />
+    </g>
+
+    <!-- 子供たちのグループ（スケールを0.6に縮小して比率を調整） -->
+    <g transform="translate(180, 260) scale(0.6)">
+      <g class="character-bob">
+        <rect x="-12" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <rect x="2" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <rect x="-20" y="-55" width="40" height="45" fill="#81c784" rx="10" />
+        <rect x="-15" y="-50" width="30" height="30" fill="#4caf50" rx="5" />
+        <circle cx="0" cy="-75" r="22" fill="#ffccbc" />
+        <path d="M -22,-75 Q 0,-105 22,-75 Z" fill="#5d4037" />
+        <path d="M -22,-80 Q 0,-105 22,-80 Z" fill="#ffeb3b" />
+        <rect x="-25" y="-83" width="50" height="4" rx="2" fill="#fbc02d" />
+      </g>
+    </g>
+
+    <g transform="translate(140, 265) scale(0.6)">
+      <g class="character-bob" style="animation-delay: -0.5s;">
+        <rect x="-10" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <rect x="4" y="-10" width="10" height="12" fill="#546e7a" rx="2" />
+        <rect x="-18" y="-52" width="36" height="42" fill="#f48fb1" rx="10" />
+        <rect x="-14" y="-48" width="28" height="28" fill="#d81b60" rx="4" />
+        <circle cx="0" cy="-72" r="21" fill="#ffccbc" />
+        <circle cx="-18" cy="-65" r="6" fill="#3e2723" />
+        <circle cx="18" cy="-65" r="6" fill="#3e2723" />
+        <path d="M -21,-72 Q 0,-98 21,-72 Z" fill="#3e2723" />
+        <path d="M -21,-77 Q 0,-100 21,-77 Z" fill="#ffeb3b" />
+        <rect x="-24" y="-80" width="48" height="4" rx="2" fill="#fbc02d" />
+      </g>
+    </g>
+  </g>
+</svg>
