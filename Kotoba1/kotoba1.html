@@ -458,6 +458,12 @@
       .erabe-question    { max-width: 660px; }
       .home-modes        { max-width: 580px; }
     }
+
+    /* 縦長画面（スマホ縦持ち）では選択肢を縦積みにして画像を大きく表示 */
+    @media (orientation: portrait) and (max-width: 600px) {
+      .choices    { flex-direction: column; max-width: min(92vw, 380px); }
+      .choice-img { max-height: 37vh; }
+    }
   </style>
 </head>
 <body>
@@ -501,7 +507,7 @@
       <div class="mode-header" onclick="App.startErabe(false)">
         <span class="mode-icon">🔍</span>
         <div>
-          <div class="mode-name">えらぶ</div>
+          <div class="mode-name">えをえらぶ</div>
           <div class="mode-desc">ただしい えを えらぼう</div>
         </div>
       </div>

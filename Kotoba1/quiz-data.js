@@ -51,12 +51,11 @@ const NARABE = [
   { img:'neko.svg',                  yomi:'ねこ',             stars:1 },
   { img:'kingyo.svg',                yomi:'きんぎょ',         stars:1 },
   { img:'warau-kao.svg',             yomi:'わらう',           stars:1 },
-  { img:'ukiwa.svg',                 yomi:'うきわ',           stars:1 },
   // ★★ (4文字)
   { img:'hikouki-ga-tobu.svg',       yomi:'ひこうき',         stars:2 },
   { img:'soujiki-de-souji.svg',      yomi:'そうじき',         stars:2 },
-  { img:'naku-kao.svg',              yomi:'なくかお',         stars:2 },
-  { img:'tanbarin.svg',              yomi:'たんばりん',       stars:2 },
+  { img:'naku-kao.svg',              yomi:'なきがお',         stars:2 },
+  { img:'hanbaagu-wo-kiru.svg',      yomi:'はんばーぐ',       stars:2 },
   // ★★★ (フレーズ)
   { img:'tori-ga-tobu.svg',          yomi:'とりがとぶ',       stars:3 },
   { img:'mado-wo-akeru.svg',         yomi:'まどをあける',     stars:3 },
@@ -64,7 +63,6 @@ const NARABE = [
   { img:'warau-kao.svg',             yomi:'わらうかお',       stars:3 },
   { img:'hikouki-ga-tobu.svg',       yomi:'ひこうきがとぶ',   stars:3 },
   { img:'hanbaagu-wo-kiru.svg',      yomi:'はんばーぐをきる', stars:3 },
-  { img:'soujiki-de-souji.svg',      yomi:'そうじき',         stars:2 },
 ];
 
 // えらぶクイズ問題  correct:1=img1が正解 / 2=img2が正解
@@ -106,10 +104,8 @@ const ERABE = [
   { img1:'ha-wo-migaku.svg',             img2:'ureshii-kao.svg',             audio:'歯をみがくのは どっち？', text:'はをみがくのは どっち？', correct:1 },
   { img1:'kingyo.svg',                   img2:'inu-ga-hashiru.svg',          audio:'およぐのは どっち？',               correct:1 },
   { img1:'yuki-ga-furu.svg',             img2:'natsu-no-umi.svg',            audio:'ふゆは どっち？',                   correct:1 },
-  { img1:'sakura-saku.svg',              img2:'icho-namiki.svg',           audio:'はるは どっち？',                   correct:1 },
+  { img1:'sakura-saku.svg',              img2:'icho-namiki.svg',             audio:'はるは どっち？',                   correct:1 },
   { img1:'okiru.svg',                    img2:'neru.svg',                    audio:'おきるのは どっち？',               correct:1 },
   { img1:'neru.svg',                     img2:'okiru.svg',                   audio:'ねるのは どっち？',                 correct:1 },
   { img1:'mado-wo-shimeru.svg',          img2:'mado-wo-akeru.svg',           audio:'まどをしめるのは どっち？',         correct:1 },
-  { img1:'ukiwa.svg',                    img2:'neru.svg',                    audio:'うきわは どっち？',                 correct:1 },
-  { img1:'tanbarin.svg',                 img2:'ukiwa.svg',                   audio:'たんばりんは どっち？',             correct:1 },
 ];
