@@ -398,7 +398,40 @@ const App = (() => {
     document.getElementById('maru-overlay').classList.remove('show');
   }
 
-  // ---- ERABE ----
+  // ---- ERABE helpers ----
+  // anim:true の問題では正解前はSVGアニメを停止、正解後に再生する
+  // <img>タグのSVGは外部からpauseできないため、Blob URLにpause CSSを注入して差し替える
+  async function freezeSvgImg(imgEl, src) {
+    imgEl._origSrc = src;   // ← await前に必ず設定
+    imgEl._blobUrl = null;
+    imgEl.src = '';
+    try {
+      const resp = await fetch(src);
+      if (!resp.ok) throw new Error(resp.status);
+      const text = await resp.text();
+      const frozen = text.replace(/<\/svg\s*>/i,
+        '<style>svg *{animation-play-state:paused!important;animation-delay:0ms!important;}</style></svg>');
+      const blob = new Blob([frozen], {type: 'image/svg+xml'});
+      imgEl._blobUrl = URL.createObjectURL(blob);
+      imgEl.src = imgEl._blobUrl;
+    } catch(e) {
+      // fetch失敗時はアニメありのまま表示（フォールバック）
+      imgEl.src = src;
+    }
+  }
+
+  function releaseBlobUrl(imgEl) {
+    if (imgEl._blobUrl) { URL.revokeObjectURL(imgEl._blobUrl); imgEl._blobUrl = null; }
+    // _origSrc はここでは消さない（selectChoiceで使う）
+  }
+
+  function unfreezeSvgImg(imgEl) {
+    const orig = imgEl._origSrc;
+    releaseBlobUrl(imgEl);
+    imgEl._origSrc = null;
+    if (orig) { imgEl.src = ''; imgEl.src = orig; }  // 元URLに戻してアニメ再生
+  }
+
   function retryMode() {
     if (mode === 'erabe') startErabe(erabeRandom);
     else startNarabe(narabeStars);
@@ -431,10 +464,17 @@ const App = (() => {
       : [wrongImg, correctImg];
 
     [0, 1].forEach(i => {
-      document.getElementById(`choice-img-${i}`).src = `images/${imgs[i]}`;
+      const imgEl = document.getElementById(`choice-img-${i}`);
+      releaseBlobUrl(imgEl);   // 前の問題のBlob URLを解放
+      imgEl._origSrc = null;   // 前の問題の参照をクリア
       const btn = document.getElementById(`choice-${i}`);
       btn.className = 'choice-btn';
       btn.disabled  = false;
+      if (q.anim) {
+        freezeSvgImg(imgEl, `images/${imgs[i]}`);  // アニメ停止状態で表示
+      } else {
+        imgEl.src = `images/${imgs[i]}`;
+      }
     });
 
     // Display question wrapped in 「」(text=表示用ひらがな、なければaudioを使用)
@@ -458,10 +498,9 @@ const App = (() => {
       [0, 1].forEach(i => { document.getElementById(`choice-${i}`).disabled = true; });
 
       if (questions[qIdx].anim) {
-        // 正解画像のSVGアニメを最初から再生してから次へ
+        // Blob URLを解放して元のSVG（アニメあり）に戻す → アニメが最初から再生される
         setTimeout(() => {
-          const img = document.getElementById(`choice-img-${side}`);
-          const s = img.src; img.src = ''; img.src = s;
+          unfreezeSvgImg(document.getElementById(`choice-img-${side}`));
         }, 300);
         setTimeout(nextQuestion, 5000);
       } else {
