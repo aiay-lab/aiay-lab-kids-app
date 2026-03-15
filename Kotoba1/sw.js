@@ -1,4 +1,4 @@
-const CACHE = 'kotoba-quiz-v5';
+const CACHE = 'kotoba-quiz-v6';
 
 const APP_FILES = [
   './kotoba1.html',
