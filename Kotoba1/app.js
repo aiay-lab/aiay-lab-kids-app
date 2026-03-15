@@ -19,7 +19,11 @@ const App = (() => {
   let hintActive = false;
 
   // erabe
-  let correctSide = 0;  // 0=left  1=right
+  let correctSide  = 0;     // 0=left  1=right
+  let erabeRandom  = false;
+
+  // narabe restart
+  let narabeStars  = 0;
 
   // audio
   let audioCtx = null;
@@ -242,6 +246,7 @@ const App = (() => {
   // ---- NARABE ----
   function startNarabe(stars) {
     mode = 'narabe';
+    narabeStars = stars;
     let qs = stars === 0
       ? [...NARABE]
       : NARABE.filter(q => q.stars === stars);
@@ -394,8 +399,14 @@ const App = (() => {
   }
 
   // ---- ERABE ----
+  function retryMode() {
+    if (mode === 'erabe') startErabe(erabeRandom);
+    else startNarabe(narabeStars);
+  }
+
   function startErabe(random) {
-    mode      = 'erabe';
+    mode         = 'erabe';
+    erabeRandom  = random;
     const pool = shuffle([...ERABE]);
     questions = random ? pool.slice(0, 10) : pool;
     qIdx      = 0;
@@ -437,25 +448,37 @@ const App = (() => {
 
   function selectChoice(side) {
     if (answered) return;
-    answered = true;
 
     const isCorrect = side === correctSide;
     if (isCorrect) {
+      answered = true;
       if (firstTry) score++;
       playSuccess();
       document.getElementById(`choice-${side}`).classList.add('correct');
-      showFeedback('erabe', 'せいかい！🎉', true);
+      [0, 1].forEach(i => { document.getElementById(`choice-${i}`).disabled = true; });
+
+      if (questions[qIdx].anim) {
+        // 正解画像のSVGアニメを最初から再生してから次へ
+        setTimeout(() => {
+          const img = document.getElementById(`choice-img-${side}`);
+          const s = img.src; img.src = ''; img.src = s;
+        }, 300);
+        setTimeout(nextQuestion, 5000);
+      } else {
+        setTimeout(nextQuestion, 1500);
+      }
     } else {
+      firstTry = false;
       playError();
       document.getElementById(`choice-${side}`).classList.add('wrong');
-      document.getElementById(`choice-${correctSide}`).classList.add('correct');
-      showFeedback('erabe', 'ざんねん！', false);
+      [0, 1].forEach(i => { document.getElementById(`choice-${i}`).disabled = true; });
+      setTimeout(() => {
+        document.getElementById(`choice-${side}`).classList.remove('wrong');
+        hideFeedback('erabe');
+        [0, 1].forEach(i => { document.getElementById(`choice-${i}`).disabled = false; });
+        speak(currentAudio);
+      }, 800);
     }
-
-    [0, 1].forEach(i => { document.getElementById(`choice-${i}`).disabled = true; });
-
-    // Auto-advance
-    setTimeout(nextQuestion, 1500);
   }
 
   // ---- Next / Result ----
@@ -580,6 +603,7 @@ const App = (() => {
   return {
     init,
     goHome,
+    retryMode,
     startNarabe,
     startErabe,
     selectChoice,

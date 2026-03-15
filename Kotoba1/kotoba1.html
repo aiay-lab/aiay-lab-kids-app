@@ -320,6 +320,7 @@
 
     .choice-btn {
       flex: 1;
+      position: relative;
       background: var(--card);
       border: 3px solid transparent;
       border-radius: var(--r-lg);
@@ -337,6 +338,26 @@
     .choice-btn.correct { border-color: var(--ok); background: #d8f3dc; }
     .choice-btn.wrong   { border-color: var(--ng); background: #ffe0e3; }
     .choice-btn:disabled { cursor: default; }
+
+    /* ○ / × オーバーレイ */
+    .choice-btn.correct::after,
+    .choice-btn.wrong::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      font-size: 88px;
+      font-weight: 900;
+      line-height: 1;
+      pointer-events: none;
+      animation: mark-pop 0.25s cubic-bezier(0.2, 0.8, 0.4, 1.2) both;
+    }
+    .choice-btn.correct::after { content: '○'; color: var(--ok); text-shadow: 0 2px 12px rgba(82,183,136,0.55); }
+    .choice-btn.wrong::after   { content: '✕'; color: var(--ng); text-shadow: 0 2px 12px rgba(230,57,70,0.55); }
+    @keyframes mark-pop {
+      from { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+      to   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+    }
 
     .choice-img {
       width: 100%;
@@ -376,6 +397,21 @@
       transition: transform 0.1s;
     }
     .result-home-btn:active { transform: scale(0.96); }
+
+    .result-back-btn {
+      background: var(--card);
+      color: var(--orange);
+      border: 2.5px solid var(--orange);
+      border-radius: var(--r-pill);
+      padding: 12px 40px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.1s;
+    }
+    .result-back-btn:active { transform: scale(0.96); }
 
     /* ========================
        MARU (〇) OVERLAY
@@ -575,7 +611,8 @@
   <div class="result-score-num" id="result-score-num"></div>
   <div class="result-total"     id="result-total"></div>
   <div class="result-msg"       id="result-msg"></div>
-  <button class="result-home-btn" onclick="App.goHome()">もういちど</button>
+  <button class="result-home-btn" onclick="App.retryMode()">もういちど</button>
+  <button class="result-back-btn" onclick="App.goHome()">🏠 ホーム</button>
 </div>
 
 <script src="quiz-data.js"></script>
@@ -583,7 +620,7 @@
 <script>App.init();</script>
 
 <div style="position:fixed; bottom:8px; right:12px; font-size:0.7rem; color:rgba(0,0,0,0.25); pointer-events:none;">
-  © aiay-lab  v1.0.3
+  © aiay-lab  v1.0.4
 </div>
 
 </body>
