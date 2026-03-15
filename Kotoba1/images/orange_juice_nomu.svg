@@ -1,0 +1,36 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" rx="20" fill="#E3F2FD"/>
+  
+  <path d="M 0 260 Q 150 250 300 260 L 300 300 L 0 300 Z" fill="#8D6E63"/>
+  
+  <path d="M 100 110 L 200 110 L 190 250 L 110 250 Z" fill="rgba(255, 255, 255, 0.5)" stroke="#90CAF9" stroke-width="2"/>
+
+  <path d="M 103 130 L 197 130 L 190 245 L 110 245 Z" fill="#FFAB40">
+    <animate attributeName="d" 
+             dur="8s" 
+             repeatCount="indefinite"
+             values="M 103 130 L 197 130 L 190 245 L 110 245 Z; 
+                     M 108 210 L 192 210 L 190 245 L 110 245 Z;
+                     M 108 210 L 192 210 L 190 245 L 110 245 Z" />
+  </path>
+  
+  <line x1="165" y1="60" x2="145" y2="245" stroke="#eee" stroke-width="8" stroke-linecap="round" />
+  
+  <line x1="145" y1="245" x2="165" y2="60" stroke="#FFAB40" stroke-width="6" stroke-linecap="round" stroke-dasharray="190">
+    <animate attributeName="stroke-dashoffset" 
+             values="75; 0; 0" 
+             dur="8s" 
+             repeatCount="indefinite" />
+  </line>
+
+  <line x1="165" y1="60" x2="145" y2="245" stroke="white" stroke-width="8" stroke-dasharray="8 8" stroke-linecap="round" opacity="0.3"/>
+
+  <g>
+    <rect x="115" y="140" width="25" height="25" rx="5" fill="rgba(255, 255, 255, 0.6)"/>
+    <rect x="155" y="150" width="25" height="25" rx="5" fill="rgba(255, 255, 255, 0.6)"/>
+    <animateTransform attributeName="transform" type="translate"
+                      values="0,0; 0,60; 0,60" 
+                      dur="8s" 
+                      repeatCount="indefinite" />
+  </g>
+</svg>
