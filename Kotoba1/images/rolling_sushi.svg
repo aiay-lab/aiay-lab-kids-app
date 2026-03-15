@@ -1,4 +1,8 @@
 <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="frame"><rect width="300" height="300" rx="20"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
   <rect width="300" height="300" rx="20" fill="#E3F2FD"/>
   
   <path d="M 0 230 Q 150 220 300 230 L 300 300 L 0 300 Z" fill="#8D6E63"/>
@@ -50,4 +54,5 @@
 
   <rect x="240" y="225" width="35" height="50" rx="5" fill="#2E7D32"/>
   <path d="M 240 230 L 275 230" stroke="#1B5E20" stroke-width="2"/>
+  </g>
 </svg>
