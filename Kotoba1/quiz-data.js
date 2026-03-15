@@ -110,7 +110,7 @@ const ERABE = [
   { img1:'kaidan-wo-noboru.svg',         img2:'ie-ni-kaeru.svg',             audio:'いえに かえるのは どっち？',     correct:2 },
   { img1:'zou-jump.svg',                  img2:'usagi-jump.svg',              audio:'おもいのはどっち？',              correct:1 },
   // ===== 新規追加 =====
-  { img1:'mado-wo-akeru.svg',            img2:'mado-wo-shimeru.svg',         audio:'まどを あけるのは どっち？',     correct:1, anim:true },
+  { img1:'mado-wo-akeru.svg',            img2:'mado-wo-shimeru.svg',         audio:'まどを あけるのは どっち？',     correct:1 },
   { img1:'warau-kao.svg',                img2:'naku-kao.svg',                audio:'わらっているのは どっち？',       correct:1 },
   { img1:'neko.svg',                     img2:'kingyo.svg',                  audio:'ねこは どっち？',                 correct:1 },
   { img1:'tori-ga-tobu.svg',             img2:'hikouki-ga-tobu.svg',         audio:'とりは どっち？',                 correct:1 },
@@ -121,13 +121,13 @@ const ERABE = [
   { img1:'kingyo.svg',                   img2:'inu-ga-hashiru.svg',          audio:'およぐのは どっち？',               correct:1 },
   { img1:'yuki-ga-furu.svg',             img2:'natsu-no-umi.svg',            audio:'ふゆは どっち？',                   correct:1 },
   { img1:'sakura-saku.svg',              img2:'icho-namiki.svg',             audio:'はるは どっち？',                   correct:1 },
-  { img1:'okiru.svg',                    img2:'neru.svg',                    audio:'おきるのは どっち？',               correct:1 },
-  { img1:'neru.svg',                     img2:'okiru.svg',                   audio:'ねるのは どっち？',                 correct:1 },
-  { img1:'mado-wo-shimeru.svg',          img2:'mado-wo-akeru.svg',           audio:'まどをしめるのは どっち？',         correct:1, anim:true },
+  { img1:'okiru.svg',                    img2:'neru.svg',                    audio:'おきたのは どっち？',               correct:1 },
+  { img1:'neru.svg',                     img2:'okiru.svg',                   audio:'ねているのは どっち？',             correct:1 },
+  { img1:'mado-wo-shimeru.svg',          img2:'mado-wo-akeru.svg',           audio:'まどをしめるのは どっち？',         correct:1 },
   // ===== 新規追加2 =====
   { img1:'boarding-train.svg',           img2:'densha-wo-oriru.svg',         audio:'でんしゃに のるのは どっち？',       correct:1 },
   { img1:'densha-wo-oriru.svg',          img2:'boarding-train.svg',          audio:'でんしゃを おりるのは どっち？',     correct:1 },
-  { img1:'crossing-crosswalk-safe.svg',  img2:'waiting-crosswalk-cars.svg',  audio:'わたるのは どっち？',               correct:1, anim:true },
+  { img1:'crossing-crosswalk-safe.svg',  img2:'waiting-crosswalk-cars.svg',  audio:'あおしんごうはどっち？',            correct:1, anim:true },
   { img1:'piano-playing.svg',            img2:'playing-tambourine.svg',      audio:'ぴあのを ひくのは どっち？',         correct:1 },
   { img1:'playing-tambourine.svg',       img2:'piano-playing.svg',           audio:'タンバリンをたたくのは どっち？',   correct:1 },
   { img1:'crayon-drawing-circle.svg',    img2:'pencil-drawing-square.svg',   audio:'クレヨンは どっち？',               correct:1 },
@@ -139,4 +139,7 @@ const ERABE = [
   { img1:'crayon-drawing-circle.svg',    img2:'pencil-drawing-square.svg',   audio:'まるは どっち？',                   correct:1 },
   // ===== 新規追加3 =====
   { img1:'chiisai-booru.svg',            img2:'ookii-booru.svg',             audio:'ボールがおおきいのは どっち？',      correct:2 },
+  // ===== 新規追加4 =====
+  { img1:'waiting-crosswalk-cars.svg',   img2:'crossing-crosswalk-safe.svg', audio:'あかしんごうは どっち？',            correct:1 },
+  { img1:'te-wo-fuku.svg',               img2:'te-wo-arau.svg',              audio:'てを ふくのは どっち？',             correct:1 },
 ];
