@@ -1,4 +1,4 @@
-const CACHE = 'kotoba-quiz-v6';
+const CACHE = 'kotoba-quiz-v7';
 
 const APP_FILES = [
   './kotoba1.html',
@@ -28,6 +28,7 @@ const IMAGE_FILES = [
   'neru','okiru','ukiwa','tanbarin',
   'boarding-train','choki','crayon-drawing-circle','crossing-crosswalk-safe','densha-wo-oriru',
   'pencil-drawing-square','piano-playing','playing-tambourine','waiting-crosswalk-cars',
+  'rolling_sushi','orange_juice_nomu',
 ].map(n => `./images/${n}.svg`);
 
 self.addEventListener('install', e => {

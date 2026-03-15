@@ -79,6 +79,11 @@ const NARABE = [
   { img:'pencil-drawing-square.svg', yomi:'えんぴつでかく',   stars:3 },
   { img:'crossing-crosswalk-safe.svg',yomi:'しんごうをわたる', stars:3 },
   { img:'waiting-crosswalk-cars.svg', yomi:'しんごうをまつ',   stars:3 },
+  // ===== 新規追加3 =====
+  { img:'rolling_sushi.svg',          yomi:'すし',             stars:1 },
+  { img:'orange_juice_nomu.svg',      yomi:'じゅーす',         stars:2 },
+  { img:'rolling_sushi.svg',          yomi:'かいてんずし',     stars:3 },
+  { img:'orange_juice_nomu.svg',      yomi:'じゅーすをのむ',   stars:3 },
 ];
 
 // えらぶクイズ問題  correct:1=img1が正解 / 2=img2が正解
@@ -127,7 +132,7 @@ const ERABE = [
   // ===== 新規追加2 =====
   { img1:'boarding-train.svg',           img2:'densha-wo-oriru.svg',         audio:'でんしゃに のるのは どっち？',       correct:1 },
   { img1:'densha-wo-oriru.svg',          img2:'boarding-train.svg',          audio:'でんしゃを おりるのは どっち？',     correct:1 },
-  { img1:'crossing-crosswalk-safe.svg',  img2:'waiting-crosswalk-cars.svg',  audio:'あおしんごうはどっち？',            correct:1, anim:true },
+  { img1:'crossing-crosswalk-safe.svg',  img2:'waiting-crosswalk-cars.svg',  audio:'あおしんごうはどっち？',            correct:1 },
   { img1:'piano-playing.svg',            img2:'playing-tambourine.svg',      audio:'ぴあのを ひくのは どっち？',         correct:1 },
   { img1:'playing-tambourine.svg',       img2:'piano-playing.svg',           audio:'タンバリンをたたくのは どっち？',   correct:1 },
   { img1:'crayon-drawing-circle.svg',    img2:'pencil-drawing-square.svg',   audio:'クレヨンは どっち？',               correct:1 },
