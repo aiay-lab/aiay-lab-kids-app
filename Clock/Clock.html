@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>とけいアプリ</title>
-  <meta name="version" content="1.0.17">
+  <meta name="version" content="1.0.18">
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#E8405A">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -69,7 +69,6 @@
     .btn-desc { font-size: clamp(0.7rem, 1.8vmin, 0.8rem); font-weight: normal; opacity: 0.75; }
 
     #btn-quiz     { background: #fce4ec; color: #c62828; box-shadow: inset 6px 0 0 #E8405A, 0 4px 14px rgba(232,64,90,0.15); }
-    #btn-yomikata { background: #f3e5f5; color: #6a1b9a; box-shadow: inset 6px 0 0 #8e24aa, 0 4px 14px rgba(142,36,170,0.15); }
     #btn-move     { background: #e3f2fd; color: #1565c0; box-shadow: inset 6px 0 0 #1565c0, 0 4px 14px rgba(21,101,192,0.15); }
     #btn-current  { background: #e8f5e9; color: #2e7d32; box-shadow: inset 6px 0 0 #43a047, 0 4px 14px rgba(46,125,50,0.15); }
 
@@ -210,24 +209,11 @@
       text-align: center;
     }
 
+    #screen-interactive .digital-time { color: #1A1A1A; }
+
     .drag-hint { font-size: clamp(0.75rem, 2vmin, 0.9rem); color: #aaa; text-align: center; }
 
     .row-btns { display: flex; gap: 12px; justify-content: center; }
-
-    /* ===== じかんのよみかた ===== */
-    #screen-yomikata { gap: clamp(3px, 1vmin, 10px); }
-    #screen-yomikata .clock-wrap { max-width: min(300px, 40vmin); }
-    .yomikata-reading {
-      font-size: clamp(1rem, 3.5vmin, 2.2rem);
-      font-weight: bold;
-      color: #6a1b9a;
-      text-align: center;
-      letter-spacing: 0.08em;
-      background: #f3e5f5;
-      border-radius: 16px;
-      padding: clamp(6px, 1.2vmin, 16px) 20px;
-      width: 100%;
-    }
 
     /* ===== 正解〇オーバーレイ ===== */
     #correct-overlay {
@@ -343,14 +329,6 @@
     </span>
   </button>
 
-  <button class="btn btn-large" id="btn-yomikata" onclick="showScreen('yomikata'); startYomikata()">
-    <span class="btn-icon">📖</span>
-    <span class="btn-text">
-      <span class="btn-name">じかんのよみかた</span>
-      <span class="btn-desc">じかんのよみかたをおぼえよう</span>
-    </span>
-  </button>
-
   <button class="btn btn-large" id="btn-move" onclick="showScreen('interactive'); startInteractive()">
     <span class="btn-icon">🖐</span>
     <span class="btn-text">
@@ -366,35 +344,6 @@
       <span class="btn-desc">いまのじかんは？</span>
     </span>
   </button>
-</div>
-
-<!-- ===== じかんのよみかた ===== -->
-<div class="screen" id="screen-yomikata">
-  <div style="display:flex; width:100%; align-items:center; justify-content:space-between;">
-    <button class="btn btn-back" onclick="goHome()">🏠 ホーム</button>
-    <div class="score-display"><span id="yomikata-progress">1 / 12</span></div>
-  </div>
-
-  <div class="toggle-group">
-    <button class="toggle-btn selected" id="yk-diff-easy"   onclick="setYomikataDifficulty('easy')">かんたん</button>
-    <button class="toggle-btn"          id="yk-diff-normal" onclick="setYomikataDifficulty('normal')">ふつう</button>
-    <button class="toggle-btn"          id="yk-diff-hard"   onclick="setYomikataDifficulty('hard')">むずかしい</button>
-  </div>
-
-  <button class="hint-toggle" id="yomikata-hint-btn" onclick="toggleYomikataHint()">💡 ヒント</button>
-
-  <div class="clock-wrap">
-    <svg id="yomikata-clock" viewBox="-120 -130 240 262"></svg>
-  </div>
-
-  <div class="digital-time" id="yomikata-time-display">3じ</div>
-  <div class="yomikata-reading" id="yomikata-reading">さんじ</div>
-
-  <div class="row-btns">
-    <button class="btn btn-secondary" onclick="yomikataPrev()">◀ まえ</button>
-    <button class="btn btn-primary"   onclick="speakYomikata()">🔊 よむ</button>
-    <button class="btn btn-primary"   onclick="yomikataNext()">つぎ ▶</button>
-  </div>
 </div>
 
 <!-- ===== クイズ ===== -->
@@ -779,7 +728,7 @@ function updateClockHint(svgEl, h, show, showMinutes = false, currentM = null) {
       t.setAttribute('font-size', '13');
       t.setAttribute('font-weight', m === currentM ? 'bold' : 'normal');
       t.setAttribute('fill', m === currentM ? '#1565c0' : '#bbb');
-      t.textContent = m === 30 ? 'はん' : String(m);
+      t.textContent = m === 30 ? 'はん' : m === 60 ? '0' : String(m);
       group.appendChild(t);
     }
   }
@@ -838,15 +787,35 @@ function stopHintAnimation() {
     resetHintAnimNumbers(hintAnimSvgEl);
     const g = hintAnimSvgEl.querySelector('.hint-group');
     if (g) g.innerHTML = '';
+    if (hintAnimSvgEl.id === 'interactive-clock') {
+      const el = document.getElementById('interactive-time');
+      if (el) el.textContent = formatTimeDisplay(interactiveH, interactiveM);
+    }
   }
   hintAnimSvgEl = null;
   hintAnimGetHM = null;
+}
+
+function updateInteractiveTimeColor(h, m, step) {
+  const el = document.getElementById('interactive-time');
+  if (!el) return;
+  const hourColor = (step === 0) ? '#E8405A' : '#1A1A1A';
+  let html = `<span style="color:${hourColor}">${h}じ</span>`;
+  if (m !== 0) {
+    const minStr  = m === 30 ? 'はん' : ` ${m}${minSuffix(m)}`;
+    const minColor = (step === 1) ? '#1565c0' : '#1A1A1A';
+    html += `<span style="color:${minColor}">${minStr}</span>`;
+  }
+  el.innerHTML = html;
 }
 
 function runHintStep() {
   if (!hintAnimSvgEl || !hintAnimGetHM) return;
   const { h, m } = hintAnimGetHM();
   showHintStep(hintAnimSvgEl, h, m, hintAnimStep);
+  if (hintAnimSvgEl.id === 'interactive-clock') {
+    updateInteractiveTimeColor(h, m, hintAnimStep);
+  }
   if (m !== 0) hintAnimStep = 1 - hintAnimStep;  // m=0のとき常に step0
   hintAnimTimer = setTimeout(runHintStep, 1000);
 }
@@ -861,6 +830,10 @@ function resetHintAnimNumbers(svgEl) {
       t.setAttribute('fill', '#1A1A1A');
     }
   });
+  const hh = svgEl.querySelector('.hand-hour');
+  const mh = svgEl.querySelector('.hand-minute');
+  if (hh) { hh.setAttribute('stroke', '#1A1A1A'); hh.setAttribute('stroke-width', '6'); }
+  if (mh) { mh.setAttribute('stroke', '#1565c0'); mh.setAttribute('stroke-width', '4'); }
 }
 
 function showHintStep(svgEl, h, m, step) {
@@ -878,7 +851,7 @@ function showHintStep(svgEl, h, m, step) {
   }
 
   if (step === 0) {
-    // ---- 時針ステップ: 時の数字を強調 ----
+    // ---- 時針ステップ: 時の数字・時針を強調 ----
     const a  = (h12 * 30 - 90) * Math.PI / 180;
     const ex = 62 * Math.cos(a);
     const ey = 62 * Math.sin(a);
@@ -894,6 +867,9 @@ function showHintStep(svgEl, h, m, step) {
         t.setAttribute('fill', '#E8405A');
       }
     });
+    // 時針を赤・太く
+    const hh = svgEl.querySelector('.hand-hour');
+    if (hh) { hh.setAttribute('stroke', '#E8405A'); hh.setAttribute('stroke-width', '9'); }
 
   } else {
     // ---- 分針ステップ: 分ラベルを強調 ----
@@ -909,16 +885,30 @@ function showHintStep(svgEl, h, m, step) {
         'font-weight': isTarget ? 'bold' : 'normal',
         fill: isTarget ? '#1565c0' : '#bbb',
       });
-      t.textContent = min === 30 ? 'はん' : String(min);
+      t.textContent = min === 30 ? 'はん' : min === 60 ? '0' : String(min);
       group.appendChild(t);
     }
     // 対象分ラベルに楕円（テキストの下に挿入）
     const am = (m * 6 - 90) * Math.PI / 180;
+    const acx = (112 * Math.cos(am)).toFixed(2);
+    const acy = (112 * Math.sin(am)).toFixed(2);
     group.insertBefore(mkEl('ellipse', {
-      cx: (112 * Math.cos(am)).toFixed(2), cy: (112 * Math.sin(am)).toFixed(2),
-      rx: '18', ry: '18',
+      cx: acx, cy: acy, rx: '18', ry: '18',
       fill: 'rgba(21,101,192,0.15)', stroke: '#1565c0', 'stroke-width': '2.5',
     }), group.firstChild);
+    // 5の倍数でない分（ラベルなし）は楕円内に数字を追加
+    if (m % 5 !== 0) {
+      const tl = mkEl('text', {
+        x: acx, y: acy,
+        'text-anchor': 'middle', 'dominant-baseline': 'central',
+        'font-size': '19', 'font-weight': 'bold', fill: '#1565c0',
+      });
+      tl.textContent = String(m);
+      group.appendChild(tl);
+    }
+    // 分針を青・太く
+    const mh = svgEl.querySelector('.hand-minute');
+    if (mh) { mh.setAttribute('stroke', '#1565c0'); mh.setAttribute('stroke-width', '7'); }
   }
 }
 
@@ -991,7 +981,7 @@ let fwInterval = null;
 let hintMode = false;
 
 function syncHintButtons() {
-  ['yomikata-hint-btn','interactive-hint-btn','current-hint-btn'].forEach(id => {
+  ['interactive-hint-btn','current-hint-btn'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('active', hintMode);
   });
@@ -999,19 +989,21 @@ function syncHintButtons() {
 let currentQuizAnswer = null;
 let quizHintActive = false;
 let quizHintReleaseTimer = null;
+let quizHintDelayTimer = null;
 
 function applyQuizHint() {
   if (!currentQuizAnswer) return;
   const { h, m } = currentQuizAnswer;
-  const avail = quizDifficulty !== 'easy';
-  const show    = quizHintActive && avail && m !== 0;
+  const show    = quizHintActive && m !== 0;
   const showMin = quizHintActive && quizDifficulty === 'hard' && m !== 0;
   updateClockHint(document.getElementById('quiz-clock'), h, show, showMin, m);
 }
 
 function resetQuizHint() {
   clearTimeout(quizHintReleaseTimer);
+  clearTimeout(quizHintDelayTimer);
   quizHintReleaseTimer = null;
+  quizHintDelayTimer = null;
   quizHintActive = false;
   stopHintAnimation();
   const btn = document.getElementById('quiz-hint-btn');
@@ -1025,8 +1017,14 @@ function initQuizHintButton() {
     quizHintActive = !quizHintActive;
     btn.classList.toggle('active', quizHintActive);
     if (quizHintActive && currentQuizAnswer) {
-      startHintAnimation(document.getElementById('quiz-clock'), () => currentQuizAnswer || { h: 12, m: 0 });
+      quizHintDelayTimer = setTimeout(() => {
+        quizHintDelayTimer = null;
+        if (quizHintActive && currentQuizAnswer)
+          startHintAnimation(document.getElementById('quiz-clock'), () => currentQuizAnswer || { h: 12, m: 0 });
+      }, 5000);
     } else {
+      clearTimeout(quizHintDelayTimer);
+      quizHintDelayTimer = null;
       stopHintAnimation();
       applyQuizHint();
     }
@@ -1081,7 +1079,9 @@ function retryQuiz() {
 }
 
 function nextQuestion() {
-  resetQuizHint();
+  stopHintAnimation();
+  clearTimeout(quizHintDelayTimer);
+  quizHintDelayTimer = null;
   quizAnswered = false;
   document.getElementById('quiz-progress').textContent = `${quizQuestionNum} / ${QUIZ_TOTAL}もん`;
   const pool = generateTimePool(quizDifficulty);
@@ -1096,9 +1096,15 @@ function nextQuestion() {
 
   const svgQuiz = document.getElementById('quiz-clock');
   setClockHands(svgQuiz, answer.h, answer.m);
-  const quizHintAvail = quizDifficulty !== 'easy' && answer.m !== 0;
-  document.getElementById('quiz-hint-btn').style.visibility = quizHintAvail ? 'visible' : 'hidden';
+  document.getElementById('quiz-hint-btn').style.visibility = 'visible';
   updateClockHint(svgQuiz, answer.h, false, false, answer.m);
+  if (quizHintActive) {
+    quizHintDelayTimer = setTimeout(() => {
+      quizHintDelayTimer = null;
+      if (quizHintActive && currentQuizAnswer)
+        startHintAnimation(document.getElementById('quiz-clock'), () => currentQuizAnswer || { h: 12, m: 0 });
+    }, 5000);
+  }
 
   const grid = document.getElementById('quiz-choices');
   grid.innerHTML = '';
@@ -1106,53 +1112,45 @@ function nextQuestion() {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
     btn.textContent = formatTimeDisplay(t.h, t.m);
-    if (quizPrevWrong) btn.disabled = true;
     btn.onclick = () => onQuizAnswer(btn, t, answer);
     grid.appendChild(btn);
   });
 
-  setTimeout(() => {
-    if (quizPrevWrong) {
-      const enableChoices = () => grid.querySelectorAll('.choice-btn').forEach(b => b.disabled = false);
-      const fallback = setTimeout(enableChoices, 3500);
-      speak('なんじかな？', () => { clearTimeout(fallback); enableChoices(); });
-    } else {
-      speak('なんじかな？');
-    }
-  }, 600);
+  setTimeout(() => { speak('なんじかな？'); }, 600);
 }
 
 function onQuizAnswer(btn, selected, answer) {
   if (quizAnswered) return;
   quizAnswered = true;
 
-  quizQuestionNum++;
-  document.getElementById('quiz-progress').textContent = `${quizQuestionNum} / ${QUIZ_TOTAL}もん`;
-
   const isCorrect = selected.h === answer.h && selected.m === answer.m;
   if (isCorrect) {
+    quizQuestionNum++;
+    document.getElementById('quiz-progress').textContent = `${quizQuestionNum} / ${QUIZ_TOTAL}もん`;
+    if (!quizPrevWrong) quizCorrectCount++;
     quizPrevWrong = false;
     btn.classList.add('correct');
-    quizCorrectCount++;
     playCorrectSound();
     showCorrectMark();
     speak('せいかい。' + timeToTTS(answer.h, answer.m));
+    updateQuizScore();
+    if (quizQuestionNum >= QUIZ_TOTAL) {
+      quizTimer = setTimeout(showQuizResult, 2200);
+    } else {
+      quizTimer = setTimeout(nextQuestion, 2200);
+    }
   } else {
+    if (!quizPrevWrong) quizWrongCount++;
     quizPrevWrong = true;
     btn.classList.add('wrong');
-    quizWrongCount++;
+    btn.disabled = true;
     playWrongSound();
     showWrongMark();
-    document.querySelectorAll('#quiz-choices .choice-btn').forEach(b => {
-      if (b.textContent === formatTimeDisplay(answer.h, answer.m)) b.classList.add('correct');
-    });
-    speak('ざんねん。こたえは ' + timeToTTS(answer.h, answer.m));
-  }
-  updateQuizScore();
-  if (quizQuestionNum >= QUIZ_TOTAL) {
-    quizTimer = setTimeout(showQuizResult, 2200);
-  } else {
-    quizTimer = setTimeout(nextQuestion, 2200);
+    updateQuizScore();
+    // 800ms後に残りのボタンを再有効化して再挑戦させる
+    setTimeout(() => {
+      quizAnswered = false;
+    }, 800);
   }
 }
 
@@ -1342,122 +1340,6 @@ function updateQuizScore() {
 }
 
 
-// ==================== じかんのよみかた ====================
-
-let yomikataDifficulty = 'easy';
-let yomikataOrder = 'shuffle';
-
-function toggleYomikataHint() {
-  hintMode = !hintMode;
-  syncHintButtons();
-  const svgYk = document.getElementById('yomikata-clock');
-  if (hintMode && yomikataDifficulty !== 'easy') {
-    startHintAnimation(svgYk, () => yomikataPool[yomikataIndex]);
-  } else {
-    stopHintAnimation();
-    const { h, m } = yomikataPool[yomikataIndex];
-    updateClockHint(svgYk, h, false, false, m);
-  }
-}
-let yomikataPool = [];
-let yomikataIndex = 0;
-let yomikataLastTime = null;
-
-function startYomikata() {
-  buildClockSVG(document.getElementById('yomikata-clock'));
-  initYomikataPool();
-}
-
-function setYomikataDifficulty(d) {
-  yomikataDifficulty = d;
-  ['easy','normal','hard'].forEach(x =>
-    document.getElementById('yk-diff-' + x).classList.toggle('selected', x === d)
-  );
-  initYomikataPool();
-}
-
-function setYomikataOrder(o) {
-  yomikataOrder = o;
-  ['junban','shuffle'].forEach(x =>
-    document.getElementById('yk-order-' + x).classList.toggle('selected', x === o)
-  );
-  initYomikataPool();
-}
-
-function initYomikataPool() {
-  if (yomikataOrder === 'junban') {
-    // じゅんばん: 難易度に関わらず順番通り（ふつうは〇時→〇時半のペア順）
-    yomikataPool = generateTimePool(yomikataDifficulty);
-  } else {
-    // シャッフル
-    if (yomikataDifficulty === 'normal') {
-      // ふつう: 〇時→〇時半のペアを崩さず、ペア単位でシャッフル
-      const hours = shuffle([1,2,3,4,5,6,7,8,9,10,11,12]);
-      yomikataPool = hours.flatMap(h => [{ h, m: 0 }, { h, m: 30 }]);
-    } else if (yomikataDifficulty === 'hard') {
-      // むずかしい: 時間単位グループ（〇時ちょうど + ランダム3分）× 12時間
-      const hours = shuffle([1,2,3,4,5,6,7,8,9,10,11,12]);
-      const allMins = [5,10,15,20,25,30,35,40,45,50,55];
-      yomikataPool = hours.flatMap(h => {
-        const mins = shuffle(allMins).slice(0, 4).sort((a, b) => a - b);
-        return [{ h, m: 0 }, ...mins.map(m => ({ h, m }))];
-      });
-    } else {
-      // かんたん: 完全シャッフル
-      yomikataPool = shuffle(generateTimePool(yomikataDifficulty));
-      // シャッフル後の先頭が直前に表示した時間と同じなら1つ後ろと入れ替える
-      if (yomikataLastTime && yomikataPool.length > 1 &&
-          yomikataPool[0].h === yomikataLastTime.h && yomikataPool[0].m === yomikataLastTime.m) {
-        [yomikataPool[0], yomikataPool[1]] = [yomikataPool[1], yomikataPool[0]];
-      }
-    }
-  }
-  yomikataIndex = 0;
-  showYomikataCard();
-}
-
-function showYomikataCard() {
-  const { h, m } = yomikataPool[yomikataIndex];
-  yomikataLastTime = { h, m };
-  const svgYk = document.getElementById('yomikata-clock');
-  setClockHands(svgYk, h, m);
-  const ykHintAvail = yomikataDifficulty !== 'easy';
-  document.getElementById('yomikata-hint-btn').style.visibility = ykHintAvail ? 'visible' : 'hidden';
-  if (hintMode && ykHintAvail) {
-    startHintAnimation(svgYk, () => yomikataPool[yomikataIndex]);
-  } else {
-    updateClockHint(svgYk, h, hintMode && ykHintAvail && m !== 0, hintMode && yomikataDifficulty === 'hard' && m !== 0, m);
-  }
-  document.getElementById('yomikata-time-display').textContent = formatTimeDisplay(h, m);
-  document.getElementById('yomikata-reading').textContent = formatReading(h, m);
-  document.getElementById('yomikata-progress').textContent =
-    `${yomikataIndex + 1} / ${yomikataPool.length}`;
-  speak(timeToTTS(h, m));
-}
-
-function yomikataNext() {
-  yomikataIndex = (yomikataIndex + 1) % yomikataPool.length;
-  showYomikataCard();
-}
-
-function yomikataPrev() {
-  yomikataIndex = (yomikataIndex - 1 + yomikataPool.length) % yomikataPool.length;
-  showYomikataCard();
-}
-
-function speakYomikata() {
-  const { h, m } = yomikataPool[yomikataIndex];
-  speak(timeToTTS(h, m));
-}
-
-// 読みかた表示用（時と分の間にスペースを入れて読みやすく）
-function formatReading(h, m) {
-  const hStr = HOUR_READ[h % 12 || 12];
-  if (m === 0)  return hStr;
-  if (m === 30) return hStr + ' はん';
-  return hStr + ' ' + (MIN_READ[m] || m + 'ふん');
-}
-
 // ==================== インタラクティブ ====================
 
 let interactiveH = 3;
@@ -1484,6 +1366,7 @@ function startInteractive() {
     w.volume = 0;
     speechSynthesis.speak(w);
   }
+  speak('ゆびでとけいのはりをうごかしてね');
   interactiveH = new Date().getHours() % 12 || 12;
   interactiveM = 0;
   const svgEl = document.getElementById('interactive-clock');
@@ -1533,7 +1416,11 @@ function initInteractiveClock() {
       interactiveH = Math.round(clock / 30) % 12 || 12;
     }
     setClockHands(svgEl, interactiveH, interactiveM);
-    document.getElementById('interactive-time').textContent = formatTimeDisplay(interactiveH, interactiveM);
+    if (hintMode && hintAnimSvgEl === svgEl) {
+      updateInteractiveTimeColor(interactiveH, interactiveM, hintAnimStep);
+    } else {
+      document.getElementById('interactive-time').textContent = formatTimeDisplay(interactiveH, interactiveM);
+    }
     if (hintAnimSvgEl !== svgEl) {
       const iShow = hintMode && interactiveM !== 0;
       updateClockHint(svgEl, interactiveH, iShow, iShow, interactiveM);
