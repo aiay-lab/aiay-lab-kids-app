@@ -147,4 +147,9 @@ const ERABE = [
   // ===== 新規追加4 =====
   { img1:'waiting-crosswalk-cars.svg',   img2:'crossing-crosswalk-safe.svg', audio:'あかしんごうは どっち？',            correct:1 },
   { img1:'te-wo-fuku.svg',               img2:'te-wo-arau.svg',              audio:'てを ふくのは どっち？',             correct:1 },
+  // ===== 新規追加5 =====
+  { img1:'yuki-ga-furu.svg',             img2:'ame-ga-furu.svg',              audio:'あめが ふるのは どっち？',             correct:2 },
+  { img1:'orange_juice_nomu.svg',        img2:'hanbaagu-wo-kiru.svg',         audio:'ジュースをのむのは どっち？',          correct:1 },
+  { img1:'hanbaagu-wo-kiru.svg',         img2:'orange_juice_nomu.svg',        audio:'ハンバーグをたべるのは どっち？',      correct:1 },
+  { img1:'rolling_sushi.svg',            img2:'hanbaagu-wo-kiru.svg',         audio:'おすしは どっち？',                   correct:1 },
 ];
